@@ -14,7 +14,7 @@ class Router {
       case main_page:
         return MaterialPageRoute(builder: (_) => Main());
       case routine_tracking:
-        return MaterialPageRoute(builder: (_) => Routine_tracking());
+        return MaterialPageRoute(builder: (_) => const RoutineTracking());
       case friends_collection_me:
         return MaterialPageRoute(builder: (_) => Friends_collection_me());
       case friends_collection_birthday_calender:
