@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mental_health_app/routing/routing_constants.dart';
-import 'package:mental_health_app/routing/router.dart' as App_router;
+import 'package:mental_health_app/software_backbone/routing/router.dart'
+    as App_router;
+import 'package:mental_health_app/software_backbone/routing/routing_constants.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -8,16 +10,18 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       onGenerateRoute: App_router.Router.generateRoute,
-      initialRoute: landing_page,);
+      initialRoute: landing_page,
+    );
   }
 }
 
 class Home extends StatelessWidget {
+  const Home({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
@@ -27,6 +31,8 @@ class Home extends StatelessWidget {
 }
 
 class Table_of_contents extends StatelessWidget {
+  const Table_of_contents({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
@@ -34,7 +40,10 @@ class Table_of_contents extends StatelessWidget {
     );
   }
 }
+
 class Main extends StatelessWidget {
+  const Main({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
@@ -42,15 +51,10 @@ class Main extends StatelessWidget {
     );
   }
 }
-class Routine_tracking extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('Routine Tracking')),
-    );
-  }
-}
+
 class Friends_collection_me extends StatelessWidget {
+  const Friends_collection_me({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
@@ -58,7 +62,10 @@ class Friends_collection_me extends StatelessWidget {
     );
   }
 }
+
 class Friends_collection_birthday_calender extends StatelessWidget {
+  const Friends_collection_birthday_calender({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
@@ -66,7 +73,10 @@ class Friends_collection_birthday_calender extends StatelessWidget {
     );
   }
 }
+
 class Friends_collection_friends extends StatelessWidget {
+  const Friends_collection_friends({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
@@ -74,7 +84,10 @@ class Friends_collection_friends extends StatelessWidget {
     );
   }
 }
+
 class Resources extends StatelessWidget {
+  const Resources({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
