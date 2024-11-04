@@ -2,9 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:mental_health_app/software_backbone/routing/router.dart'
     as App_router;
 import 'package:mental_health_app/software_backbone/routing/routing_constants.dart';
+import 'package:mental_health_app/themes/theme_constraints.dart';
 
 void main() {
   runApp(const MyApp());
+}
+
+class CustomMaterial extends MaterialApp {
+  CustomMaterial({super.key, super.theme, super.darkTheme})
+      : super(
+          debugShowCheckedModeBanner: false,
+          onGenerateRoute: App_router.Router.generateRoute,
+          initialRoute: landing_page,
+        );
 }
 
 class MyApp extends StatelessWidget {
@@ -12,10 +22,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      onGenerateRoute: App_router.Router.generateRoute,
-      initialRoute: landing_page,
-    );
+    return CustomMaterial(
+        theme: lightMainPageThemeData, darkTheme: darkMainPageThemeData);
   }
 }
 
@@ -24,8 +32,13 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('Home')),
+    return Scaffold(
+      body: Center(
+        child: Text(
+          'Home',
+          style: Theme.of(context).textTheme.displayLarge,
+        ),
+      ),
     );
   }
 }
@@ -36,7 +49,10 @@ class Table_of_contents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Center(child: Text('Table of Contents')),
+      body: Center(
+          child: Text(
+        'Table of Contents',
+      )),
     );
   }
 }
