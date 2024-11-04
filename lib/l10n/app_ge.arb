@@ -1,0 +1,14 @@
+{
+        "@@locale": "de",
+
+        "language": "Deutsch",
+        "@language" : {
+            "description": "The current language"
+        },
+        "helloWorld": "Hallo Welt!",
+        "@helloWorld": {
+            "description": "The conventional newborn programmer greeting"
+        },
+        "homepageTitle": "Flutter Demo Heim Seite"
+
+}
