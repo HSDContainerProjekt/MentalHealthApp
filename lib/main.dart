@@ -3,7 +3,6 @@ import 'package:mental_health_app/software_backbone/routing/router.dart'
     as App_router;
 import 'package:mental_health_app/software_backbone/routing/routing_constants.dart';
 import 'package:mental_health_app/themes/theme_constraints.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
@@ -20,7 +19,6 @@ class CustomMaterial extends MaterialApp {
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           locale: const Locale('de'),
-          home: MyHomePage(),
         );
 }
 
@@ -42,7 +40,7 @@ class Home extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Text(
-          'Home',
+          AppLocalizations.of(context)!.homepageTitle,
           style: Theme.of(context).textTheme.displayLarge,
         ),
       ),

@@ -1,6 +1,6 @@
 {
-    "@@locale": "en",
-    "language": "english",
-    "helloWorld": "Hello World!",
-    "homepageTitle": "Flutter Demo Home Page"
+  "@@locale": "en",
+  "language": "english",
+  "helloWorld": "Hello World!",
+  "homepageTitle": "Home Page"
 }
