@@ -1,6 +1,6 @@
 /// This file contains all the routing constants used within the app
 
-const String landing_page = "/";
+const String landingPage = "/";
 const String table_of_contents = "/table_of_contents";
 const String main_page = "/main_page";
 const String routine_tracking = "/routine_tracking";

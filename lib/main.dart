@@ -15,7 +15,7 @@ class CustomMaterial extends MaterialApp {
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
           onGenerateRoute: App_router.Router.generateRoute,
-          initialRoute: landing_page,
+          initialRoute: landingPage,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           locale: const Locale('de'),
@@ -32,21 +32,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class Home extends StatelessWidget {
-  const Home({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text(
-          AppLocalizations.of(context)!.homepageTitle,
-          style: Theme.of(context).textTheme.displayLarge,
-        ),
-      ),
-    );
-  }
-}
 
 class Table_of_contents extends StatelessWidget {
   const Table_of_contents({super.key});

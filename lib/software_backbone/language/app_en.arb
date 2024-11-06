@@ -2,5 +2,6 @@
   "@@locale": "en",
   "language": "english",
   "helloWorld": "Hello World!",
-  "homepageTitle": "Home Page"
+  "homepageTitle": "Home Page",
+  "landingPageTitle": "Landing Page"
 }

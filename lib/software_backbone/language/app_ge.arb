@@ -14,5 +14,10 @@
   "homepageTitle": "Hauptseite",
   "@homepageTitle":{
     "description": "Title of the application's mainpage"
+  },
+
+  "landingPageTitle": "Startseite",
+  "@landingPageTitle":{
+    "description": "Title of the application's landing page"
   }
 }
