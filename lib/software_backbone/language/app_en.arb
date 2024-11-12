@@ -1,7 +1,31 @@
 {
   "@@locale": "en",
   "language": "english",
+  "@language": {
+    "description": "The current language"
+  },
   "helloWorld": "Hello World!",
+  "@helloWorld": {
+    "description": "The conventional newborn programmer greeting"
+  },
   "homepageTitle": "Home Page",
-  "landingPageTitle": "Landing Page"
+  "@homepageTitle":{
+    "description": "Title of the application's mainpage"
+  },
+  "landingPageTitle": "Landing Page",
+  "@landingPageTitle":{
+    "description": "Title of the application's landing page"
+  },
+  "tableOfContentTitle": "Table of Content",
+  "@tableOfContentTitle":{
+    "description": "Title of the application's tableOfContent page"
+  },
+  "friendCollectionTitle": "Friend collection",
+  "@friendCollectionTitle":{
+    "description": "Title of the application's friendsCollection page"
+  },
+  "resourcesTitle": "Resources",
+  "@resourcesTitle":{
+    "description": "Title of the application's resources page"
+  }
 }

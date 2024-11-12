@@ -48,16 +48,6 @@ class Table_of_contents extends StatelessWidget {
   }
 }
 
-class Main extends StatelessWidget {
-  const Main({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('Main Page')),
-    );
-  }
-}
 
 class Friends_collection_me extends StatelessWidget {
   const Friends_collection_me({super.key});

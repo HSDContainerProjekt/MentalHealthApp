@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mental_health_app/navigation_bar/navigation_bar.dart';
 import 'package:mental_health_app/software_backbone/routing/router.dart'
     as App_router;
 import 'package:mental_health_app/software_backbone/routing/routing_constants.dart';
@@ -11,10 +12,15 @@ class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: 
+      GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: (){
+          Navigator.pushNamed(context, main_page);
+        },
         child: Text(
-          AppLocalizations.of(context)!.homepageTitle,
-          style: Theme.of(context).textTheme.displayLarge,
+            AppLocalizations.of(context)!.landingPageTitle,
+            style: Theme.of(context).textTheme.displayLarge,
         ),
       ),
     );
