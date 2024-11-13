@@ -18,7 +18,6 @@ class HomePage extends StatelessWidget {
             style: Theme.of(context).textTheme.displayLarge,
         ),
       ),
-      bottomNavigationBar: NavBar(),
     );
   }
 }

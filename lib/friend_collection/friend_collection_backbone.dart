@@ -18,7 +18,6 @@ class FriendCollection extends StatelessWidget {
             style: Theme.of(context).textTheme.displayLarge,
         ),
       ),
-      bottomNavigationBar: NavBar(),
     );
   }
 }

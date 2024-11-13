@@ -2,28 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mental_health_app/software_backbone/routing/routing_constants.dart';
 
-class NavBar extends StatefulWidget {
-  @override
-  _NavBarState createState() => _NavBarState();
-}
 
-class _NavBarState extends State<NavBar> {
-  NavigationDestinationLabelBehavior labelBehavior =
-      NavigationDestinationLabelBehavior.onlyShowSelected;
-  var currentPageIndex = 0;
+
+class NavBar extends StatelessWidget {
+  final int selectedPage;
+  final void Function(int) onDestinationSelected;
+
+  const NavBar(
+      {super.key,
+      required this.selectedPage,
+      required this.onDestinationSelected});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        bottomNavigationBar: NavigationBar(
-      labelBehavior: labelBehavior,
-      selectedIndex: currentPageIndex,
+    return NavigationBar(
       onDestinationSelected: (int index) {
-        setState(() {
-          currentPageIndex = index;
-          Navigator.pushNamed(context, routeOnTap(index));
-        });
+        onDestinationSelected(index);
       },
+      indicatorColor: Colors.amber,
+      selectedIndex: selectedPage,
       destinations: <Widget>[
         NavigationDestination(
           icon: Icon(Icons.list),
@@ -43,23 +40,6 @@ class _NavBarState extends State<NavBar> {
           label: AppLocalizations.of(context)!.resourcesTitle,
         ),
       ],
-    ));
-  }
-}
-
-routeOnTap(index) {
-  switch (index) {
-    case 0:
-      return table_of_contents;
-      break;
-    case 1:
-      return main_page;
-      break;
-    case 2:
-      return friends_collection;
-      break;
-    case 3:
-      return resources;
-      break;
+    );
   }
 }

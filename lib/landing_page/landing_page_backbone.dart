@@ -16,7 +16,7 @@ class LandingPage extends StatelessWidget {
       GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: (){
-          Navigator.pushNamed(context, main_page);
+          Navigator.pushNamed(context, appFrameworkPage);
         },
         child: Text(
             AppLocalizations.of(context)!.landingPageTitle,
