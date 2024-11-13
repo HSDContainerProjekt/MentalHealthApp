@@ -1,18 +1,11 @@
 {
   "@@locale": "de",
 
-  "language": "Deutsch",
-  "@language": {
-    "description": "The current language"
-  },
-  
+  "language": "Deutsch", 
   "helloWorld": "Hallo Welt!",
-  "@helloWorld": {
-    "description": "The conventional newborn programmer greeting"
-  },
-
   "homepageTitle": "Hauptseite",
-  "@homepageTitle":{
-    "description": "Title of the application's mainpage"
-  }
+  "landingPageTitle": "Startseite",
+  "tableOfContentTitle": "Inhaltsverzeichnis",
+  "friendCollectionTitle": "Freundebuch",
+  "resourcesTitle": "Ressourcen"
 }
