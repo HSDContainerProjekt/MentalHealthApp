@@ -29,6 +29,7 @@ ColorScheme lightRoutinePageColorScheme = lightColorSchemeBase.copyWith(
 );
 ColorScheme darkRoutineColorScheme = darkColorSchemeBase.copyWith(
   primary: const Color(0xFFC86400),
+  onPrimary: const Color(0xFFC86400),
 );
 
 /// Friends
@@ -61,11 +62,11 @@ TextTheme textThemeBase = const TextTheme(
 /// The Light and Dark Versions contains the color information's
 TextTheme lightTextTheme = textThemeBase.copyWith(
   displayLarge:
-      textThemeBase.displayLarge?.copyWith(color: const Color(0xFF1E1E1E)),
+      textThemeBase.headlineMedium?.copyWith(color: const Color(0xFF1E1E1E)),
 );
 TextTheme darkTextTheme = textThemeBase.copyWith(
   displayLarge:
-      textThemeBase.displayLarge?.copyWith(color: const Color(0xFFE6E6E6)),
+      textThemeBase.headlineMedium?.copyWith(color: const Color(0xFFE6E6E6)),
 );
 
 /// Page specific textThemes
