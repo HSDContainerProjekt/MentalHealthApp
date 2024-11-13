@@ -2,5 +2,15 @@
   "@@locale": "en",
   "language": "english",
   "helloWorld": "Hello World!",
-  "homepageTitle": "Home Page"
+  "homepageTitle": "Home Page",
+  "@helloWorld": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "@homepageTitle": {
+    "description": "Title of the application's mainpage"
+  },
+  "routineTitle": "Routines",
+  "@routineTitle": {
+    "description": "Title of the routine"
+  }
 }
