@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mental_health_app/routine_tracking/domain/routine_manager.dart';
+
+import '../data/routine_DAO.dart';
+import '../model/routine.dart';
 
 class RoutineTracking extends StatefulWidget {
   const RoutineTracking({super.key});
@@ -31,15 +35,20 @@ class _RoutineTracking extends State<RoutineTracking> {
 
   Widget rootPage() {
     return Scaffold(
-        body: ListView(
-          children: [
-            CurrentRoutine(),
-            CurrentRoutine(),
-            CurrentRoutine(),
-            Center(child: Text("Aktuelle Aufgabe")),
-            Center(child: Text("All deine Aufgaben")),
-          ],
-        ),
+        body: FutureBuilder<List<Routine>>(
+            future: RoutineManager.currentRoutines(),
+            builder: (context, future) {
+              if (!future.hasData)
+                return Container(); // Display empty container if the list is empty
+              else {
+                List<Routine>? list = future.data;
+                return ListView.builder(
+                    itemCount: list?.length,
+                    itemBuilder: (context, index) {
+                      return RoutineDisplay(list![index]);
+                    });
+              }
+            }),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
@@ -55,8 +64,10 @@ class _RoutineTracking extends State<RoutineTracking> {
   }
 }
 
-class CurrentRoutine extends StatelessWidget {
-  const CurrentRoutine({super.key});
+class RoutineDisplay extends StatelessWidget {
+  final Routine routineToDisplay;
+
+  const RoutineDisplay(this.routineToDisplay, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +77,20 @@ class CurrentRoutine extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(),
       ),
-      child: Text("Test"),
+      child: Column(
+        children: [
+          Text("${routineToDisplay.title}"),
+          Text("${routineToDisplay.description}"),
+        ],
+      ),
     );
   }
+}
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  var db = (await RoutineDAO.singleton());
+  await db.insertRoutine(
+      Routine(id: 1, title: "title", description: "description"));
+  print(await db.currentRoutines());
 }
