@@ -1,20 +1,27 @@
 class Routine {
-  final int id;
+  final int? id;
   final String title;
   final String description;
 
   const Routine({
-    required this.id,
+    this.id,
     required this.title,
     required this.description,
   });
 
   Map<String, Object?> toMap() {
-    return {
-      'id': id,
-      'title': title,
-      'description': description,
-    };
+    if (id == null) {
+      return {
+        'title': title,
+        'description': description,
+      };
+    } else {
+      return {
+        'id': id,
+        'title': title,
+        'description': description,
+      };
+    }
   }
 
   @override

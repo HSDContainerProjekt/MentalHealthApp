@@ -1,51 +1,77 @@
+import 'dart:developer';
+
+import '../model/evaluation_criteria.dart';
 import '../model/routine.dart';
 import 'dart:async';
 
-import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  var db = (await RoutineDAO._singleton);
-  await db.insertRoutine(
-      Routine(id: 1, title: "title", description: "description"));
-  print(await db.currentRoutines());
-}
-
 abstract class RoutineDAO {
-  static final Future<RoutineDAO> _singleton = RoutineDAOSQFLite.create();
+  Future<void> init();
 
-  static Future<RoutineDAO> singleton() {
-    return _singleton;
-  }
   Future<List<Routine>> currentRoutines();
 
   Future<void> insertRoutine(Routine newRoutine);
+
+  Future<List<EvaluationCriteria>> evaluationCriteriaFrom(Routine routine);
 }
 
-class RoutineDAOSQFLite implements RoutineDAO {
-  late final Future<Database> database;
+class RoutineDAOFactory {
+  static Future<RoutineDAO> routineDAO() async {
+    RoutineDAO routineDAO = RoutineDAOSQFLiteImpl();
+    await routineDAO.init();
+    return routineDAO;
+  }
+}
 
-  RoutineDAOSQFLite._internal(this.database);
+class RoutineDAOSQFLiteImpl implements RoutineDAO {
+  late final Database database;
+  bool _isInit = false;
 
-  static Future<RoutineDAO> create() async {
-    final database =
-        openDatabase(join(await getDatabasesPath(), 'routines_db.db'),
-            onCreate: (db, version) {
-      return db.execute(
-        'CREATE TABLE routines(id INTEGER PRIMARY KEY, title TEXT, description TEXT)',
-      );
-    }, version: 1);
-    return RoutineDAOSQFLite._internal(database);
+  static final RoutineDAOSQFLiteImpl _instance =
+      RoutineDAOSQFLiteImpl._privateConstructor();
+
+  RoutineDAOSQFLiteImpl._privateConstructor();
+
+  factory RoutineDAOSQFLiteImpl() {
+    return _instance;
+  }
+
+  @override
+  Future<void> init() async {
+    if (_isInit) return;
+
+    String databasePath = join(await getDatabasesPath(), 'routines_db.db');
+
+    database = await openDatabase(databasePath, onCreate: onCreate, version: 1);
+    _isInit = true;
+    log('initialised RoutineDAOSQFLiteImpl singleton');
+  }
+
+  Future<void> onCreate(Database db, int version) async {
+    await db.execute('''
+    CREATE TABLE routines(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT, description TEXT
+        )
+        ''');
+
+    await db.execute('''
+    CREATE TABLE evaluationCriteriaValueRange(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        routinesId INTEGER FOREIGN KEY REFERENCES routines(id),
+        description TEXT,
+        minValue INTEGER,
+        maxValue INTEGER
+        )
+        ''');
   }
 
   @override
   Future<List<Routine>> currentRoutines() async {
-    final db = await database;
-
-    final List<Map<String, Object?>> routinesMap = await db.query('routines');
-
+    final List<Map<String, Object?>> routinesMap =
+        await database.query('routines');
     return [
       for (final {
             'id': id as int,
@@ -58,11 +84,30 @@ class RoutineDAOSQFLite implements RoutineDAO {
 
   @override
   Future<void> insertRoutine(Routine newRoutine) async {
-    final db = await database;
-
-    await db.insert(
+    await database.insert(
       'routines',
       newRoutine.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  @override
+  Future<List<EvaluationCriteria>> evaluationCriteriaFrom(
+      Routine routine) async {
+    final List<Map<String, Object?>> range = await database.query(
+        "evaluationCriteriaValueRange",
+        where: "routinesId = ${routine.id}");
+    return [
+      for (Map<String, Object?> x in range) EvaluationCriteria.fromDataBase(x),
+    ];
+  }
+
+  @override
+  Future<void> insertEvaluationCriteria(
+      EvaluationCriteria newEvaluationCriteria) async {
+    await database.insert(
+      'routines',
+      newEvaluationCriteria.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }

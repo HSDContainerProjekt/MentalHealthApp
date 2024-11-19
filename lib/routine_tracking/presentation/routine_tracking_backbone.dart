@@ -60,7 +60,44 @@ class _RoutineTracking extends State<RoutineTracking> {
   }
 
   Widget addRoutine() {
-    return Scaffold(body: Text("AddRoutine"));
+    return AddRoutineWidget();
+  }
+}
+
+class AddRoutineWidget extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _AddRoutineWidget();
+  }
+}
+
+class _AddRoutineWidget extends State<AddRoutineWidget> {
+  late String? title;
+  late String? description;
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+        child: Column(
+      children: [
+        TextFormField(
+          onChanged: (String? value) {
+            title = value;
+          },
+        ),
+        TextFormField(onChanged: (String? value) {
+          description = value;
+        }),
+        ElevatedButton(onPressed: SaveRoutine, child: Text("Hinzufügen"))
+      ],
+    ));
+  }
+
+  void SaveRoutine() {
+    //TODO validate
+    if (title != null && description != null) {
+      RoutineManager.saveRoutines(title!, description!);
+    }
   }
 }
 
@@ -85,12 +122,4 @@ class RoutineDisplay extends StatelessWidget {
       ),
     );
   }
-}
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  var db = (await RoutineDAO.singleton());
-  await db.insertRoutine(
-      Routine(id: 1, title: "title", description: "description"));
-  print(await db.currentRoutines());
 }
