@@ -58,12 +58,9 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
         ''');
 
     await db.execute('''
-    CREATE TABLE evaluationCriteriaValueRange(
+    CREATE TABLE evaluationCriteria(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        routinesId INTEGER FOREIGN KEY REFERENCES routines(id),
         description TEXT,
-        minValue INTEGER,
-        maxValue INTEGER
         )
         ''');
   }
@@ -73,12 +70,7 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
     final List<Map<String, Object?>> routinesMap =
         await database.query('routines');
     return [
-      for (final {
-            'id': id as int,
-            'title': title as String,
-            'description': description as String,
-          } in routinesMap)
-        Routine(id: id, title: title, description: description),
+      for (Map<String, Object?> x in routinesMap) Routine.fromDataBase(x)
     ];
   }
 
@@ -94,21 +86,10 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
   @override
   Future<List<EvaluationCriteria>> evaluationCriteriaFrom(
       Routine routine) async {
-    final List<Map<String, Object?>> range = await database.query(
-        "evaluationCriteriaValueRange",
-        where: "routinesId = ${routine.id}");
+    final List<Map<String, Object?>> range = await database
+        .query("evaluationCriteria", where: "routinesId = ${routine.id}");
     return [
-      for (Map<String, Object?> x in range) EvaluationCriteria.fromDataBase(x),
+      for (Map<String, Object?> x in range) EvaluationCriteria.fromDataBase(x)
     ];
-  }
-
-  @override
-  Future<void> insertEvaluationCriteria(
-      EvaluationCriteria newEvaluationCriteria) async {
-    await database.insert(
-      'routines',
-      newEvaluationCriteria.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
   }
 }

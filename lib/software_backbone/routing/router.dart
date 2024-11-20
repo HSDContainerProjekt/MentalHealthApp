@@ -8,7 +8,7 @@ class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case landing_page:
-        return MaterialPageRoute(builder: (_) => Home());
+        return MaterialPageRoute(builder: (_) => RoutineTracking());
       case table_of_contents:
         return MaterialPageRoute(builder: (_) => Table_of_contents());
       case main_page:

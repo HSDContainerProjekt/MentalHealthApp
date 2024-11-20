@@ -15,7 +15,7 @@ class CustomMaterial extends MaterialApp {
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
           onGenerateRoute: App_router.Router.generateRoute,
-          initialRoute: routine_tracking,
+          initialRoute: landing_page,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           locale: const Locale('de'),

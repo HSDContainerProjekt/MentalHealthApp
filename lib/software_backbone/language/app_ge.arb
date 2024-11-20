@@ -6,5 +6,6 @@
   },
   "helloWorld": "Hallo Welt!",
   "homepageTitle": "Hauptseite",
-  "routineTitle": "Routinen"
+  "routineTitle": "Routinen",
+  "description": "Beschreibung"
 }

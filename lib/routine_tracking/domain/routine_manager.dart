@@ -5,11 +5,9 @@ import '../data/routine_DAO.dart';
 import '../model/evaluation_criteria.dart';
 
 class RoutineManager {
-
   void main() async {
     WidgetsFlutterBinding.ensureInitialized();
   }
-
 
   static Future<List<Routine>> currentRoutines() async {
     return (await RoutineDAOFactory.routineDAO()).currentRoutines();
@@ -22,7 +20,12 @@ class RoutineManager {
 
   static Future<List<EvaluationCriteria>> evaluationCriteriaFrom(
       Routine routine) async {
-    return (await RoutineDAOFactory.routineDAO())
-        .evaluationCriteriaFrom(routine);
+    return [
+      EvaluationCriteriaValueRange(
+          minValue: 0,
+          maxValue: 10,
+          description: "Wie viel hast du Heute getrunken?")
+    ];
+    //return (await RoutineDAOFactory.routineDAO()).evaluationCriteriaFrom(routine);
   }
 }

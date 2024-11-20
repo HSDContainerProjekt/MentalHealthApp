@@ -12,5 +12,9 @@
   "routineTitle": "Routines",
   "@routineTitle": {
     "description": "Title of the routine"
+  },
+  "description": "Description",
+  "@Description": {
+    "description": "Description"
   }
 }
