@@ -10,7 +10,7 @@ class FriendDB {
       "id" INTEGER NOT NULL,
       "name" TEXT 
       "birthday" TEXT 
-      PRIMARY KEY ("id" AUTOINCREMENT)
+      PRIMARY KEY ("id")
     )""");
   }
 
@@ -25,7 +25,7 @@ class FriendDB {
       {required int id, required String name, required String birthday}) async {
     final database = await DatabaseFriendCollection().database;
     return await database.update(
-      tableName, 
+      tableName,
       {
         if (name != null) 'name': name,
         if (birthday != null) 'birthday': birthday,
@@ -36,16 +36,16 @@ class FriendDB {
     );
   }
 
-  Future<List<Friend>> fetchAll() async {
+  Future<List<OwnId>> fetchAll() async {
     final database = await DatabaseFriendCollection().database;
     final friends = await database.rawQuery("""SELECT * from $tableName""");
-    return friends.map((friend) => Friend.fromSqfliteDatabase(friend)).toList();
+    return friends.map((friend) => OwnId.fromSqfliteDatabase(friend)).toList();
   }
 
-  Future<Friend> fetchByID(int id) async {
+  Future<OwnId> fetchByID(int id) async {
     final database = await DatabaseFriendCollection().database;
     final friend = await database
         .rawQuery("""SELECT * from $tableName WHERE id = ?""", [id]);
-    return Friend.fromSqfliteDatabase(friend.first);
+    return OwnId.fromSqfliteDatabase(friend.first);
   }
 }

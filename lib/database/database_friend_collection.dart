@@ -1,5 +1,6 @@
 import 'package:async/async.dart';
 import 'package:mental_health_app/database/friend_db.dart';
+import 'package:mental_health_app/database/ownID_db.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -31,6 +32,8 @@ class DatabaseFriendCollection {
     return database;
   }
 
-  Future<void> create(Database database, int version) async =>
-      await FriendDB().createTable(database);
+  Future<void> create(Database database, int version) async {
+    await FriendDB().createTable(database);
+    await ownIdDB().createTable(database);
+  }
 }
