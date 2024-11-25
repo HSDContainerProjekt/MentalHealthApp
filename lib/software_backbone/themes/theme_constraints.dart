@@ -55,8 +55,25 @@ ColorScheme darkResourcesColorScheme = darkColorSchemeBase.copyWith(
 /// Base TextTheme
 /// The base TextTheme contains the default text description like font, size or default colors.
 TextTheme textThemeBase = const TextTheme(
-  displayLarge: TextStyle(fontSize: 100),
-  bodyLarge: TextStyle(fontSize: 20),
+  headlineLarge: TextStyle(
+      fontSize: 64,
+      decoration: TextDecoration.underline,
+      decorationThickness: 5,
+      fontFamily: 'Italianno'),
+  headlineMedium: TextStyle(
+    fontSize: 32,
+    fontFamily: 'Italianno',
+  ),
+  titleMedium: TextStyle(
+    fontSize: 20,
+    decoration: TextDecoration.underline,
+  ),
+  labelMedium: TextStyle(
+    fontSize: 25,
+  ),
+  bodyMedium: TextStyle(
+    fontSize: 15,
+  ),
 );
 
 /// The Light and Dark Versions contains the color information's

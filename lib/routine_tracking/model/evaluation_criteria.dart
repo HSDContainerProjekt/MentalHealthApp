@@ -1,26 +1,30 @@
-class EvaluationCriteria {
-  final int? id;
+import 'package:mental_health_app/routine_tracking/model/routine.dart';
+
+abstract class EvaluationCriteria {
+  late int? id;
+  late final Routine? routine;
   final String description;
 
-  const EvaluationCriteria({
+  EvaluationCriteria({
     this.id,
     required this.description,
   });
 
-  Map<String, Object?> toMap() {
+  Map<String, Object?> superMap() {
     Map<String, Object?> superMap = {
       'description': description,
     };
-    if (id == null) {
+    if (id != null) {
       superMap.addAll({'id': id});
+    }
+    if (routine != null) {
+      final routine = this.routine;
+      superMap.addAll({'routineId': routine?.id});
     }
     return superMap;
   }
 
-  factory EvaluationCriteria.fromDataBase(Map<String, Object?> data) {
-    return EvaluationCriteria(
-        id: data["id"] as int, description: data["description"] as String);
-  }
+  Map<String, Object?> subMap();
 }
 
 class EvaluationCriteriaValueRange extends EvaluationCriteria {
@@ -37,14 +41,20 @@ class EvaluationCriteriaValueRange extends EvaluationCriteria {
     return EvaluationCriteriaValueRange(
         id: data["id"] as int,
         minValue: data["minValue"] as double,
-        maxValue: data["minValue"] as double,
+        maxValue: data["maxValue"] as double,
         description: data["description"] as String);
   }
 
+  Map<String, Object?> subMap() {
+    Map<String, Object?> map = {'minValue': minValue, 'maxValue': maxValue};
+    if (id != null) {
+      map.addAll({'id': id});
+    }
+    return map;
+  }
+
   @override
-  Map<String, Object?> toMap() {
-    Map<String, Object?> superMap = super.toMap();
-    superMap.addAll({'minValue': minValue, 'maxValue': maxValue});
-    return superMap;
+  String toString() {
+    return "EvaluationCriteriaValueRange{id: $id, description: $description, minValue: $minValue, maxValue: $maxValue}";
   }
 }

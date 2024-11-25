@@ -16,5 +16,21 @@
   "description": "Description",
   "@Description": {
     "description": "Description"
+  },
+  "currentRoutines": "Current routines",
+  "@CurrentRoutines": {
+    "description": "Headline for the Current routines"
+  },
+  "allRoutines": "All your routines",
+  "@AllRoutines": {
+    "description": "Headline for all your routines"
+  },
+  "noCurrentRoutines": "You currently have no routines to complete.",
+  "@noCurrentRoutines": {
+    "description": "This text is shown if no routines are available."
+  },
+  "noRoutines": "You don't have any routines yet. Click here or on the + to create your first routine.",
+  "@noRoutines": {
+    "description": "This text is shown if the user has no routines in total."
   }
 }

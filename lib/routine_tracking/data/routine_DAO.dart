@@ -10,11 +10,9 @@ import 'package:sqflite/sqflite.dart';
 abstract class RoutineDAO {
   Future<void> init();
 
-  Future<List<Routine>> currentRoutines();
+  Future<List<Routine>> allRoutines();
 
   Future<void> insertRoutine(Routine newRoutine);
-
-  Future<List<EvaluationCriteria>> evaluationCriteriaFrom(Routine routine);
 }
 
 class RoutineDAOFactory {
@@ -58,38 +56,105 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
         ''');
 
     await db.execute('''
+    CREATE TABLE timeIntervals(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        routineId INTEGER,
+        nextDateTime INTEGER, 
+        interval INTEGER,
+        FOREIGN KEY(routineId) REFERENCES routines(id)
+        )
+        ''');
+
+    await db.execute('''
     CREATE TABLE evaluationCriteria(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
+        routineId INTEGER,
         description TEXT,
+        FOREIGN KEY(routineId) REFERENCES routines(id)
+        )
+        ''');
+    await db.execute('''
+    CREATE TABLE evaluationCriteriaValueRange(
+        id INTEGER PRIMARY KEY,
+        maxValue REAL,
+        minValue REAL,
+        FOREIGN KEY(id) REFERENCES evaluationCriteria(id)
+        )
+        ''');
+    await db.execute('''
+    CREATE TABLE evaluationCriteriaText(
+        id INTEGER PRIMARY KEY,
+        FOREIGN KEY(id) REFERENCES evaluationCriteria(id)
         )
         ''');
   }
 
   @override
-  Future<List<Routine>> currentRoutines() async {
-    final List<Map<String, Object?>> routinesMap =
+  Future<List<Routine>> allRoutines() async {
+    final List<Map<String, Object?>> queryResult =
         await database.query('routines');
+    List<Routine> result = [];
+    List<Future> futures = <Future>[];
+    for (Map<String, Object?> x in queryResult) {
+      Routine newRoutine = Routine.fromDataBase(x);
+      futures.add(
+          newRoutine.addAllTimeIntervalsFuture(timeIntervalsFor(newRoutine)));
+      futures.add(newRoutine
+          .addEvaluationCriteriaFuture(evaluationCriteriaFor(newRoutine)));
+      result.add(newRoutine);
+    }
+    await Future.wait(futures);
+    return result;
+  }
+
+  Future<List<TimeInterval>> timeIntervalsFor(Routine routine) async {
+    final List<Map<String, Object?>> queryResult = await database
+        .query('timeIntervals', where: "routineId = ${routine.id}");
     return [
-      for (Map<String, Object?> x in routinesMap) Routine.fromDataBase(x)
+      for (Map<String, Object?> x in queryResult) TimeInterval.fromDataBase(x)
     ];
+  }
+
+  Future<List<EvaluationCriteria>> evaluationCriteriaFor(
+      Routine routine) async {
+    List<EvaluationCriteria> result = [];
+
+    //Range
+    final List<Map<String, Object?>> queryResult = await database.query(
+        "evaluationCriteria NATURAL JOIN evaluationCriteriaValueRange",
+        where: "routineId = ${routine.id}");
+    for (Map<String, Object?> x in queryResult) {
+      result.add(EvaluationCriteriaValueRange.fromDataBase(x));
+    }
+    return result;
   }
 
   @override
   Future<void> insertRoutine(Routine newRoutine) async {
-    await database.insert(
+    int id = await database.insert(
       'routines',
       newRoutine.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+
+    newRoutine.id = id;
+
+    List<Future> futures = <Future>[];
+    for (TimeInterval x in newRoutine.timeIntervalsToDoTheRoutine) {
+      futures.add(database.insert('timeIntervals', x.toMap()));
+    }
+    for (EvaluationCriteria x in newRoutine.evaluationCriteria) {
+      futures.add(insertEvaluationCriteria(x));
+    }
+    await Future.wait(futures);
   }
 
-  @override
-  Future<List<EvaluationCriteria>> evaluationCriteriaFrom(
-      Routine routine) async {
-    final List<Map<String, Object?>> range = await database
-        .query("evaluationCriteria", where: "routinesId = ${routine.id}");
-    return [
-      for (Map<String, Object?> x in range) EvaluationCriteria.fromDataBase(x)
-    ];
+  Future<void> insertEvaluationCriteria(
+      EvaluationCriteria newEvaluationCriteria) async {
+    int id = await database.insert(
+        "evaluationCriteria", newEvaluationCriteria.superMap());
+    newEvaluationCriteria.id = id;
+    await database.insert(newEvaluationCriteria.runtimeType.toString(),
+        newEvaluationCriteria.subMap());
   }
 }

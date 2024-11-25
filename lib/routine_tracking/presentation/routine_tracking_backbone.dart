@@ -1,83 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:mental_health_app/routine_tracking/domain/routine_manager.dart';
-import '../model/evaluation_criteria.dart';
-import '../model/routine.dart';
+import 'package:mental_health_app/routine_tracking/presentation/edit_routines_widget.dart';
 
-class RoutineTracking extends StatefulWidget {
-  const RoutineTracking({super.key});
+import 'main_routine_widget.dart';
 
-  @override
-  _RoutineTracking createState() => _RoutineTracking();
-}
-
-class _RoutineTracking extends State<RoutineTracking> {
-  String page = "root";
-  late Routine currentlyShownRoutine;
+class RoutineScaffoldWidget extends StatelessWidget {
+  const RoutineScaffoldWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      children: <Widget>[
+      body: Column(children: [
         Center(
             child: Text(AppLocalizations.of(context)!.routineTitle,
-                style: Theme.of(context).textTheme.headlineMedium)),
-        Expanded(
-            child: switch (page) {
-          "root" => openRootPage(),
-          "add" => openAddRoutinePage(),
-          "detail" => openDetailRoutinePage(),
-          String() => openRootPage()
-        }),
-      ],
-    ));
-  }
-
-  Widget openRootPage() {
-    return Scaffold(
-        body: FutureBuilder<List<Routine>>(
-            future: RoutineManager.currentRoutines(),
-            builder: (context, future) {
-              if (!future.hasData) {
-                return Container(); // Display empty container if the list is empty
-              } else {
-                List<Routine>? list = future.data;
-                return ListView.builder(
-                    itemCount: list?.length,
-                    itemBuilder: (context, index) {
-                      return RoutinePanel(list![index],
-                          onTap: (routineToDisplay) => setState(() {
-                                currentlyShownRoutine = routineToDisplay;
-                                page = "detail";
-                              }));
-                    });
-              }
-            }),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () {
-            setState(() {
-              page = "add";
-            });
-          },
-        ));
-  }
-
-  Widget openAddRoutinePage() {
-    return AddRoutineWidget(
-        onSaved: () => {
-              setState(() {
-                page = "root";
-              })
-            });
-  }
-
-  Widget openDetailRoutinePage() {
-    return RoutinePage(currentlyShownRoutine);
+                style: Theme.of(context).textTheme.headlineLarge)),
+        Expanded(child: Navigator(onGenerateRoute: (RouteSettings settings) {
+          WidgetBuilder builder;
+          switch (settings.name) {
+            case '/':
+              builder = (BuildContext context) => MainRoutineWidget();
+              break;
+            case '/edit':
+              builder = (BuildContext context) => EditRoutineWidget();
+              break;
+            default:
+              throw Exception('Invalid route: ${settings.name}');
+          }
+          return MaterialPageRoute<void>(builder: builder, settings: settings);
+        }))
+      ]),
+    );
   }
 }
 
+/*
 class AddRoutineWidget extends StatefulWidget {
   final Function onSaved;
 
@@ -117,7 +73,8 @@ class _AddRoutineWidget extends State<AddRoutineWidget> {
 
   void SaveRoutine() {
     if (title != null && description != null) {
-      RoutineManager.saveRoutines(title!, description!);
+      RoutineManager.saveRoutines(
+          Routine(title: title!, description: description!));
       onSaved();
     }
   }
@@ -165,7 +122,7 @@ class RoutinePage extends StatelessWidget {
       Text(routineToDisplay.description),
       Expanded(
           child: FutureBuilder<List<EvaluationCriteria>>(
-              future: RoutineManager.evaluationCriteriaFrom(routineToDisplay),
+              future: routineToDisplay.evaluationCriteria,
               builder: (context, future) {
                 if (!future.hasData) {
                   return Text(
@@ -231,3 +188,4 @@ class EvaluationCriteriaValueRangeWidget extends EvaluationCriteriaWidget {
     );
   }
 }
+*/

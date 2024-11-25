@@ -7,5 +7,9 @@
   "helloWorld": "Hallo Welt!",
   "homepageTitle": "Hauptseite",
   "routineTitle": "Routinen",
-  "description": "Beschreibung"
+  "description": "Beschreibung",
+  "currentRoutines": "Aktuelle Routinen",
+  "allRoutines": "Alle deine Routinen",
+  "noCurrentRoutines": "Sie haben derzeit keine Routinen zu erledigen.",
+  "noRoutines": "Sie haben noch keine Routinen. Klicken Sie hier oder auf das +, um Ihre erste Routine zu erstellen."
 }

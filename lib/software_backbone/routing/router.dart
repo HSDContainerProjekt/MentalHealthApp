@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:mental_health_app/main.dart';
 import 'package:mental_health_app/software_backbone/routing/routing_constants.dart';
-
-import '../../routine_tracking/Presentation/routine_tracking_backbone.dart';
+import '../../routine_tracking/presentation/routine_tracking_backbone.dart';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case landing_page:
-        return MaterialPageRoute(builder: (_) => RoutineTracking());
+        return MaterialPageRoute(builder: (_) => Main());
       case table_of_contents:
         return MaterialPageRoute(builder: (_) => Table_of_contents());
       case main_page:
         return MaterialPageRoute(builder: (_) => Main());
       case routine_tracking:
-        return MaterialPageRoute(builder: (_) => RoutineTracking());
+        return MaterialPageRoute(builder: (_) => RoutineScaffoldWidget());
       case friends_collection_me:
         return MaterialPageRoute(builder: (_) => Friends_collection_me());
       case friends_collection_birthday_calender:
