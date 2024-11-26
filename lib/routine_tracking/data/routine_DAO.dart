@@ -3,6 +3,7 @@ import 'dart:developer';
 import '../model/evaluation_criteria.dart';
 import '../model/routine.dart';
 import 'dart:async';
+import 'package:synchronized/synchronized.dart';
 
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -16,9 +17,13 @@ abstract class RoutineDAO {
 }
 
 class RoutineDAOFactory {
+  static final Lock lock = Lock();
+
   static Future<RoutineDAO> routineDAO() async {
     RoutineDAO routineDAO = RoutineDAOSQFLiteImpl();
-    await routineDAO.init();
+    await lock.synchronized(() async {
+      await routineDAO.init();
+    });
     return routineDAO;
   }
 }

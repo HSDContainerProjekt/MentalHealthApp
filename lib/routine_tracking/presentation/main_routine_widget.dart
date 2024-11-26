@@ -141,8 +141,11 @@ class RoutineWidget extends StatelessWidget {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           shape: CircleBorder(), padding: EdgeInsets.all(0)),
-                      onPressed: () {},
-                      child: Icon(Icons.add_chart),
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushNamed("/detail", arguments: routine);
+                      },
+                      child: Icon(Icons.fullscreen),
                     ),
                   ),
                   Expanded(
@@ -150,8 +153,11 @@ class RoutineWidget extends StatelessWidget {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           shape: CircleBorder(), padding: EdgeInsets.all(0)),
-                      onPressed: () {},
-                      child: Icon(Icons.add_chart),
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushNamed("/statistics", arguments: routine);
+                      },
+                      child: Icon(Icons.bar_chart),
                     ),
                   ),
                   Expanded(
@@ -159,8 +165,11 @@ class RoutineWidget extends StatelessWidget {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           shape: CircleBorder(), padding: EdgeInsets.all(0)),
-                      onPressed: () {},
-                      child: Icon(Icons.add_chart),
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushNamed("/edit", arguments: routine);
+                      },
+                      child: Icon(Icons.edit_document),
                     ),
                   ),
                 ],

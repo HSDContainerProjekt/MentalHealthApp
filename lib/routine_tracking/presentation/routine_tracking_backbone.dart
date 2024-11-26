@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mental_health_app/routine_tracking/presentation/detail_routines_widget.dart';
 import 'package:mental_health_app/routine_tracking/presentation/edit_routines_widget.dart';
+import 'package:mental_health_app/routine_tracking/presentation/statistics_widget.dart';
 
 import 'main_routine_widget.dart';
 
@@ -22,6 +24,12 @@ class RoutineScaffoldWidget extends StatelessWidget {
               break;
             case '/edit':
               builder = (BuildContext context) => EditRoutineWidget();
+              break;
+            case '/detail':
+              builder = (BuildContext context) => DetailRoutineWidget();
+              break;
+            case '/statistics':
+              builder = (BuildContext context) => StatisticsWidget();
               break;
             default:
               throw Exception('Invalid route: ${settings.name}');
