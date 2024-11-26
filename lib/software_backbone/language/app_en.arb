@@ -5,10 +5,10 @@
     "description": "The current language"
   },
   "helloWorld": "Hello World!",
-  "homepageTitle": "Home Page",
   "@helloWorld": {
     "description": "The conventional newborn programmer greeting"
   },
+  "homepageTitle": "Home Page",
   "@homepageTitle": {
     "description": "Title of the application's mainpage"
   },
@@ -35,5 +35,21 @@
   "noRoutines": "You don't have any routines yet. Click here or on the + to create your first routine.",
   "@noRoutines": {
     "description": "This text is shown if the user has no routines in total."
+  },
+  "tableOfContentTitle": "Table of Content",
+  "@tableOfContentTitle": {
+    "description": "Title of the application's tableOfContent page"
+  },
+  "landingPageTitle": "Landing Page",
+  "@landingPageTitle": {
+    "description": "Title of the application's landing page"
+  },
+  "friendCollectionTitle": "Friend collection",
+  "@friendCollectionTitle": {
+    "description": "Title of the application's friendsCollection page"
+  },
+  "resourcesTitle": "Resources",
+  "@resourcesTitle": {
+    "description": "Title of the application's resources page"
   }
 }
