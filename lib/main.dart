@@ -15,7 +15,7 @@ class CustomMaterial extends MaterialApp {
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
           onGenerateRoute: App_router.Router.generateRoute,
-          initialRoute: routine_tracking,
+          initialRoute: landingPage,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           locale: const Locale('de'),
@@ -32,21 +32,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class Home extends StatelessWidget {
-  const Home({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text(
-          AppLocalizations.of(context)!.homepageTitle,
-          style: Theme.of(context).textTheme.displayLarge,
-        ),
-      ),
-    );
-  }
-}
 
 class Table_of_contents extends StatelessWidget {
   const Table_of_contents({super.key});
@@ -62,57 +48,3 @@ class Table_of_contents extends StatelessWidget {
   }
 }
 
-class Main extends StatelessWidget {
-  const Main({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('Main Page')),
-    );
-  }
-}
-
-class Friends_collection_me extends StatelessWidget {
-  const Friends_collection_me({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('My Friend Page')),
-    );
-  }
-}
-
-class Friends_collection_birthday_calender extends StatelessWidget {
-  const Friends_collection_birthday_calender({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('Birthday_Calender')),
-    );
-  }
-}
-
-class Friends_collection_friends extends StatelessWidget {
-  const Friends_collection_friends({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('Your Friends Page')),
-    );
-  }
-}
-
-class Resources extends StatelessWidget {
-  const Resources({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('Resources')),
-    );
-  }
-}

@@ -1,6 +1,9 @@
 {
   "@@locale": "en",
   "language": "english",
+  "@language": {
+    "description": "The current language"
+  },
   "helloWorld": "Hello World!",
   "homepageTitle": "Home Page",
   "@helloWorld": {
