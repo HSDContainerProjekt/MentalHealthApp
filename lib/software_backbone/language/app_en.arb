@@ -8,6 +8,10 @@
   "@helloWorld": {
     "description": "The conventional newborn programmer greeting"
   },
+  "appTitle":"Pen Pal",
+  "@appTitle":{
+    "description": "The title of the application"
+  },
   "homepageTitle": "Home Page",
   "@homepageTitle": {
     "description": "Title of the application's mainpage"
@@ -17,15 +21,15 @@
     "description": "Title of the routine"
   },
   "description": "Description",
-  "@Description": {
+  "@description": {
     "description": "Description"
   },
   "currentRoutines": "Current routines",
-  "@CurrentRoutines": {
+  "@currentRoutines": {
     "description": "Headline for the Current routines"
   },
   "allRoutines": "All your routines",
-  "@AllRoutines": {
+  "@allRoutines": {
     "description": "Headline for all your routines"
   },
   "noCurrentRoutines": "You currently have no routines to complete.",

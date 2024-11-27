@@ -19,24 +19,37 @@ class NavBar extends StatelessWidget {
       onDestinationSelected: (int index) {
         onDestinationSelected(index);
       },
-      indicatorColor: Colors.amber,
+      labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+      indicatorColor: const Color.fromARGB(0, 0, 0, 0),
       selectedIndex: selectedPage,
       destinations: <Widget>[
         NavigationDestination(
-          icon: Icon(Icons.list),
-          label: AppLocalizations.of(context)!.tableOfContentTitle,
+          enabled: false,
+          icon: Icon(null),
+          label: AppLocalizations.of(context)!.landingPageTitle
         ),
         NavigationDestination(
-          icon: Icon(Icons.castle),
+          icon: Icon(Icons.bookmark,
+                  color: Colors.red,  
+                ),
+          label: AppLocalizations.of(context)!.routineTitle,
+        ),
+        NavigationDestination(
+          icon: Icon(Icons.bookmark,
+                  color: Colors.blue,
+                ),
           label: AppLocalizations.of(context)!.homepageTitle,
         ),
         NavigationDestination(
-          icon: const Icon(Icons.contacts),
+          icon: const Icon(Icons.bookmark,
+                  color: Colors.green,
+                ),
           label: AppLocalizations.of(context)!.friendCollectionTitle,
         ),
         NavigationDestination(
-          selectedIcon: const Icon(Icons.book),
-          icon: const Icon(Icons.bookmark_border),
+          icon: const Icon(Icons.bookmark,
+                  color: Colors.yellow,  
+              ),
           label: AppLocalizations.of(context)!.resourcesTitle,
         ),
       ],

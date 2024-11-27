@@ -5,6 +5,7 @@
     "description": "The current language"
   },
   "helloWorld": "Hallo Welt!",
+  "appTitle": "Pen Pal",
   "homepageTitle": "Hauptseite",
   "routineTitle": "Routinen",
   "landingPageTitle": "Startseite",

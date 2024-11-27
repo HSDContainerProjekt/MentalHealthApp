@@ -15,7 +15,7 @@ class CustomMaterial extends MaterialApp {
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
           onGenerateRoute: App_router.Router.generateRoute,
-          initialRoute: landingPage,
+          initialRoute: appFrameworkPage,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           locale: const Locale('de'),
@@ -29,22 +29,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomMaterial(
         theme: lightMainPageThemeData, darkTheme: darkMainPageThemeData);
-  }
-}
-
-
-
-class Table_of_contents extends StatelessWidget {
-  const Table_of_contents({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-          child: Text(
-        'Table of Contents',
-      )),
-    );
   }
 }
 

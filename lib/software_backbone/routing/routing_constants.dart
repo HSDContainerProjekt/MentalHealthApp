@@ -7,7 +7,6 @@ const String main_page = "/main_page";
 const String routine_tracking = "/routines";
 const String friends_collection = "/friends_collection";
 const String friends_collection_me = "/friends_collection/me";
-const String friends_collection_birthday_calender =
-    "/friends_collection/birthday_calender";
+const String friends_collection_birthday_calender = "/friends_collection/birthday_calender";
 const String friends_collection_friend = "friends_collection/friend";
 const String resources = "/resources";
