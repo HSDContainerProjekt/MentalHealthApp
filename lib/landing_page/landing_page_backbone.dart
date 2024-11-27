@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mental_health_app/software_backbone/routing/routing_constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LandingPage extends StatelessWidget {
@@ -20,7 +19,6 @@ class LandingPage extends StatelessWidget {
             Center (child: 
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
                 children: [
                   Text(AppLocalizations.of(context)!.appTitle),
                   Text("ich sollte ein bild"), //Bild des Charakters der Person, default = Appmaskottchen

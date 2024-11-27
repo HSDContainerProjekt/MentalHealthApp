@@ -12,12 +12,22 @@ class FriendCollection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text(
-            AppLocalizations.of(context)!.friendCollectionTitle,
-            style: Theme.of(context).textTheme.displayLarge,
-        ),
-      ),
+      body: Container(
+              
+              decoration: BoxDecoration(
+                image: DecorationImage( image: AssetImage("lib/assets/images/bookpage.jpg"), 
+                                        fit: BoxFit.cover,),
+              ),
+            
+              child: 
+                Center(
+                  child: 
+                    Text(
+                      AppLocalizations.of(context)!.friendCollectionTitle,
+                      style: Theme.of(context).textTheme.displayLarge,                      
+                    ),
+                ),
+            )
     );
   }
 }
