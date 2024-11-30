@@ -2,11 +2,12 @@
 
 const String appFrameworkPage = "/";
 const String landingPage = "/landingPage";
-const String table_of_contents = "/table_of_contents";
-const String main_page = "/main_page";
-const String routine_tracking = "/routines";
-const String friends_collection = "/friends_collection";
-const String friends_collection_me = "/friends_collection/me";
-const String friends_collection_birthday_calender = "/friends_collection/birthday_calender";
-const String friends_collection_friend = "friends_collection/friend";
+const String tableOfContents = "/table_of_contents";
+const String mainPage = "/main_page";
+const String routineTracking = "/routines";
+const String friendsCollection = "/friends_collection";
+const String friendsCollectionMe = "/friends_collection/me";
+const String friendsCollectionBirthdayCalender =
+    "/friends_collection/birthday_calender";
+const String friendsCollectionFriend = "friends_collection/friend";
 const String resources = "/resources";

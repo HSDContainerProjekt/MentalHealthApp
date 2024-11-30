@@ -52,6 +52,18 @@
   "@friendCollectionTitle": {
     "description": "Title of the application's friendsCollection page"
   },
+  "friendCollectionCalenderTitle": "Friend collection calender",
+  "@friendCollectionCalenderTitle": {
+    "description": "Title of the application's friendsCollection calender"
+  },
+  "friendCollectionMeTitle": "My friend collection",
+  "@friendCollectionMeTitle": {
+    "description": "Title of the user's friendsCollection page"
+  },
+  "friendCollectionFriendTitle": "My friends",
+  "@friendCollectionFriendTitle": {
+    "description": "Title of the user's friendsCollection"
+  },
   "resourcesTitle": "Resources",
   "@resourcesTitle": {
     "description": "Title of the application's resources page"

@@ -1,7 +1,7 @@
-// this page contains the blueprint for every page consisting of the nav bar and the individual content of each page 
+// this page contains the blueprint for every page consisting of the nav bar and the individual content of each page
 
 import 'package:flutter/material.dart';
-import 'package:mental_health_app/friend_collection/friend_collection_backbone.dart';
+import 'package:mental_health_app/friend_collection/views/friend_collection_backbone.dart';
 import 'package:mental_health_app/app_framework_backbone/views/landing_page/landing_page_backbone.dart';
 import 'package:mental_health_app/app_framework_backbone/views/main_page/main_page_backbone.dart';
 import 'package:mental_health_app/navigation/widgets/navigation_bar.dart';
@@ -18,44 +18,46 @@ class AppFramework extends StatefulWidget {
 
 class _AppFrameworkState extends State<AppFramework> {
   int selectedPage = 0;
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body:Navigator(
-        initialRoute: landingPage,
-        key: navigatorKey,
-        onGenerateRoute: (RouteSettings settings) {
-          WidgetBuilder builder;
-          switch (settings.name) {
-            case '/': builder = (BuildContext context) => LandingPage();
-              break;
-            case landingPage: 
-              builder = (BuildContext context) => LandingPage();
-              break;
-            case routine_tracking:
-              builder = (BuildContext context) => RoutineScaffoldWidget();
-              break;
-            case main_page:
-              builder = (BuildContext context) => HomePage();
-              break;
-            case friends_collection:
-              builder = (BuildContext context) => FriendCollection();
-              break;
-            case resources:
-              builder = (BuildContext context) => Resources();
-              break;
-            
-            default:
-              throw Exception('Invalid route: ${settings.name}');
-          }
-          return MaterialPageRoute<void>(builder: builder, settings: settings);
-      }),
-       //aktuelle Seite als body
+      body: Navigator(
+          initialRoute: landingPage,
+          key: navigatorKey,
+          onGenerateRoute: (RouteSettings settings) {
+            WidgetBuilder builder;
+            switch (settings.name) {
+              case '/':
+                builder = (BuildContext context) => LandingPage();
+                break;
+              case landingPage:
+                builder = (BuildContext context) => LandingPage();
+                break;
+              case routineTracking:
+                builder = (BuildContext context) => RoutineScaffoldWidget();
+                break;
+              case mainPage:
+                builder = (BuildContext context) => HomePage();
+                break;
+              case friendsCollection:
+                builder = (BuildContext context) => FriendCollection();
+                break;
+              case resources:
+                builder = (BuildContext context) => Resources();
+                break;
+
+              default:
+                throw Exception('Invalid route: ${settings.name}');
+            }
+            return MaterialPageRoute<void>(
+                builder: builder, settings: settings);
+          }),
+      //aktuelle Seite als body
       //routeOnTap(selectedPage, context),
-      bottomNavigationBar: NavBar(         
+      bottomNavigationBar: NavBar(
         selectedPage: selectedPage,
         onDestinationSelected: (index) {
           setState(() {
@@ -72,11 +74,11 @@ routeOnTap(index) {
     case 0:
       return landingPage;
     case 1:
-      return routine_tracking;
+      return routineTracking;
     case 2:
-      return main_page;
+      return mainPage;
     case 3:
-      return friends_collection;
+      return friendsCollection;
     case 4:
       return resources;
   }

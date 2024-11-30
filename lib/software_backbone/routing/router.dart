@@ -1,9 +1,12 @@
 //this file contains all the usable routes that are possible to use in this app
 import 'package:flutter/material.dart';
 import 'package:mental_health_app/app_framework_backbone/views/app_framework_backbone.dart';
-import 'package:mental_health_app/friend_collection/friend_collection_backbone.dart';
+import 'package:mental_health_app/friend_collection/views/friend_collection_backbone.dart';
 import 'package:mental_health_app/app_framework_backbone/views/landing_page/landing_page_backbone.dart';
 import 'package:mental_health_app/app_framework_backbone/views/main_page/main_page_backbone.dart';
+import 'package:mental_health_app/friend_collection/views/friend_collection_birthday_calender.dart';
+import 'package:mental_health_app/friend_collection/views/friend_collection_friend.dart';
+import 'package:mental_health_app/friend_collection/views/friend_collection_me.dart';
 import 'package:mental_health_app/ressources/ressources_backbone.dart';
 import 'package:mental_health_app/software_backbone/routing/routing_constants.dart';
 import '../../routine_tracking/presentation/routine_tracking_backbone.dart';
@@ -16,21 +19,21 @@ class Router {
         return MaterialPageRoute(builder: (_) => AppFramework());
       case landingPage:
         return MaterialPageRoute(builder: (_) => LandingPage());
-      case table_of_contents: // ToDo:
-        return MaterialPageRoute(builder: (_) => tableOfContent());
-      case main_page:
+      case tableOfContents: // ToDo:
+        return MaterialPageRoute(builder: (_) => TableOfContent());
+      case mainPage:
         return MaterialPageRoute(builder: (_) => HomePage());
-      case routine_tracking:
+      case routineTracking:
         return MaterialPageRoute(builder: (_) => RoutineScaffoldWidget());
-      case friends_collection:
+      case friendsCollection:
         return MaterialPageRoute(builder: (_) => FriendCollection());
-      /*case friends_collection_me:
-        return MaterialPageRoute(builder: (_) => Friends_collection_me());
-      case friends_collection_birthday_calender:
+      case friendsCollectionMe:
+        return MaterialPageRoute(builder: (_) => FriendCollectionMe());
+      case friendsCollectionBirthdayCalender:
         return MaterialPageRoute(
-            builder: (_) => Friends_collection_birthday_calender());
-      case friends_collection_friend:
-        return MaterialPageRoute(builder: (_) => Friends_collection_friends()); */
+            builder: (_) => FriendCollectionBirthdayCalender());
+      case friendsCollectionFriend:
+        return MaterialPageRoute(builder: (_) => FriendCollectionFriend());
       case resources:
         return MaterialPageRoute(builder: (_) => Resources());
       default:
