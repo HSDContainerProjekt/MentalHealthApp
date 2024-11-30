@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:mental_health_app/friend_collection/friend_collection_backbone.dart';
-import 'package:mental_health_app/landing_page/landing_page_backbone.dart';
-import 'package:mental_health_app/main_page/main_page_backbone.dart';
-import 'package:mental_health_app/navigation_bar/navigation_bar.dart';
+import 'package:mental_health_app/app_framework_backbone/views/landing_page/landing_page_backbone.dart';
+import 'package:mental_health_app/app_framework_backbone/views/main_page/main_page_backbone.dart';
+import 'package:mental_health_app/navigation/widgets/navigation_bar.dart';
 import 'package:mental_health_app/ressources/ressources_backbone.dart';
 import 'package:mental_health_app/routine_tracking/presentation/routine_tracking_backbone.dart';
 import 'package:mental_health_app/software_backbone/routing/routing_constants.dart';
