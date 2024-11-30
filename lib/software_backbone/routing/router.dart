@@ -9,14 +9,14 @@ import 'package:mental_health_app/software_backbone/routing/routing_constants.da
 import '../../routine_tracking/presentation/routine_tracking_backbone.dart';
 import 'package:mental_health_app/table_of_contents/table_of_contents_backbone.dart';
 
-class AppRouter {
+class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case appFrameworkPage:
         return MaterialPageRoute(builder: (_) => AppFramework());
       case landingPage:
         return MaterialPageRoute(builder: (_) => LandingPage());
-      case table_of_contents: // ToDo: 
+      case table_of_contents: // ToDo:
         return MaterialPageRoute(builder: (_) => tableOfContent());
       case main_page:
         return MaterialPageRoute(builder: (_) => HomePage());
@@ -31,7 +31,7 @@ class AppRouter {
             builder: (_) => Friends_collection_birthday_calender());
       case friends_collection_friend:
         return MaterialPageRoute(builder: (_) => Friends_collection_friends()); */
-      case resources: 
+      case resources:
         return MaterialPageRoute(builder: (_) => Resources());
       default:
         return MaterialPageRoute(
