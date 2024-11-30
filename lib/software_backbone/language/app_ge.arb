@@ -11,6 +11,7 @@
   "landingPageTitle": "Startseite",
   "tableOfContentTitle": "Inhaltsverzeichnis",
   "friendCollectionTitle": "Freundebuch",
+  "friendCollectionmissingOwnId":"Zum erstmaligen Einrichten des Freudebuchs wird eine Internetverbindung benötigt.",
   "friendCollectionCalenderTitle": "Freundebuch-Kalender",
   "friendCollectionMeTitle": "Mein Freundebuch",
   "friendCollectionFriendTitle": "Meine Freundinnen Und Freunde",

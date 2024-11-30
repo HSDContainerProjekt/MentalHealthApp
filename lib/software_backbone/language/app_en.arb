@@ -52,6 +52,10 @@
   "@friendCollectionTitle": {
     "description": "Title of the application's friendsCollection page"
   },
+  "friendCollectionmissingOwnId": "An internet connection is required to set up the friend collection for the first time.",
+  "@friendCollectionmissingOwnId": {
+    "description": "Error message displayed, when connection to the database failed."
+  },
   "friendCollectionCalenderTitle": "Friend collection calender",
   "@friendCollectionCalenderTitle": {
     "description": "Title of the application's friendsCollection calender"
