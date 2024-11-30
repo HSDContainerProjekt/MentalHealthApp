@@ -8,14 +8,6 @@ import 'package:mental_health_app/navigation_bar/navigation_bar.dart';
 import 'package:mental_health_app/ressources/ressources_backbone.dart';
 import 'package:mental_health_app/routine_tracking/presentation/routine_tracking_backbone.dart';
 import 'package:mental_health_app/software_backbone/routing/routing_constants.dart';
-//weg 
-final List<Widget> widgetList = <Widget>[
-  LandingPage(),
-  RoutineScaffoldWidget(), 
-  HomePage(),
-  FriendCollection(),
-  Resources()
-];
 
 class AppFramework extends StatefulWidget {
   const AppFramework({super.key});
@@ -26,18 +18,48 @@ class AppFramework extends StatefulWidget {
 
 class _AppFrameworkState extends State<AppFramework> {
   int selectedPage = 0;
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: widgetList.elementAt(selectedPage), //akutelle Seite als body
+      body:Navigator(
+        initialRoute: landingPage,
+        key: navigatorKey,
+        onGenerateRoute: (RouteSettings settings) {
+          WidgetBuilder builder;
+          switch (settings.name) {
+            case '/': builder = (BuildContext context) => LandingPage();
+              break;
+            case landingPage: 
+              builder = (BuildContext context) => LandingPage();
+              break;
+            case routine_tracking:
+              builder = (BuildContext context) => RoutineScaffoldWidget();
+              break;
+            case main_page:
+              builder = (BuildContext context) => HomePage();
+              break;
+            case friends_collection:
+              builder = (BuildContext context) => FriendCollection();
+              break;
+            case resources:
+              builder = (BuildContext context) => Resources();
+              break;
+            
+            default:
+              throw Exception('Invalid route: ${settings.name}');
+          }
+          return MaterialPageRoute<void>(builder: builder, settings: settings);
+      }),
+       //aktuelle Seite als body
       //routeOnTap(selectedPage, context),
       bottomNavigationBar: NavBar(         
         selectedPage: selectedPage,
         onDestinationSelected: (index) {
           setState(() {
-            selectedPage = index;
+            navigatorKey.currentState!.pushReplacementNamed(routeOnTap(index));
           });
         },
       ),
@@ -45,15 +67,17 @@ class _AppFrameworkState extends State<AppFramework> {
   }
 }
 
-routeOnTap(index, context) {
+routeOnTap(index) {
   switch (index) {
     case 0:
-      return Navigator.pushNamed(context, routine_tracking);
+      return landingPage;
     case 1:
-      return Navigator.of(context).pushNamed(main_page);
+      return routine_tracking;
     case 2:
-      return Navigator.pushNamed(context, friends_collection);
+      return main_page;
     case 3:
-      return Navigator.pushNamed(context, resources);
+      return friends_collection;
+    case 4:
+      return resources;
   }
 }
