@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:sqflite/sqflite.dart';
 import 'package:mental_health_app/friend_collection/database/database_friend_collection.dart';
 import 'package:mental_health_app/friend_collection/model/own_id.dart';
@@ -25,7 +27,11 @@ class ownIdDB {
     return ownIDs.map((ownId) => OwnId.fromSqfliteDatabase(ownId)).toList();
   }
 
-  /*int availableID() async {
+  /*Future<int> availableID() async {
+    int id = 1;
+    do {
+      int id = Random().nextInt(99999);
+    } while (OnlineDatabase.isUniqueNumber(id));
     return id;
   }*/
 }
