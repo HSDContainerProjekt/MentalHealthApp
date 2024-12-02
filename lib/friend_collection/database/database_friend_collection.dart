@@ -1,6 +1,7 @@
 import 'package:async/async.dart';
 import 'package:mental_health_app/database/friend_db.dart';
 import 'package:mental_health_app/database/ownID_db.dart';
+import 'package:mental_health_app/friend_collection/database/friend_db.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 

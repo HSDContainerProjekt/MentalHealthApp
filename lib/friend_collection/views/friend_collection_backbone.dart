@@ -6,16 +6,16 @@ import 'package:mental_health_app/software_backbone/routing/routing_constants.da
 import 'package:mental_health_app/software_backbone/themes/theme_constraints.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class Resources extends StatelessWidget {
-  const Resources({super.key});
+class FriendCollection extends StatelessWidget {
+  const FriendCollection({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Text(
-          AppLocalizations.of(context)!.resourcesTitle,
-          style: Theme.of(context).textTheme.displayLarge,
+            AppLocalizations.of(context)!.friendCollectionTitle,
+            style: Theme.of(context).textTheme.displayLarge,
         ),
       ),
     );
