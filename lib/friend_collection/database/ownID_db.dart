@@ -1,6 +1,6 @@
 import 'package:sqflite/sqflite.dart';
-import 'package:mental_health_app/database/database_friend_collection.dart';
-import 'package:mental_health_app/model/own_id.dart';
+import 'package:mental_health_app/friend_collection/database/database_friend_collection.dart';
+import 'package:mental_health_app/friend_collection/model/own_id.dart';
 
 class ownIdDB {
   final tableName = 'ownIDs';
