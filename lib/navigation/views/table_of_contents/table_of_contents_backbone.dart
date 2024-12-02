@@ -12,53 +12,60 @@ class TableOfContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        padding: const EdgeInsets.all(8),
-        children: [
-          Align(
-            alignment: Alignment.topCenter,
-            child: Text(
-              AppLocalizations.of(context)!.tableOfContentTitle,
-              style: Theme.of(context).textTheme.headlineLarge,
-            )),
-          TextButton(
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, mainPage);
-            },
-            child: Text(
-              AppLocalizations.of(context)!.homepageTitle,
-              style: Theme.of(context).textTheme.displayLarge
+      body: GestureDetector(
+        onPanUpdate: (details) {
+            if (details.delta.dx < 0) {
+              Navigator.pop(context);
+            }
+          },
+        child: ListView(
+          padding: const EdgeInsets.all(8),
+          children: [
+            Align(
+              alignment: Alignment.topCenter,
+              child: Text(
+                AppLocalizations.of(context)!.tableOfContentTitle,
+                style: Theme.of(context).textTheme.headlineLarge,
+              )),
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, mainPage);
+              },
+              child: Text(
+                AppLocalizations.of(context)!.homepageTitle,
+                style: Theme.of(context).textTheme.displayLarge
+                )
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, routineTracking);
+              },
+              child: Text(
+                AppLocalizations.of(context)!.routineTitle,
+                style: Theme.of(context).textTheme.displayLarge
               )
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, routineTracking);
-            },
-            child: Text(
-              AppLocalizations.of(context)!.routineTitle,
-              style: Theme.of(context).textTheme.displayLarge
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, friendsCollection);
+              },
+              child: Text(
+                AppLocalizations.of(context)!.friendCollectionTitle,
+                style: Theme.of(context).textTheme.displayLarge
+              )
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, resources);
+              },
+              child: Text(
+                AppLocalizations.of(context)!.resourcesTitle, 
+                style: Theme.of(context).textTheme.displayLarge
+              )
             )
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, friendsCollection);
-            },
-            child: Text(
-              AppLocalizations.of(context)!.friendCollectionTitle,
-              style: Theme.of(context).textTheme.displayLarge
-            )
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, resources);
-            },
-            child: Text(
-              AppLocalizations.of(context)!.resourcesTitle, 
-              style: Theme.of(context).textTheme.displayLarge
-            )
-          )
-        ],
-      ),
+          ],
+        ),
+      )
     );
   }
 }

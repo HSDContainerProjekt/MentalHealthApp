@@ -30,7 +30,7 @@ class _AppFrameworkState extends State<AppFramework> {
       body: GestureDetector(
           onPanUpdate: (details) {
             if (details.delta.dx > 0) {
-              navigatorKey.currentState!.pushReplacementNamed(tableOfContents);
+              navigatorKey.currentState!.pushNamed(tableOfContents);
             }
           },
           child: Navigator(
