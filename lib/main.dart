@@ -14,7 +14,7 @@ class CustomMaterial extends MaterialApp {
       : super(
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
-          onGenerateRoute: App_router.Router.generateRoute,
+          onGenerateRoute: App_router.generalRouter.generateRoute,
           initialRoute: appFrameworkPage,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
@@ -31,4 +31,3 @@ class MyApp extends StatelessWidget {
         theme: lightMainPageThemeData, darkTheme: darkMainPageThemeData);
   }
 }
-
