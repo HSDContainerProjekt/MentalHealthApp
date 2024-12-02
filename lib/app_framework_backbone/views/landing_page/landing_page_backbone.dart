@@ -8,29 +8,32 @@ class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: 
-        Stack(
-          children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                image: DecorationImage( image: AssetImage("lib/assets/images/bookcover.jpg"), 
-                                        fit: BoxFit.cover,),
-              ),
+        body: GestureDetector(
+      onTap: () {
+        Navigator.pushReplacementNamed(context, mainPage);
+      },
+      child: Stack(children: <Widget>[
+        Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("lib/assets/images/bookcover.jpg"),
+              fit: BoxFit.cover,
             ),
-            Center (child: 
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
-                children: [
-                  Text(AppLocalizations.of(context)!.appTitle),
-                  Text("ich sollte ein bild"), //Bild des Charakters der Person, default = Appmaskottchen
-                  Text("Name der Person") //Name der Person aus Datenbank ziehen, default = leer
-                ],
-              )
-            )
-          ] 
+          ),
         ),
-    );
+        Center(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(AppLocalizations.of(context)!.appTitle),
+            Text(
+                "ich sollte ein bild"), //Bild des Charakters der Person, default = Appmaskottchen
+            Text(
+                "Name der Person") //Name der Person aus Datenbank ziehen, default = leer
+          ],
+        ))
+      ]),
+    ));
   }
 }
 
