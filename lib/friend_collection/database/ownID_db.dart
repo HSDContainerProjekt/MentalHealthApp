@@ -14,18 +14,23 @@ class ownIdDB {
     )""");
   }
 
-  Future<int> create() async {
+  Future<int> create(int id) async {
     final database = await DatabaseFriendCollection().database;
-    return await database.rawInsert(
-      """INSERT INTO $tableName () VALUES ()""",
-    );
+    return await database.insert(tableName, {'id': id});
   }
 
-  Future<List<OwnId>> fetchAll() async {
-    final database = await DatabaseFriendCollection().database;
-    final ownIDs = await database.rawQuery("""SELECT * from $tableName""");
-    return ownIDs.map((ownId) => OwnId.fromSqfliteDatabase(ownId)).toList();
+  Future<OwnId?> getOwnId() async {
+    final database = await DatabaseFriendCollection().database; 
+    List<Map> maps = await database.query(
+        tableName
+    );
+    if (maps.isNotEmpty) {
+      return OwnId.fromSqfliteDatabase(maps.first);
+    }
+    return null;
   }
+
+
 
   /*Future<int> availableID() async {
     int id = 1;

@@ -9,7 +9,7 @@ class FriendCollectionFriend extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Text(
-          AppLocalizations.of(context)!.friendCollectionCalenderTitle,
+          AppLocalizations.of(context)!.friendCollectionFriendTitle,
           style: Theme.of(context).textTheme.displayLarge,
         ),
       ),

@@ -55,7 +55,7 @@ class _AppFrameworkState extends State<AppFramework> {
                     builder = (BuildContext context) => HomePage();
                     break;
                   case friendsCollection:
-                    builder = (BuildContext context) => FriendCollection();
+                    builder = (BuildContext context) => FriendCollectionScaffoldWidget();
                     break;
                   case resources:
                     builder = (BuildContext context) => Resources();

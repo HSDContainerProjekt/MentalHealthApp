@@ -5,6 +5,7 @@ import 'package:mental_health_app/friend_collection/model/friend.dart';
 class FriendDB {
   final tableName = 'friends';
 
+
   Future<void> createTable(Database database) async {
     await database.execute("""CREATE TABLE IF NOT EXISTS $tableName (
       "id" INTEGER NOT NULL,
@@ -14,10 +15,12 @@ class FriendDB {
     )""");
   }
 
-  Future<int> create() async {
+  Future<int> create(int id) async {
     final database = await DatabaseFriendCollection().database;
-    return await database.rawInsert(
-      """INSERT INTO $tableName () VALUES ()""",
+    return await database.insert(
+      tableName,
+      {'id': id},
+      conflictAlgorithm: ConflictAlgorithm.rollback
     );
   }
 
@@ -36,16 +39,16 @@ class FriendDB {
     );
   }
 
-  Future<List<OwnId>> fetchAll() async {
+  Future<List<Friend>> fetchAll() async {
     final database = await DatabaseFriendCollection().database;
     final friends = await database.rawQuery("""SELECT * from $tableName""");
-    return friends.map((friend) => OwnId.fromSqfliteDatabase(friend)).toList();
+    return friends.map((friend) => Friend.fromSqfliteDatabase(friend)).toList();
   }
 
-  Future<OwnId> fetchByID(int id) async {
+  Future<Friend> fetchByID(int id) async {
     final database = await DatabaseFriendCollection().database;
     final friend = await database
         .rawQuery("""SELECT * from $tableName WHERE id = ?""", [id]);
-    return OwnId.fromSqfliteDatabase(friend.first);
+    return Friend.fromSqfliteDatabase(friend.first);
   }
 }

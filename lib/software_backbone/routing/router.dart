@@ -26,7 +26,7 @@ class generalRouter {
       case routineTracking:
         return MaterialPageRoute(builder: (_) => RoutineScaffoldWidget());
       case friendsCollection:
-        return MaterialPageRoute(builder: (_) => FriendCollection());
+        return MaterialPageRoute(builder: (_) => FriendCollectionScaffoldWidget());
       case friendsCollectionMe:
         return MaterialPageRoute(builder: (_) => FriendCollectionMe());
       case friendsCollectionBirthdayCalender:
