@@ -17,7 +17,10 @@ class FriendCollectionLandingPage extends StatelessWidget {
       body: GestureDetector(
         child: FutureBuilder<int>(
           future: ownIdDB().getOrCreateOwnID(), 
-          builder: (context)),
+          builder: (context, snapshot) {
+            
+          }
+        ),
         onTap: () {
             Navigator.pushNamed(context, friendsCollectionMe);
         },
