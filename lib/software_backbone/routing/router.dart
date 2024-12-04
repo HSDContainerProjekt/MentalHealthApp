@@ -12,7 +12,7 @@ import 'package:mental_health_app/software_backbone/routing/routing_constants.da
 import '../../routine_tracking/presentation/routine_tracking_backbone.dart';
 import 'package:mental_health_app/navigation/views/table_of_contents/table_of_contents_backbone.dart';
 
-class Router {
+class generalRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case appFrameworkPage:
