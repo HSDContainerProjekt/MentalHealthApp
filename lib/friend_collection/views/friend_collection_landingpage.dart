@@ -15,22 +15,13 @@ class FriendCollectionLandingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GestureDetector(
-        child: Center(
-          child: Text(
-            AppLocalizations.of(context)!.friendCollectionTitle,
-            style: Theme.of(context).textTheme.displayLarge,
-          ),
-        ),
+        child: FutureBuilder<int>(
+          future: ownIdDB().getOrCreateOwnID(), 
+          builder: (context)),
         onTap: () {
             Navigator.pushNamed(context, friendsCollectionMe);
         },
       ),
     );
-  }
-
-  Future<bool> ownIdInDatabase() async{
-    var result = await ownIdDB().getOwnId();
-    var boolean = (result == null);
-    return boolean;
   }
 }

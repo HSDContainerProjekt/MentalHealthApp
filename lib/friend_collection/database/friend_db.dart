@@ -7,12 +7,11 @@ class FriendDB {
 
 
   Future<void> createTable(Database database) async {
-    await database.execute("""CREATE TABLE IF NOT EXISTS $tableName (
-      "id" INTEGER NOT NULL,
-      "name" TEXT 
-      "birthday" TEXT 
-      PRIMARY KEY ("id")
-    )""");
+    await database.execute('''CREATE TABLE $tableName (
+      id INTEGER NOT NULL PRIMARY KEY,
+      name TEXT, 
+      birthday TEXT
+    )''');
   }
 
   Future<int> create(int id) async {

@@ -5,7 +5,14 @@ class OwnId {
     required this.id,
   });
 
-  factory OwnId.fromSqfliteDatabase(Map<dynamic, dynamic> map) => OwnId(
-        id: map['id']?.toInt() ?? 0,
-      );
+  Map<String, Object?> toMap() {
+    return {
+      'id': id,
+    };
+  }
+
+  @override
+  String toString() {
+    return 'OwnId{id: $id}';
+  }
 }
