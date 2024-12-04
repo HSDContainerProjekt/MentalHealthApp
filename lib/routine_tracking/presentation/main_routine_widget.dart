@@ -4,7 +4,7 @@ import 'package:mental_health_app/routine_tracking/domain/routine_manager.dart';
 import 'package:mental_health_app/routine_tracking/model/routine.dart';
 
 class MainRoutineWidget extends StatelessWidget {
-  MainRoutineWidget({super.key});
+  const MainRoutineWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +13,10 @@ class MainRoutineWidget extends StatelessWidget {
           child: Column(
         children: [
           Align(
-              alignment: Alignment.centerLeft,
-              child: Text(AppLocalizations.of(context)!.currentRoutines,
-                  style: Theme.of(context).textTheme.headlineMedium)),
+            alignment: Alignment.centerLeft,
+            child: Text(AppLocalizations.of(context)!.currentRoutines,
+                style: Theme.of(context).textTheme.headlineMedium),
+          ),
           FutureBuilder<List<Routine>>(
             future: RoutineManager.currentRoutines(),
             builder: (context, snapshot) {
@@ -104,7 +105,7 @@ class RoutineWidget extends StatelessWidget {
               children: [
                 Text(
                   routine.title!,
-                  style: Theme.of(context).textTheme.titleMedium,
+                  style: Theme.of(context).textTheme.titleSmall,
                 ),
                 Text(
                   routine.description!,
@@ -113,7 +114,7 @@ class RoutineWidget extends StatelessWidget {
               ],
             ),
           ),
-          Container(
+          SizedBox(
             width: 120,
             height: 100,
             child: Column(children: [
@@ -181,47 +182,3 @@ class RoutineWidget extends StatelessWidget {
     );
   }
 }
-
-/*
-[
-            Image(
-              image: NetworkImage(
-                  'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
-              height: 100,
-            ),
-            Expanded(
-                child: Column(
-              children: [
-                Text(routine.title!),
-              ],
-            )),
-            Expanded(
-                child: Column(
-              children: [
-                Expanded(child: Text("Status")),
-                Expanded(child: Text("Erledigt")),
-                Row(
-                  children: [
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          shape: CircleBorder(),
-                          padding: EdgeInsets.all(8),
-                        ),
-                        onPressed: () {},
-                        child: Icon(Icons.add_chart)),
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            shape: CircleBorder(), padding: EdgeInsets.all(8)),
-                        onPressed: () {},
-                        child: Icon(Icons.add_chart)),
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            shape: CircleBorder(), padding: EdgeInsets.all(8)),
-                        onPressed: () {},
-                        child: Icon(Icons.add_chart))
-                  ],
-                )
-              ],
-            ))
-          ],
- */

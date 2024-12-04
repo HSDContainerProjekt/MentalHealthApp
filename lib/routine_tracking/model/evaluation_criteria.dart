@@ -58,3 +58,30 @@ class EvaluationCriteriaValueRange extends EvaluationCriteria {
     return "EvaluationCriteriaValueRange{id: $id, description: $description, minValue: $minValue, maxValue: $maxValue}";
   }
 }
+
+class EvaluationCriteriaText extends EvaluationCriteria {
+  final String hintText;
+
+  EvaluationCriteriaText(
+      {required super.description, super.id, required this.hintText});
+
+  factory EvaluationCriteriaText.fromDataBase(Map<String, Object?> data) {
+    return EvaluationCriteriaText(
+        id: data["id"] as int,
+        description: data["description"] as String,
+        hintText: data["hintText"] as String);
+  }
+
+  Map<String, Object?> subMap() {
+    Map<String, Object?> map = {'hintText': hintText};
+    if (id != null) {
+      map.addAll({'id': id});
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return "EvaluationCriteriaText{id: $id, description: $description, hintText: $hintText}";
+  }
+}
