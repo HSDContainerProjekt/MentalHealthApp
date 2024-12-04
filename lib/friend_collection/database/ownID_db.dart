@@ -70,8 +70,10 @@ class ownIdDB {
   Future<int> getOrCreateOwnID() async {
     if (ownIDIsEmpty(await getOwnId())) {
       if (await OnlineDatabase().connected()) {
+        log("connected");
         return await createAvailableID();
       } else {
+        log("0");
         return 0;
       }
     } else {

@@ -14,17 +14,22 @@ class FriendCollectionLandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GestureDetector(
-        child: FutureBuilder<int>(
-          future: ownIdDB().getOrCreateOwnID(), 
+      body: FutureBuilder<int>(
+          future: ownIdDB().getOrCreateOwnID(),
           builder: (context, snapshot) {
-            
-          }
-        ),
-        onTap: () {
-            Navigator.pushNamed(context, friendsCollectionMe);
-        },
-      ),
+            if (snapshot.hasError || snapshot == 0) {
+              return Center(
+                  child: Text(AppLocalizations.of(context)!
+                      .friendCollectionmissingOwnId));
+            } else {
+              return GestureDetector(
+                  child:
+                      Text(AppLocalizations.of(context)!.friendCollectionTitle),
+                  onTap: () {
+                    Navigator.pushNamed(context, friendsCollectionMe);
+                  });
+            }
+          }),
     );
   }
 }

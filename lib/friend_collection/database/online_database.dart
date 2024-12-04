@@ -14,7 +14,7 @@ void main() async {
   /*await OnlineDatabase().create(1);
   await OnlineDatabase().create(2);*/
   var result = await ownIdDB().getOrCreateOwnID();
-  log(result.toString());
+  print(result);
 }
 
 class OnlineDatabase {
