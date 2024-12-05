@@ -13,8 +13,9 @@ void main() async {
   }*/
   /*await OnlineDatabase().create(1);
   await OnlineDatabase().create(2);*/
-  var result = await ownIdDB().getOrCreateOwnID();
-  print(result);
+  var result = await OnlineDatabase().connected();
+  log(result.toString());
+  log("test");
 }
 
 class OnlineDatabase {
@@ -30,14 +31,19 @@ class OnlineDatabase {
   }
 
   Future<bool> connected() async {
-    var DBConnection = await MySQLConnection.createConnection(
-        host: "192.168.178.35",
-        port: 3306,
-        userName: "ADMIN",
-        password: "adminpw1234",
-        databaseName: "friendsonlinedatabase");
-    await DBConnection.connect();
-    return DBConnection.connected;
+    try {
+      var DBConnection = await MySQLConnection.createConnection(
+          host: "192.168.178.35",
+          port: 3306,
+          userName: "ADMIN",
+          password: "adminpw1234",
+          databaseName: "friendsonlinedatabase");
+      await DBConnection.connect(timeoutMs: 2000);
+      DBConnection.connected;
+      return await DBConnection.connected;
+    } catch (e) {
+      return false;
+    }
   }
 
   Future<void> create(int id) async {
@@ -59,7 +65,7 @@ class OnlineDatabase {
         userName: "ADMIN",
         password: "adminpw1234",
         databaseName: "friendsonlinedatabase");
-    await DBConnection.connect();
+    DBConnection.connect();
     var result = await DBConnection.execute("SELECT FriendID from friends");
     return result;
   }
