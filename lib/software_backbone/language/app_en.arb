@@ -8,8 +8,8 @@
   "@helloWorld": {
     "description": "The conventional newborn programmer greeting"
   },
-  "appTitle":"Pen Pal",
-  "@appTitle":{
+  "appTitle": "Pen Pal",
+  "@appTitle": {
     "description": "The title of the application"
   },
   "homepageTitle": "Home Page",
@@ -71,5 +71,9 @@
   "resourcesTitle": "Resources",
   "@resourcesTitle": {
     "description": "Title of the application's resources page"
+  },
+  "evaluation": "Evaluation",
+  "@evaluation": {
+    "description": "Evaluation"
   }
 }

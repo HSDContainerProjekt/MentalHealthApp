@@ -89,6 +89,7 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
     await db.execute('''
     CREATE TABLE evaluationCriteriaText(
         id INTEGER PRIMARY KEY,
+        hintText TEXT,
         FOREIGN KEY(id) REFERENCES evaluationCriteria(id)
         )
         ''');
@@ -125,12 +126,20 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
     List<EvaluationCriteria> result = [];
 
     //Range
-    final List<Map<String, Object?>> queryResult = await database.query(
+    final List<Map<String, Object?>> rangeQueryResult = await database.query(
         "evaluationCriteria NATURAL JOIN evaluationCriteriaValueRange",
         where: "routineId = ${routine.id}");
-    for (Map<String, Object?> x in queryResult) {
+    for (Map<String, Object?> x in rangeQueryResult) {
       result.add(EvaluationCriteriaValueRange.fromDataBase(x));
     }
+    //Text
+    final List<Map<String, Object?>> textQueryResult = await database.query(
+        "evaluationCriteria NATURAL JOIN evaluationCriteriaText",
+        where: "routineId = ${routine.id}");
+    for (Map<String, Object?> x in textQueryResult) {
+      result.add(EvaluationCriteriaText.fromDataBase(x));
+    }
+
     return result;
   }
 

@@ -21,6 +21,8 @@ void main() async {
 
     testRoutine.addEvaluationCriteria(EvaluationCriteriaValueRange(
         minValue: 0, maxValue: 1, description: "Test Range"));
+    testRoutine.addEvaluationCriteria(EvaluationCriteriaText(
+        description: "Test Range", hintText: "Hint"));
 
 /*
   Routine testRoutine = Routine(
