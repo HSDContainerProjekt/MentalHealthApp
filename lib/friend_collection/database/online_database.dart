@@ -13,9 +13,8 @@ void main() async {
   }*/
   /*await OnlineDatabase().create(1);
   await OnlineDatabase().create(2);*/
-  var result = await OnlineDatabase().connected();
+  var result = await ownIdDB().getOrCreateOwnID();
   log(result.toString());
-  log("test");
 }
 
 class OnlineDatabase {
@@ -68,7 +67,7 @@ class OnlineDatabase {
         userName: "ADMIN",
         password: "adminpw1234",
         databaseName: "friendsonlinedatabase");
-    DBConnection.connect();
+    await DBConnection.connect();
     var result = await DBConnection.execute("SELECT FriendID from friends");
     DBConnection.close();
     return result;
