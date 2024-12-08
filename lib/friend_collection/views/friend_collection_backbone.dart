@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mental_health_app/friend_collection/views/friend_collection_birthday_calender.dart';
@@ -13,11 +15,24 @@ class FriendCollectionScaffoldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(children: [
-        Expanded(
-          child: Navigator(onGenerateRoute: (RouteSettings settings) {
+        Padding(
+          padding: EdgeInsets.all(12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(AppLocalizations.of(context)!.friendCollectionTitle,
+                  style: Theme.of(context).textTheme.titleLarge),
+              IconButton(
+                  onPressed: (() {
+                    log("1");
+                  }),
+                  icon: Icon(Icons.person_add_alt_1))
+            ],
+        )),
+        Expanded(child: Navigator(onGenerateRoute: (RouteSettings settings) {
           WidgetBuilder builder;
           switch (settings.name) {
-            case '/': 
+            case '/':
               builder = (BuildContext context) => FriendCollectionLandingPage();
             case friendsCollection:
               builder = (BuildContext context) => FriendCollectionLandingPage();
@@ -26,7 +41,8 @@ class FriendCollectionScaffoldWidget extends StatelessWidget {
               builder = (BuildContext context) => FriendCollectionMe();
               break;
             case friendsCollectionBirthdayCalender:
-              builder = (BuildContext context) => FriendCollectionBirthdayCalender();
+              builder =
+                  (BuildContext context) => FriendCollectionBirthdayCalender();
               break;
             case friendsCollectionFriend:
               builder = (BuildContext context) => FriendCollectionFriend();

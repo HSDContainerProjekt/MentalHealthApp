@@ -10,4 +10,5 @@ const String friendsCollectionMe = "/friends_collection/me";
 const String friendsCollectionBirthdayCalender =
     "/friends_collection/birthday_calender";
 const String friendsCollectionFriend = "friends_collection/friend";
+const String friendlist = "friends_collection/friendlist";
 const String resources = "/resources";
