@@ -68,6 +68,18 @@
   "@friendCollectionFriendTitle": {
     "description": "Title of the user's friendsCollection"
   },
+  "friendListTitle": "Friendlist",
+  "@friendListTitle": {
+    "description": "Title of the friend list"
+  },
+  "addFriend": "Friendlist",
+  "@addFriend": {
+    "description": "Message displayed for Input of friendID"
+  },
+  "missingValueError": "Please enter an ID",
+  "@missingValueError": {
+    "description": "Message displayed for missing Input"
+  },
   "resourcesTitle": "Resources",
   "@resourcesTitle": {
     "description": "Title of the application's resources page"
