@@ -55,24 +55,88 @@ ColorScheme darkResourcesColorScheme = darkColorSchemeBase.copyWith(
 /// Base TextTheme
 /// The base TextTheme contains the default text description like font, size or default colors.
 TextTheme textThemeBase = const TextTheme(
+  /// Titles are normally centered
+  /// Page headline like Mainpage, Routine...
+  titleLarge: TextStyle(
+    fontSize: 64,
+    decoration: TextDecoration.underline,
+    decorationThickness: 5,
+    fontFamily: 'Italianno',
+  ),
+
+  /// Subpage title used for declaration like edit or the detail name
+  titleMedium: TextStyle(
+    fontSize: 32,
+    decoration: TextDecoration.underline,
+    decorationThickness: 5,
+    fontFamily: 'Italianno',
+  ),
+
+  /// The title in elements
+  titleSmall: TextStyle(
+    fontSize: 23,
+    decoration: TextDecoration.underline,
+    decorationThickness: 3,
+  ),
+
+  ///Headlines are normally left aligned and used to describe sections
+  /// Unused and not defined yet
   headlineLarge: TextStyle(
-      fontSize: 64,
-      decoration: TextDecoration.underline,
-      decorationThickness: 5,
-      fontFamily: 'Italianno'),
+    color: Color(0xFFFF00FF),
+  ),
+
   headlineMedium: TextStyle(
     fontSize: 32,
     fontFamily: 'Italianno',
   ),
-  titleMedium: TextStyle(
-    fontSize: 20,
-    decoration: TextDecoration.underline,
+
+  /// Unused and not defined yet
+  headlineSmall: TextStyle(
+    color: Color(0xFFFF00FF),
   ),
+
+  /// Unused and not defined yet
+  labelLarge: TextStyle(
+    color: Color(0xFFFF00FF),
+  ),
+
+  /// Is used to label buttons with text as main information
   labelMedium: TextStyle(
     fontSize: 25,
   ),
+
+  /// Is used to label hints
+  labelSmall: TextStyle(
+    fontSize: 20,
+  ),
+
+  /// Text, which is the main content of the page
+  bodyLarge: TextStyle(
+    fontSize: 20,
+  ),
+
+  /// Text that is in an element on the page
   bodyMedium: TextStyle(
-    fontSize: 15,
+    fontSize: 14,
+  ),
+
+  /// Unused and not defined yet
+  bodySmall: TextStyle(
+    color: Color(0xFFFF00FF),
+  ),
+
+  /// Unused and not defined yet
+  displayLarge: TextStyle(
+    color: Color(0xFFFF00FF),
+  ),
+
+  displayMedium: TextStyle(
+    color: Color(0xFFFF00FF),
+  ),
+
+  /// Unused and not defined yet
+  displaySmall: TextStyle(
+    color: Color(0xFFFF00FF),
   ),
 );
 
