@@ -24,7 +24,7 @@ class FriendCollectionScaffoldWidget extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleLarge),
               IconButton(
                   onPressed: (() {
-                    log("1");
+                    Navigator.pushNamed(context, friendlist);
                   }),
                   icon: Icon(Icons.person_add_alt_1))
             ],

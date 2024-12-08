@@ -43,7 +43,7 @@ class ownIdDB {
     while (resultSetContainsID(ids, id)) {
       id = Math.Random().nextInt(10);
     }
-    OnlineDatabase().create(id);
+    OnlineDatabase().createFriend(id);
     log(id.toString());
     create(id);
     log("created");

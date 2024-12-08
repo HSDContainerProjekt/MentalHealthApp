@@ -1,6 +1,7 @@
 // this page contains the blueprint for every page consisting of the nav bar and the individual content of each page
 
 import 'package:flutter/material.dart';
+import 'package:mental_health_app/friend_collection/views/friend_collection_friendlist.dart';
 import 'package:mental_health_app/navigation/views/table_of_contents/table_of_contents_backbone.dart';
 import 'package:mental_health_app/software_backbone/routing/router.dart'
     as app_router;
@@ -59,6 +60,9 @@ class _AppFrameworkState extends State<AppFramework> {
                     break;
                   case resources:
                     builder = (BuildContext context) => Resources();
+                    break;
+                  case friendlist:
+                    builder = (BuildContext context) => FriendCollectionFriendlist();
                     break;
                   default:
                     throw Exception('Invalid route: ${settings.name}');

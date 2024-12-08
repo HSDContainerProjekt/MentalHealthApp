@@ -47,7 +47,7 @@ class OnlineDatabase {
     }
   }
 
-  Future<void> create(int id) async {
+  Future<void> createFriend(int id) async {
     var DBConnection = await MySQLConnection.createConnection(
         host: "192.168.178.35",
         port: 3306,
