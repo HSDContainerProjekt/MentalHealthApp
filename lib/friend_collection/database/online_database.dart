@@ -28,6 +28,7 @@ class OnlineDatabase {
         databaseName: "friendsonlinedatabase");
     await DBConnection.connect();
     log("connect");
+    DBConnection.close();
   }
 
   Future<bool> connected() async {
@@ -39,8 +40,9 @@ class OnlineDatabase {
           password: "adminpw1234",
           databaseName: "friendsonlinedatabase");
       await DBConnection.connect(timeoutMs: 2000);
-      DBConnection.connected;
-      return await DBConnection.connected;
+      var bool = await DBConnection.connected;
+      DBConnection.close();
+      return bool;
     } catch (e) {
       return false;
     }
@@ -56,6 +58,7 @@ class OnlineDatabase {
     await DBConnection.connect();
     await DBConnection.execute(
         "INSERT INTO friends (FriendID) VALUES (:id)", {"id": id});
+    DBConnection.close();
   }
 
   Future<IResultSet> fetchAllIds() async {
@@ -67,6 +70,7 @@ class OnlineDatabase {
         databaseName: "friendsonlinedatabase");
     DBConnection.connect();
     var result = await DBConnection.execute("SELECT FriendID from friends");
+    DBConnection.close();
     return result;
   }
 }
