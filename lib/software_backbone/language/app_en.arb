@@ -72,9 +72,13 @@
   "@friendListTitle": {
     "description": "Title of the friend list"
   },
-  "addFriend": "Friendlist",
+  "addFriend": "add Friend: ",
   "@addFriend": {
     "description": "Message displayed for Input of friendID"
+  },
+  "myFriendID": "My friend id:",
+  "@myFriendID":{
+    "description": "Text displayed for own Friend id"
   },
   "missingValueError": "Please enter an ID",
   "@missingValueError": {

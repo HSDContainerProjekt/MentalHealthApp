@@ -81,4 +81,11 @@ class ownIdDB {
       return id;
     }
   }
+
+  Future<int> getOwnIdAsInt() async {
+    var ownIDList = await getOwnId();
+    var ownID = ownIDList.first;
+    var id = ownID.id;
+    return id;
+  }
 }
