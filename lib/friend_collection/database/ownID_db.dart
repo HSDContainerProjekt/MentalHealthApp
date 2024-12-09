@@ -69,15 +69,18 @@ class ownIdDB {
 
   Future<int> getOrCreateOwnID() async {
     if (ownIDIsEmpty(await getOwnId())) {
+      log("called");
       if (await OnlineDatabase().connected()) {
         return await createAvailableID();
       } else {
         return 0;
       }
     } else {
+      log("calledelse");
       var ownIDList = await getOwnId();
       var OwnID = ownIDList.first;
       var id = OwnID.id;
+      log(id.toString());
       return id;
     }
   }

@@ -56,7 +56,7 @@
   "@friendCollectionmissingOwnId": {
     "description": "Error message displayed, when connection to the database failed."
   },
-  "friendCollectionCalenderTitle": "Friend collection calender",
+  "friendCollectionCalenderTitle": "Birthdays",
   "@friendCollectionCalenderTitle": {
     "description": "Title of the application's friendsCollection calender"
   },
@@ -67,6 +67,10 @@
   "friendCollectionFriendTitle": "My friends",
   "@friendCollectionFriendTitle": {
     "description": "Title of the user's friendsCollection"
+  },
+  "friendCollectionFriendRequests": "My friends requests",
+  "@friendCollectionFriendTitle": {
+    "description": "the user's friend requests"
   },
   "friendListTitle": "Friendlist",
   "@friendListTitle": {
@@ -83,6 +87,14 @@
   "missingValueError": "Please enter an ID",
   "@missingValueError": {
     "description": "Message displayed for missing Input"
+  },
+  "noFriendRequests": "No friend requests",
+  "@noFriendRequests": {
+    "description": "Message displayed when no FriendRequests"
+  },
+  "noFriends": "No friends",
+  "@noFriends": {
+    "description": "Message displayed when no Friends"
   },
   "resourcesTitle": "Resources",
   "@resourcesTitle": {

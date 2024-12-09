@@ -29,8 +29,9 @@ class _AppFrameworkState extends State<AppFramework> {
     return Scaffold(
       appBar: AppBar(),
       body: GestureDetector(
+          behavior: HitTestBehavior.translucent,
           onPanUpdate: (details) {
-            if (details.delta.dx > 0) {
+            if (details.delta.dx > 8) {
               navigatorKey.currentState!.pushNamed(tableOfContents);
             }
           },
@@ -56,13 +57,11 @@ class _AppFrameworkState extends State<AppFramework> {
                     builder = (BuildContext context) => HomePage();
                     break;
                   case friendsCollection:
-                    builder = (BuildContext context) => FriendCollectionScaffoldWidget();
+                    builder = (BuildContext context) =>
+                        FriendCollectionScaffoldWidget();
                     break;
                   case resources:
                     builder = (BuildContext context) => Resources();
-                    break;
-                  case friendlist:
-                    builder = (BuildContext context) => FriendCollectionFriendlist();
                     break;
                   default:
                     throw Exception('Invalid route: ${settings.name}');
