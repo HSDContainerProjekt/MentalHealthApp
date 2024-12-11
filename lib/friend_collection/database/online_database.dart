@@ -11,7 +11,7 @@ import 'package:mysql_client/mysql_client.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  ownIdDB().delete();
+  ownIdDB().create(5);
 }
 
 class OnlineDatabase {

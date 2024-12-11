@@ -14,12 +14,20 @@ class FriendCollectionMe extends StatelessWidget {
             Navigator.pushNamed(context, friendsCollectionBirthdayCalender);
           }
         },
-        child: Center(
-          child: Text(
-            AppLocalizations.of(context)!.friendCollectionMeTitle,
-            style: Theme.of(context).textTheme.displayLarge,
-          ),
-        ),
+        child: Column(
+          children: [
+            Row(),
+            Row(
+              children: [
+                Container(),
+                Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [],
+                )
+              ],
+            )
+          ],
+        )
       )
     );
   }
