@@ -16,13 +16,28 @@ class FriendCollectionMe extends StatelessWidget {
         },
         child: Column(
           children: [
-            Row(),
             Row(
               children: [
-                Container(),
+                //Profilbild 
+                Column() //Eigene Angaben 
+              ],
+            ),
+            Row(
+              children: [
+                Container(), // Das ist mein(e) lieblings
                 Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [],
+                    children: [
+                      Container(decoration: BoxDecoration(
+                        color: Colors.yellow,
+                        shape: BoxShape.circle,   
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 2.0
+                        ),
+                      ),
+                      child: Icon(Icons.favorite),)
+                    ], // Haarfarbe, Augenfarbe, Lieblingsfarbe 
                 )
               ],
             )
