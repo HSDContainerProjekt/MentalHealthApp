@@ -26,7 +26,7 @@ class LandingPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(AppLocalizations.of(context)!.appTitle),
-            Image(image: AssetImage("lib/assets/images/character_placeholder1.jpeg"),), //Bild des Charakters der Person, default = Appmaskottchen
+            Image(image: AssetImage("lib/assets/images/froggo_bodyshot.png"),), //Bild des Charakters der Person, default = Appmaskottchen
             Text(
                 "Name der Person") //Name der Person aus Datenbank ziehen, default = leer
           ],

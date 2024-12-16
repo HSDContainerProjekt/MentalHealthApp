@@ -69,7 +69,7 @@
     "description": "Title of the user's friendsCollection"
   },
   "friendCollectionFriendRequests": "My friends requests",
-  "@friendCollectionFriendTitle": {
+  "@friendCollectionFriendRequests": {
     "description": "the user's friend requests"
   },
   "friendListTitle": "Friendlist",
@@ -103,5 +103,46 @@
   "evaluation": "Evaluation",
   "@evaluation": {
     "description": "Evaluation"
+  },
+
+  "headlineFavoriteBox":"Thats my favorite...",
+  "@headlineFavoriteBox":{
+    "description": "The headline used in the form about the usesr favorite things"
+  },
+  "favoriteSong":"...song:",
+  "@favoriteSong":{
+    "description": "title of the category: favorite song"
+  },
+  "favoriteFood":"...food:",
+  "@favoriteFood":{
+    "description": "title of the category: favorite food"
+  },
+  "favoriteBook":"...book:",
+  "@favoriteBook":{
+    "description": "title of the category: favorite book"
+  },
+  "favoriteMovie":"...Movie:",
+  "@favoriteMovie":{
+    "description": "title of the category: favorite movie"
+  },
+  "favoriteAnimal":"...animal:",
+  "@favoriteAnimal":{
+    "description": "title of the category: favorite animal"
+  },
+  "favoriteNumber":"...number:",
+  "@favoriteNumber":{
+    "description": "title of the category: favorite number"
+  },
+  "hairColor":"Haircolor",
+  "@hairColor":{
+    "description": "the title of the widget used to display the users haircolor"
+  },
+  "eyeColor":"Eyecolor",
+  "@eyeColor":{
+    "description": "the title of the widget used to display the users eyecolor"
+  },
+  "favoriteColor":"Favorite Color",
+  "@favoriteColor":{
+    "description": "the title of the widget used to display the users favorite color"
   }
 }
