@@ -14,7 +14,19 @@ class FriendDB {
     await database.execute('''CREATE TABLE $tableName (
       id INTEGER NOT NULL PRIMARY KEY,
       name TEXT, 
-      birthday TEXT
+      nickname TEXT,
+      birthday TEXT,
+      zodiacSign TEXT,
+      animal TEXT,
+      hairColor TEXT,
+      eyecolor TEXT,
+      favoriteColor TEXT,
+      favoriteSong TEXT,
+      favoriteFood TEXT,
+      favoriteBook TEXT,
+      favoriteFilm TEXT,
+      favoriteAnimal TEXT,
+      favoriteNumber NUMBER
     )''');
   }
 
