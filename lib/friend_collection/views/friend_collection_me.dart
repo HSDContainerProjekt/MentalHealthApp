@@ -1,6 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:mental_health_app/software_backbone/routing/routing_constants.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart'; 
 import 'dart:math';
 
 class FriendCollectionMe extends StatelessWidget {
@@ -83,17 +84,10 @@ CustomColorWidget extends StatefulWidget {
 class _CustomColorPicker extends State<
 CustomColorWidget> {
   Color pickedColor = Color.fromARGB(255, Random().nextInt(255), Random().nextInt(255), Random().nextInt(255));
-  bool inColorPickingMode = false;
 
   void changeColor(newColor){
     setState(() {
       pickedColor = newColor;
-    });
-  }
-  
-  void pickingColor(){
-    setState(() {
-      inColorPickingMode = !inColorPickingMode;
     });
   }
 
@@ -105,8 +99,6 @@ CustomColorWidget> {
         GestureDetector(
           onTap: (){
             print(pickedColor);
-            pickingColor();
-            print(inColorPickingMode);
             showDialog(
             context: context,
             builder: (BuildContext context) => Dialog(
@@ -117,17 +109,18 @@ CustomColorWidget> {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'Custom dialog',
-                      style: Theme.of(context).textTheme.titleMedium,
+                    BlockPicker(
+                      pickerColor: pickedColor, //default color
+                      onColorChanged: (Color color){ //on the color picked
+                        changeColor(color);
+                        Navigator.pop(context);
+                      }, 
                     ),
-                    const SizedBox(height: 10,),
-                    const Text(
-                      'You can use the Dialog widget to create custom dialogs',
-                    ),
-                    const SizedBox(height: 10,),
                     TextButton(
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () => 
+                        {Navigator.pop(context)
+
+                        },
                       child: const Text('close'),
                     )
                   ],

@@ -7,7 +7,6 @@ import 'package:mental_health_app/app_framework_backbone/views/main_page/main_pa
 import 'package:mental_health_app/friend_collection/views/friend_collection_birthday_calender.dart';
 import 'package:mental_health_app/friend_collection/views/friend_collection_friend.dart';
 import 'package:mental_health_app/friend_collection/views/friend_collection_me.dart';
-import 'package:mental_health_app/friend_collection/widgets/custom_color_picker.dart';
 import 'package:mental_health_app/ressources/ressources_backbone.dart';
 import 'package:mental_health_app/software_backbone/routing/routing_constants.dart';
 import '../../routine_tracking/presentation/routine_tracking_backbone.dart';
@@ -37,8 +36,6 @@ class generalRouter {
         return MaterialPageRoute(builder: (_) => FriendCollectionFriend());
       case resources:
         return MaterialPageRoute(builder: (_) => Resources());
-      case colorPicker:
-        return MaterialPageRoute(builder: (_) => CustomColorPicker());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(
