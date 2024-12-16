@@ -31,7 +31,8 @@ dependencies:
   flutter:
     sdk: flutter
   synchronized: ^3.3.0+3
-  
+  flutter_colorpicker: ^1.1.0
+  dotted_border: ^2.1.0
   cupertino_icons: ^1.0.8
 
   intl: any
@@ -61,6 +62,7 @@ flutter:
   assets:
     - lib/assets/images/bookcover.jpg
     - lib/assets/images/character_placeholder1.jpeg
+    - lib/assets/images/froggo_bodyshot.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

@@ -28,5 +28,16 @@
   "allRoutines": "Alle deine Routinen",
   "noCurrentRoutines": "Sie haben derzeit keine Routinen zu erledigen.",
   "noRoutines": "Sie haben noch keine Routinen. Klicken Sie hier oder auf das +, um Ihre erste Routine zu erstellen.",
-  "evaluation": "Bewertung"
+  "evaluation": "Bewertung",
+  "headlineFavoriteBox":"Das ist mein(e) lieblings...",
+  "favoriteSong": "...Lieblingslied:",
+  "favoriteFood": "...Lieblingsessen:",
+  "favoriteBook": "...Lieblingsbuch:",
+  "favoriteMovie": "...Lieblingsfilm:",
+  "favoriteAnimal": "...Lieblingstier:",
+  "favoriteNumber": "...Lieblingszahl:",
+  "hairColor": "Haarfarbe",
+  "eyeColor": "Augenfarbe",
+  "favoriteColor": "Lieblingsfarbe"
+  
 }
