@@ -82,7 +82,7 @@ class FriendDB {
             'CREATE TABLE friends (id INTEGER NOT NULL PRIMARY KEY,name TEXT,birthday TEXT)');
         for (var element in friendlist) {
           txn.insert(tableName, {
-            if (element.friendID != null) 'id': element.friendID,
+            'id': element.friendID,
             if (element.name != null) 'name': element.name,
             if (element.birthday != null) 'birthday': element.birthday,
           });

@@ -186,6 +186,20 @@ class OnlineDatabase {
     }
   }
 
+  Future<void> updateFriend(Friend friend) async {
+    try {
+      var DBConnection = await MySQLConnection.createConnection(
+          host: "192.168.178.35",
+          port: 3306,
+          userName: "ADMIN",
+          password: "adminpw1234",
+          databaseName: "friendsonlinedatabase");
+      await DBConnection.connect();
+      await DBConnection.execute("UPDATE friends SET name = :name, nickname = :nickname,birthday = :birthday, zodiacSign = :zodiacSign, animal = :animal, hairColor = :haircolor, eyecolor = :eyecolor, favoriteColor = :favoriteColor, favoriteSong = :favoriteSong, favoriteFood = :favoriteFood, favoriteBook = :favoriteBook, favoriteFilm = :favoriteFilm, favoriteAnimal = :favoriteAnimal, favoriteNumber = :favoriteNumber WHERE friendID = :friendID",
+      {"name":friend.name, "nickname": friend.nickname, "birthday": friend.birthday, "zodiacSign": friend.zodiacSign,"animal":friend.animal,"hairColor":friend.hairColor,"eyecolor":friend.eyecolor,"favoriteColor":friend.favoriteColor,"favoriteSong":friend.favoriteSong,"favoriteFood":friend.favoriteFood,"favoriteBook":friend.favoriteBook,"favoriteFilm":friend.favoriteBook,"favoriteAnimal":friend.favoriteAnimal,"favoriteNumber":friend, "friendID":friend.friendID});
+    } catch (e) {}
+  }
+
   Future<void> deleteFriendRequest(int friendId) async {
     try {
       var DBConnection = await MySQLConnection.createConnection(
@@ -195,7 +209,7 @@ class OnlineDatabase {
           password: "adminpw1234",
           databaseName: "friendsonlinedatabase");
       await DBConnection.connect();
-      var ownId = await ownIdDB().getOwnIdAsInt();
+      int ownId = await ownIdDB().getOwnIdAsInt();
       await DBConnection.execute(
           "DELETE FROM friendship WHERE friend1 = :friendId AND friend2 = :ownId",
           {"friendId": friendId, "ownId": ownId});

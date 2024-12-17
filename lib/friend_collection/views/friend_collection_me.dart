@@ -81,8 +81,7 @@ CustomColorWidget extends StatefulWidget {
   CustomColorWidget> createState() => _CustomColorPicker();
 }
 
-class _CustomColorPicker extends State<
-CustomColorWidget> {
+class _CustomColorPicker extends State<CustomColorWidget> {
   Color pickedColor = Color.fromARGB(255, Random().nextInt(255), Random().nextInt(255), Random().nextInt(255));
 
   void changeColor(newColor){
