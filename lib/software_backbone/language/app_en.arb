@@ -100,6 +100,18 @@
   "@resourcesTitle": {
     "description": "Title of the application's resources page"
   },
+  "selectCity": "Select a city",
+  "@selectCity": {
+    "description": "Prompt to select a city from the dropdown"
+  },
+  "emergencyServices": "Emergency Services",
+  "@emergencyServices": {
+    "description": "Header for emergency services section"
+  },
+  "universities": "Universities" ,
+  "@universities": {
+    "description": "Header for universities section"
+  },
   "evaluation": "Evaluation",
   "@evaluation": {
     "description": "Evaluation"
