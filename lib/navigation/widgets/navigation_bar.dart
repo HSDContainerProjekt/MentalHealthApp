@@ -32,11 +32,17 @@ class NavBar extends StatelessWidget {
           icon: Icon(Icons.bookmark,
                   color: Colors.red,  
                 ),
+          label: AppLocalizations.of(context)!.tableOfContentTitle,
+        ),
+        NavigationDestination(
+          icon: Icon(Icons.bookmark,
+                  color: Colors.orange,  
+                ),
           label: AppLocalizations.of(context)!.routineTitle,
         ),
         NavigationDestination(
           icon: Icon(Icons.bookmark,
-                  color: Colors.blue,
+                  color: Colors.yellow,
                 ),
           label: AppLocalizations.of(context)!.homepageTitle,
         ),
@@ -48,7 +54,7 @@ class NavBar extends StatelessWidget {
         ),
         NavigationDestination(
           icon: const Icon(Icons.bookmark,
-                  color: Colors.yellow,  
+                  color: Colors.blue,  
               ),
           label: AppLocalizations.of(context)!.resourcesTitle,
         ),
