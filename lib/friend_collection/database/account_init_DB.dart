@@ -1,0 +1,34 @@
+import 'package:mental_health_app/friend_collection/database/database_friend_collection.dart';
+import 'package:mental_health_app/friend_collection/model/account_init.dart';
+import 'package:sqflite/sqflite.dart';
+
+class AccountInitDb {
+  final tableName = 'accountInits';
+
+  Future<void> createTable(Database database) async {
+    await database.execute("""CREATE TABLE $tableName (
+      initAnimal TEXT NOT NULL PRIMARY KEY
+    )""");
+  }
+
+  Future<int> create(String animal) async {
+    final database = await DatabaseFriendCollection().database;
+    return await database.insert(tableName, {'initAnimal': animal});
+  }
+
+  Future<void> delete() async {
+    final database = await DatabaseFriendCollection().database;
+    await database.delete(tableName);
+  }
+
+  Future<List<AccountInit>> getOwnId() async {
+    final database = await DatabaseFriendCollection().database;
+    final List<Map<String, Object?>> accountInitMap = await database.query('accountInits');
+    return [
+      for (final {
+            'initAnimal': initAnimal as String,
+          } in accountInitMap)
+        AccountInit(initAnimal: initAnimal),
+    ];
+  }
+}
