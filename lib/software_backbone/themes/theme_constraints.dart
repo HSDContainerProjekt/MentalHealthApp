@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 //#region Color schemes for background and highlights
 /// example what color is used for what https://api.flutter.dev/flutter/material/ColorScheme-class.html
 
+
+
 /// Base color
 /// The base color schemes should contain the default colors used on every page like the background color.
 ColorScheme lightColorSchemeBase = const ColorScheme.light(
