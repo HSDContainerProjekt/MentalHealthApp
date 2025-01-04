@@ -1,10 +1,5 @@
 import 'dart:typed_data';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
-
-import '../data/image_dao.dart';
 
 class Picture extends Equatable {
   const Picture({

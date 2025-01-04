@@ -6,9 +6,15 @@ sealed class RoutineNavState {}
 final class RoutineNavOverview extends RoutineNavState {}
 
 final class RoutineNavEdit extends RoutineNavState {
-  final int routineId;
+  RoutineNavEdit();
+}
 
-  RoutineNavEdit(this.routineId);
+final class RoutineNavEditNew extends RoutineNavEdit {}
+
+final class RoutineNavEditExisting extends RoutineNavEdit {
+  final int routineID;
+
+  RoutineNavEditExisting({required this.routineID});
 }
 
 final class RoutineNavDetail extends RoutineNavState {

@@ -1,6 +1,4 @@
-import 'dart:ui';
-
-import '../model/picture.dart';
+import 'data_model/picture.dart';
 import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';

@@ -1,5 +1,5 @@
-import 'package:mental_health_app/routine_tracking/data/image_dao.dart';
-import 'package:mental_health_app/routine_tracking/model/picture.dart';
+import '../data/data_model/picture.dart';
+import '../data/image_dao.dart';
 
 class ImageRepository {
   final ImageDAO imageDAO;

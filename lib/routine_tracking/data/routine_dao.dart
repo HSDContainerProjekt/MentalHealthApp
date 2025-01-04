@@ -1,6 +1,5 @@
-import 'package:mental_health_app/routine_tracking/model/time_interval.dart';
-
-import '../model/routine.dart';
+import 'data_model/routine.dart';
+import 'data_model/time_interval.dart';
 import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
