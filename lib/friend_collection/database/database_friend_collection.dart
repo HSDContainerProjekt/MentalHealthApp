@@ -38,4 +38,8 @@ class DatabaseFriendCollection {
     await ownIdDB().createTable(database);
     await AccountInitDb().createTable(database);
   }
+
+  Future<void> delete() async {
+    deleteDatabase(await fullPath);
+  }
 }

@@ -9,6 +9,7 @@
   "homepageTitle": "Hauptseite",
   "routineTitle": "Routinen",
   "landingPageTitle": "Startseite",
+  "animalSelection": "Bitte wähle dein tier. Du kannst es jederzeit ändern",
   "tableOfContentTitle": "Inhaltsverzeichnis",
   "friendCollectionTitle": "Freundebuch",
   "friendCollectionmissingOwnId":"Zum erstmaligen Einrichten des Freudebuchs wird eine Internetverbindung benötigt.",
@@ -38,6 +39,6 @@
   "favoriteNumber": "...Lieblingszahl:",
   "hairColor": "Haarfarbe",
   "eyeColor": "Augenfarbe",
-  "favoriteColor": "Lieblingsfarbe"
-  
+  "favoriteColor": "Lieblingsfarbe",
+  "select":"Auswählen"
 }

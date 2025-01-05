@@ -48,6 +48,10 @@
   "@landingPageTitle": {
     "description": "Title of the application's landing page"
   },
+  "animalSelection": "Please choose your Animal You can always change your Animal",
+  "@animalSelection": {
+    "description": "Message to choose animal"
+  },
   "friendCollectionTitle": "Friend collection",
   "@friendCollectionTitle": {
     "description": "Title of the application's friendsCollection page"
@@ -144,5 +148,6 @@
   "favoriteColor":"Favorite Color",
   "@favoriteColor":{
     "description": "the title of the widget used to display the users favorite color"
-  }
+  },
+  "select":"select"
 }

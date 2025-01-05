@@ -2,6 +2,8 @@ import 'dart:developer';
 import 'dart:core';
 
 import 'package:flutter/material.dart';
+import 'package:mental_health_app/friend_collection/database/account_init_DB.dart';
+import 'package:mental_health_app/friend_collection/database/database_friend_collection.dart';
 import 'package:mental_health_app/friend_collection/database/friend_db.dart';
 import 'package:mental_health_app/friend_collection/database/ownID_db.dart';
 import 'package:mental_health_app/friend_collection/model/friend.dart';
@@ -11,7 +13,9 @@ import 'package:mysql_client/mysql_client.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  ownIdDB().create(5);
+  var result = await AccountInitDb().getOwnAnimal();
+  
+  log(result.toString());
 }
 
 class OnlineDatabase {
@@ -195,8 +199,25 @@ class OnlineDatabase {
           password: "adminpw1234",
           databaseName: "friendsonlinedatabase");
       await DBConnection.connect();
-      await DBConnection.execute("UPDATE friends SET name = :name, nickname = :nickname,birthday = :birthday, zodiacSign = :zodiacSign, animal = :animal, hairColor = :haircolor, eyecolor = :eyecolor, favoriteColor = :favoriteColor, favoriteSong = :favoriteSong, favoriteFood = :favoriteFood, favoriteBook = :favoriteBook, favoriteFilm = :favoriteFilm, favoriteAnimal = :favoriteAnimal, favoriteNumber = :favoriteNumber WHERE friendID = :friendID",
-      {"name":friend.name, "nickname": friend.nickname, "birthday": friend.birthday, "zodiacSign": friend.zodiacSign,"animal":friend.animal,"hairColor":friend.hairColor,"eyecolor":friend.eyecolor,"favoriteColor":friend.favoriteColor,"favoriteSong":friend.favoriteSong,"favoriteFood":friend.favoriteFood,"favoriteBook":friend.favoriteBook,"favoriteFilm":friend.favoriteBook,"favoriteAnimal":friend.favoriteAnimal,"favoriteNumber":friend, "friendID":friend.friendID});
+      await DBConnection.execute(
+          "UPDATE friends SET name = :name, nickname = :nickname,birthday = :birthday, zodiacSign = :zodiacSign, animal = :animal, hairColor = :haircolor, eyecolor = :eyecolor, favoriteColor = :favoriteColor, favoriteSong = :favoriteSong, favoriteFood = :favoriteFood, favoriteBook = :favoriteBook, favoriteFilm = :favoriteFilm, favoriteAnimal = :favoriteAnimal, favoriteNumber = :favoriteNumber WHERE friendID = :friendID",
+          {
+            "name": friend.name,
+            "nickname": friend.nickname,
+            "birthday": friend.birthday,
+            "zodiacSign": friend.zodiacSign,
+            "animal": friend.animal,
+            "hairColor": friend.hairColor,
+            "eyecolor": friend.eyecolor,
+            "favoriteColor": friend.favoriteColor,
+            "favoriteSong": friend.favoriteSong,
+            "favoriteFood": friend.favoriteFood,
+            "favoriteBook": friend.favoriteBook,
+            "favoriteFilm": friend.favoriteBook,
+            "favoriteAnimal": friend.favoriteAnimal,
+            "favoriteNumber": friend,
+            "friendID": friend.friendID
+          });
     } catch (e) {}
   }
 

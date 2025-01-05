@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:mental_health_app/friend_collection/database/database_friend_collection.dart';
 import 'package:mental_health_app/friend_collection/model/account_init.dart';
 import 'package:sqflite/sqflite.dart';
@@ -21,14 +23,21 @@ class AccountInitDb {
     await database.delete(tableName);
   }
 
-  Future<List<AccountInit>> getOwnId() async {
+  Future<List<AccountInit>> getOwnAnimal() async {
     final database = await DatabaseFriendCollection().database;
-    final List<Map<String, Object?>> accountInitMap = await database.query('accountInits');
+    final List<Map<String, Object?>> accountInitMap =
+        await database.query('accountInits');
     return [
       for (final {
             'initAnimal': initAnimal as String,
           } in accountInitMap)
         AccountInit(initAnimal: initAnimal),
     ];
+  }
+
+  Future<bool> isEmpty() async {
+    var result = await getOwnAnimal();
+    log(result.isEmpty.toString());
+    return result.isEmpty;
   }
 }
