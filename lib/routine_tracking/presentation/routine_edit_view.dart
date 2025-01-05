@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mental_health_app/app_framework_backbone/views/popup/image_selector.dart';
+import 'package:mental_health_app/app_framework_backbone/views/popup/postit.dart';
 import 'package:mental_health_app/routine_tracking/presentation/bloc/routine_nav_bloc.dart';
 
 import '../domain/routine_repository.dart';
@@ -77,7 +79,20 @@ class _TitleEditField extends StatelessWidget {
 class _TitleEditImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Text("Image");
+    return GestureDetector(
+      onTap: () {
+        showDialog<int>(
+          context: context,
+          builder: (context) => ImageSelector(),
+        );
+      }, // Image tapped
+      child: Image.asset(
+        'lib/assets/images/bookcover.jpg',
+        fit: BoxFit.cover, // Fixes border issues
+        width: 110.0,
+        height: 110.0,
+      ),
+    );
   }
 }
 

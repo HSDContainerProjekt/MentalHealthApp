@@ -65,8 +65,8 @@ flutter:
   uses-material-design: true
   generate: true
   assets:
-    - lib/assets/images/bookcover.jpg
-    - lib/assets/images/character_placeholder1.jpeg
+    - lib/assets/images/
+
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
