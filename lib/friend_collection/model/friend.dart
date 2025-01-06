@@ -54,6 +54,6 @@ class Friend {
       );
 
   String toString() {
-    return 'Friend{id: $friendID, name: $name, birthday: $birthday}';
+    return 'Friend{id: $friendID, name: $name, birthday: $birthday, animal: $animal}';
   }
 }

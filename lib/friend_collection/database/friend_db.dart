@@ -30,9 +30,9 @@ class FriendDB {
     )''');
   }
 
-  Future<int> create(int id) async {
+  Future<int> create(int id, String animal) async {
     final database = await DatabaseFriendCollection().database;
-    return await database.insert(tableName, {'id': id},
+    return await database.insert(tableName, {'id': id, 'animal':animal},
         conflictAlgorithm: ConflictAlgorithm.rollback);
   }
 

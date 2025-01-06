@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mental_health_app/animal_backbone/animal_backbone.dart';
 import 'package:mental_health_app/app_framework_backbone/views/landing_page/widgets/animal_selection.dart';
 import 'package:mental_health_app/friend_collection/database/account_init_DB.dart';
+import 'package:mental_health_app/software_backbone/constants/animal.dart';
 import 'package:mental_health_app/software_backbone/routing/routing_constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -39,8 +41,7 @@ class LandingPage extends StatelessWidget {
                 ))
               ]),
             ));
-          }
-          else{
+          } else {
             return Scaffold(
                 body: GestureDetector(
               onTap: () {
@@ -60,17 +61,25 @@ class LandingPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(AppLocalizations.of(context)!.appTitle),
-                    Image(
-                      image:
-                          AssetImage("lib/assets/images/froggo_bodyshot.png"),
-                    ), //Bild des Charakters der Person, default = Appmaskottchen
+                    FutureBuilder(
+                        future: AnimalBackbone().portrait(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Image(image: AssetImage(snapshot.data!));
+                          } else {
+                            return Image(
+                              image: AssetImage(Froggo.portrait),
+                            );
+                          }
+                        }), //Bild des Charakters der Person, default = Appmaskottchen
                     Text(
                         "Name der Person") //Name der Person aus Datenbank ziehen, default = leer
                   ],
                 ))
               ]),
             ));
-          } ;
+          }
+          ;
         });
   }
 }

@@ -35,6 +35,13 @@ class AccountInitDb {
     ];
   }
 
+  Future<String> getOwnAnimalAsString() async {
+    var list = await getOwnAnimal();
+    var account = list.first;
+    var animal = account.initAnimal;
+    return animal;
+  }
+
   Future<bool> isEmpty() async {
     var result = await getOwnAnimal();
     log(result.isEmpty.toString());

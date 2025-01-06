@@ -1,6 +1,8 @@
 import 'dart:developer';
 import 'dart:math' as Math;
 
+import 'package:mental_health_app/friend_collection/database/account_init_DB.dart';
+import 'package:mental_health_app/friend_collection/database/friend_db.dart';
 import 'package:mental_health_app/friend_collection/database/online_database.dart';
 import 'package:mysql_client/mysql_client.dart';
 import 'package:sqflite/sqflite.dart';
@@ -71,7 +73,10 @@ class ownIdDB {
     if (ownIDIsEmpty(await getOwnId())) {
       log("called");
       if (await OnlineDatabase().connected()) {
-        return await createAvailableID();
+        var id = await createAvailableID();
+        await FriendDB().create(id, await AccountInitDb().getOwnAnimalAsString());
+        await OnlineDatabase().updateAnimal(id, await AccountInitDb().getOwnAnimalAsString());
+        return id;
       } else {
         return 0;
       }

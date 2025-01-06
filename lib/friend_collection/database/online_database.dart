@@ -13,9 +13,10 @@ import 'package:mysql_client/mysql_client.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  var result = await AccountInitDb().getOwnAnimal();
-  
-  log(result.toString());
+  var list = await OnlineDatabase().getFriends();
+  for (var element in list) {
+    log(element.toString());
+  }
 }
 
 class OnlineDatabase {
@@ -221,6 +222,21 @@ class OnlineDatabase {
     } catch (e) {}
   }
 
+  Future<void> updateAnimal(int id, String animal) async {
+    try {
+      var DBConnection = await MySQLConnection.createConnection(
+          host: "192.168.178.35",
+          port: 3306,
+          userName: "ADMIN",
+          password: "adminpw1234",
+          databaseName: "friendsonlinedatabase");
+      await DBConnection.connect();
+      await DBConnection.execute(
+          "UPDATE friends SET animal = :animal WHERE friendID = :friendID",
+          {"friendID": id, "animal": animal});
+    } catch (e) {}
+  }
+
   Future<void> deleteFriendRequest(int friendId) async {
     try {
       var DBConnection = await MySQLConnection.createConnection(
@@ -234,6 +250,22 @@ class OnlineDatabase {
       await DBConnection.execute(
           "DELETE FROM friendship WHERE friend1 = :friendId AND friend2 = :ownId",
           {"friendId": friendId, "ownId": ownId});
+      DBConnection.close();
+    } catch (e) {}
+  }
+
+  Future<void> clearAllOnlineDatabases() async {
+    try {
+      var DBConnection = await MySQLConnection.createConnection(
+          host: "192.168.178.35",
+          port: 3306,
+          userName: "ADMIN",
+          password: "adminpw1234",
+          databaseName: "friendsonlinedatabase");
+      await DBConnection.connect();
+      int ownId = await ownIdDB().getOwnIdAsInt();
+      await DBConnection.execute("DELETE FROM friendship");
+      await DBConnection.execute("DELETE FROM friends");
       DBConnection.close();
     } catch (e) {}
   }
