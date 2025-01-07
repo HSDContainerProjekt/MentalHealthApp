@@ -11,33 +11,37 @@ class FriendCollectionLandingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<int>(
-          future: ownIdDB().getOrCreateOwnID(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return Center(
-                child: Text("loading..."),
-              );
-            }
-            if (snapshot.hasError || snapshot.data == 0) {
-              return Center(
-                  child: Text(
+        future: ownIdDB().getOrCreateOwnID(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: Text("loading..."),
+            );
+          }
+          if (snapshot.hasError || snapshot.data == 0) {
+            return Center(
+              child: Text(
                 AppLocalizations.of(context)!.friendCollectionmissingOwnId,
                 style: Theme.of(context).textTheme.displayLarge,
                 textAlign: TextAlign.center,
-              ));
-            } else {
-              return GestureDetector(
-                  child: Center(
-                      child: Text(
-                    AppLocalizations.of(context)!.friendCollectionTitle,
-                    style: Theme.of(context).textTheme.displayLarge,
-                    textAlign: TextAlign.center,
-                  )),
-                  onTap: () {
-                    Navigator.pushNamed(context, friendsCollectionMe);
-                  });
-            }
-          }),
+              )
+            );
+          } else {
+            return GestureDetector(
+              child: Center(
+                child: Text(
+                  AppLocalizations.of(context)!.friendCollectionTitle,
+                  style: Theme.of(context).textTheme.displayLarge,
+                  textAlign: TextAlign.center,
+                )
+              ),
+              onTap: () {
+                Navigator.pushNamed(context, friendsCollectionMe);
+              }
+            );
+          }
+        }
+      ),
     );
   }
 }
