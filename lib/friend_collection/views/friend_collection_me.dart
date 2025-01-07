@@ -50,18 +50,7 @@ class FriendCollectionMe extends StatelessWidget {
                               border: Border.all(color: Colors.black)
                             ),                      
                           child:
-                            FutureBuilder(
-                              future: AnimalBackbone().portrait(),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  return Image(image: AssetImage(snapshot.data!));
-                                } else {
-                                  return Image(
-                                    image: AssetImage(Froggo.portrait),
-                                  );
-                                }
-                              }
-                            ),
+                            AnimalBackbone().portrait(),
                           ),
                           FormBuilder(key: _myInformationformKey, // GlobalKey<FormState>
                             autovalidateMode: AutovalidateMode.onUserInteraction,
