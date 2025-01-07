@@ -49,8 +49,7 @@ class ResourcesState extends State<Resources> {
         });
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                  content: Text('No connection to database'))
+              const SnackBar(content: Text('Keine Verbindung zur Datenbank möglich'))
           );
         }
       }
@@ -100,74 +99,124 @@ class ResourcesState extends State<Resources> {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.resourcesTitle),
       ),
-      body: Padding(
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            DropdownButton<City>(
-              hint: Text(AppLocalizations.of(context)!.selectCity),
-              value: selectedCity,
-              items: cities.map((City city) {
-                return DropdownMenuItem<City>(
-                  value: city,
-                  child: Text(city.name),
-                );
-              }).toList(),
-              onChanged: (City? value) {
+            Autocomplete<City>(
+              displayStringForOption: (City city) => city.name,
+              optionsBuilder: (TextEditingValue textEditingValue) {
+                if (textEditingValue.text == '') {
+                  return const Iterable<City>.empty();
+                }
+                return cities.where((City city) {
+                  return city.name
+                      .toLowerCase()
+                      .startsWith(textEditingValue.text.toLowerCase());
+                });
+              },
+              onSelected: (City city) {
                 setState(() {
-                  selectedCity = value;
+                  selectedCity = city;
                 });
                 _updateResources();
               },
+              fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+                if (selectedCity != null && textEditingController.text.isEmpty) {
+                  textEditingController.text = selectedCity!.name;
+                }
+
+                return TextField(
+                  controller: textEditingController,
+                  focusNode: focusNode,
+                  decoration: InputDecoration(
+                    hintText: AppLocalizations.of(context)!.selectCity,
+                    prefixIcon: const Icon(Icons.search),
+                    border: const OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Theme.of(context).colorScheme.surface,
+                    suffixIcon: textEditingController.text.isNotEmpty
+                        ? IconButton(
+                      icon: const Icon(Icons.clear),
+                      onPressed: () {
+                        textEditingController.clear();
+                        setState(() {
+                          selectedCity = null;
+                        });
+                      },
+                    )
+                        : null,
+                  ),
+                );
+              },
+              optionsViewBuilder: (context, onSelected, options) {
+                return Align(
+                  alignment: Alignment.topLeft,
+                  child: Material(
+                    elevation: 4.0,
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxHeight: 200, maxWidth: 300),
+                      child: ListView.builder(
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        itemCount: options.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final City option = options.elementAt(index);
+                          return InkWell(
+                            onTap: () {
+                              onSelected(option);
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(option.name),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
-            const SizedBox(height: 20),
             if (selectedCity != null) ...[
+              const SizedBox(height: 20),
               Text(
                 AppLocalizations.of(context)!.emergencyServices,
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .titleLarge,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 10),
               Expanded(
                 child: ListView(
                   children: [
-                    // Emergency Ambulances
-                    ...ambulances.map((ambulance) =>
-                        Card(
-                          child: ListTile(
-                            leading: const Icon(Icons.local_hospital),
-                            title: Text(ambulance.address),
-                            subtitle: Text(ambulance.phoneNumber),
-                          ),
-                        )),
+                    ...ambulances.map((ambulance) => Card(
+                      child: ListTile(
+                        leading: const Icon(Icons.local_hospital),
+                        title: Text(ambulance.address),
+                        subtitle: Text(ambulance.phoneNumber),
+                      ),
+                    )),
                     const SizedBox(height: 20),
                     Text(
                       AppLocalizations.of(context)!.universities,
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .titleLarge,
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
-                    // Universities and their counseling services
                     ...universities.map((university) {
                       final uniCounselingServices = counselingServices
-                          .where((cs) =>
-                      cs.universityId == university.universityId)
+                          .where((cs) => cs.universityId == university.universityId)
                           .toList();
 
                       return ExpansionTile(
                         title: Text(university.name),
-                        children: uniCounselingServices.map((cs) =>
-                            Card(
-                              child: ListTile(
-                                leading: const Icon(Icons.psychology),
-                                title: Text(cs.address),
-                                subtitle: Text(cs.phoneNumber),
-                              ),
-                            )).toList(),
+                        children: uniCounselingServices.map((cs) => Card(
+                          child: ListTile(
+                            leading: const Icon(Icons.psychology),
+                            title: Text(cs.address),
+                            subtitle: Text(cs.phoneNumber),
+                          ),
+                        )).toList(),
                       );
                     }),
                   ],

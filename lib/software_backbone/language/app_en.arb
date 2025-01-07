@@ -100,7 +100,7 @@
   "@resourcesTitle": {
     "description": "Title of the application's resources page"
   },
-  "selectCity": "Select a city",
+  "selectCity": "Search for a city",
   "@selectCity": {
     "description": "Prompt to select a city from the dropdown"
   },
