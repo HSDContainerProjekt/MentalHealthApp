@@ -11,22 +11,23 @@ import 'package:sqflite/sqflite.dart';
 
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
-  var friend = await FriendDB().fetchByID(await ownIdDB().getOwnIdAsInt());
-  log(friend.toString());
+  await DatabaseOperation().clearAllDatabases();
 }
 
-Future<Friend> getOwnFriendDataAndTryToPUpdate() async {
-  int ownId = await ownIdDB().getOwnIdAsInt();
-  Friend ownFriend = await FriendDB().fetchByID(ownId);
-  if (await OnlineDatabase().connected()) {
-    OnlineDatabase().updateFriend(ownFriend);
+class DatabaseOperation {
+  Future<Friend> getOwnFriendDataAndTryToUpdate() async {
+    int ownId = await ownIdDB().getOwnIdAsInt();
+    Friend ownFriend = await FriendDB().fetchByID(ownId);
+    if (await OnlineDatabase().connected()) {
+      OnlineDatabase().updateFriend(ownFriend);
+    }
+    return ownFriend;
   }
-  return ownFriend;
-}
 
-Future<void> clearAllDatabases() async {
-  try {
-    await OnlineDatabase().clearAllOnlineDatabases();
-    await DatabaseFriendCollection().delete();
-  } catch (e) {}
+  Future<void> clearAllDatabases() async {
+    try {
+      await OnlineDatabase().clearAllOnlineDatabases();
+      await DatabaseFriendCollection().delete();
+    } catch (e) {}
+  }
 }

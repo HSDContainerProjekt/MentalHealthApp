@@ -6,9 +6,9 @@ class Friend {
   final String? zodiacSign;
   final String? animal;
 
-  final String? hairColor;
-  final String? eyecolor;
-  final String? favoriteColor;
+  final int? hairColor;
+  final int? eyecolor;
+  final int? favoriteColor;
 
   final String? favoriteSong;
   final String? favoriteFood;
@@ -36,15 +36,15 @@ class Friend {
   });
 
   factory Friend.fromSqfliteDatabase(Map<String, dynamic> map) => Friend(
-        friendID: map['id']?.toInt() ?? 0,
+        friendID: map['id'] ?? 0,
         name: map['name'] ?? '',
         nickname: map['nickname'] ?? '',
         birthday: map['birthday'] ?? '',
         zodiacSign: map['zodiacSign'] ?? '',
         animal: map['animal'] ?? '',
-        hairColor: map['hairColor'] ?? '',
-        eyecolor: map['eyecolor'] ?? '',
-        favoriteColor: map['favoriteColor'] ?? '',
+        hairColor: int.parse(map['hairColor']) ?? 0,
+        eyecolor: int.parse(map['eyecolor']) ?? 0,
+        favoriteColor: int.parse(map['favoriteColor']) ?? 0,
         favoriteSong: map['favoriteSong'] ?? '',
         favoriteFood: map['favoriteFood'] ?? '',
         favoriteBook: map['favoriteBook'] ?? '',
@@ -53,7 +53,8 @@ class Friend {
         favoriteNumber: map['favoriteNumber']?.toInt() ?? 0
       );
 
+  @override
   String toString() {
-    return 'Friend{id: $friendID, name: $name, birthday: $birthday, animal: $animal}';
+    return 'Friend{id: $friendID, name: $name, nickname: $name, birthday: $birthday, zodiacSign: $zodiacSign, animal: $animal, hairColor: $hairColor, eyecolor: $eyecolor, favoriteColor: $favoriteColor}';
   }
 }
