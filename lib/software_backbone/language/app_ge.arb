@@ -40,5 +40,9 @@
   "hairColor": "Haarfarbe",
   "eyeColor": "Augenfarbe",
   "favoriteColor": "Lieblingsfarbe",
+  "myName": "Mein Name",
+  "myNickName": "Mein Sptzname",
+  "myBirthday": "Mein Geburtsdatum",
+  "myZodiacSign": "Mein Sternzeichen",
   "select":"Auswählen"
 }

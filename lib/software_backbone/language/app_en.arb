@@ -149,5 +149,22 @@
   "@favoriteColor":{
     "description": "the title of the widget used to display the users favorite color"
   },
+  "myName":"My Name:",
+  "@myName":{
+    "description": "the title of the input field used to display the users name"
+  },
+  "myNickName":"My Nickname:",
+  "@myNickName":{
+    "description": "the title of the input field used to display the users nickname"
+  },
+  "myBirthday":"My Birthday:",
+  "@myBirthday":{
+    "description": "the title of the input field used to display the users name"
+  },
+  "myZodiacSign":"My Zodiacsign:",
+  "@myZodiacSign":{
+    "description": "the title of the input field used to display the users zodiac sign"
+  },
+
   "select":"select"
 }
