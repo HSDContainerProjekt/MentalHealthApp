@@ -13,10 +13,8 @@ import 'package:mysql_client/mysql_client.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  var list = await OnlineDatabase().getFriends();
-  for (var element in list) {
-    log(element.toString());
-  }
+  var result = await OnlineDatabase().connected();
+  log(result.toString());
 }
 
 class OnlineDatabase {
@@ -201,7 +199,7 @@ class OnlineDatabase {
           databaseName: "friendsonlinedatabase");
       await DBConnection.connect();
       await DBConnection.execute(
-          "UPDATE friends SET name = :name, nickname = :nickname,birthday = :birthday, zodiacSign = :zodiacSign, animal = :animal, hairColor = :haircolor, eyecolor = :eyecolor, favoriteColor = :favoriteColor, favoriteSong = :favoriteSong, favoriteFood = :favoriteFood, favoriteBook = :favoriteBook, favoriteFilm = :favoriteFilm, favoriteAnimal = :favoriteAnimal, favoriteNumber = :favoriteNumber WHERE friendID = :friendID",
+          "UPDATE friends SET name = :name, nickname = :nickname,birthday = :birthday, zodiacSign = :zodiacSign, animal = :animal, hairColor = :hairColor, eyecolor = :eyecolor, favoriteColor = :favoriteColor, favoriteSong = :favoriteSong, favoriteFood = :favoriteFood, favoriteBook = :favoriteBook, favoriteFilm = :favoriteFilm, favoriteAnimal = :favoriteAnimal, favoriteNumber = :favoriteNumber WHERE friendID = :friendID",
           {
             "name": friend.name,
             "nickname": friend.nickname,
@@ -216,10 +214,12 @@ class OnlineDatabase {
             "favoriteBook": friend.favoriteBook,
             "favoriteFilm": friend.favoriteBook,
             "favoriteAnimal": friend.favoriteAnimal,
-            "favoriteNumber": friend,
+            "favoriteNumber": friend.favoriteNumber,
             "friendID": friend.friendID
           });
-    } catch (e) {}
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
   Future<void> updateAnimal(int id, String animal) async {
@@ -267,6 +267,8 @@ class OnlineDatabase {
       await DBConnection.execute("DELETE FROM friendship");
       await DBConnection.execute("DELETE FROM friends");
       DBConnection.close();
-    } catch (e) {}
+    } catch (e) {
+      log(e.toString());
+    }
   }
 }

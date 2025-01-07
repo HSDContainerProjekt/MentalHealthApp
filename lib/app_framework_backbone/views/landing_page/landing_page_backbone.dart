@@ -61,17 +61,7 @@ class LandingPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(AppLocalizations.of(context)!.appTitle),
-                    FutureBuilder(
-                        future: AnimalBackbone().bodyshot(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return Image(image: AssetImage(snapshot.data!));
-                          } else {
-                            return Image(
-                              image: AssetImage(Froggo.bodyshot),
-                            );
-                          }
-                        }), //Bild des Charakters der Person, default = Appmaskottchen
+                    AnimalBackbone().bodyshot(), //Bild des Charakters der Person, default = Appmaskottchen
                     Text(
                         "Name der Person") //Name der Person aus Datenbank ziehen, default = leer
                   ],
