@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class FormfieldPersonalinformationWidget extends StatefulWidget {
   final String textFieldTitle;
   final String textFieldValue; 
-  const FormfieldPersonalinformationWidget(this.textFieldTitle, this.textFieldValue, {super.key});
+  final String textFieldHint;
+  const FormfieldPersonalinformationWidget(this.textFieldTitle, this.textFieldValue, this.textFieldHint, {super.key});
 
   @override
   State<FormfieldPersonalinformationWidget> createState() => _FormfieldPersonalinformationWidgetState();
@@ -17,7 +18,9 @@ class _FormfieldPersonalinformationWidgetState extends State<FormfieldPersonalin
       autocorrect: false,
       decoration: InputDecoration(
         labelText: widget.textFieldTitle,
+        constraints: BoxConstraints(maxWidth: 200.0)
       ),
+      
     );
   }
 }
