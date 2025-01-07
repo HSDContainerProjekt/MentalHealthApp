@@ -45,3 +45,4 @@ class FriendCollectionLandingPage extends StatelessWidget {
     );
   }
 }
+

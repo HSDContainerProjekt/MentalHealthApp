@@ -30,9 +30,9 @@ class FriendDB {
     )''');
   }
 
-  Future<int> create(int id) async {
+  Future<int> create(int id, String animal) async {
     final database = await DatabaseFriendCollection().database;
-    return await database.insert(tableName, {'id': id},
+    return await database.insert(tableName, {'id': id, 'animal':animal},
         conflictAlgorithm: ConflictAlgorithm.rollback);
   }
 
@@ -82,7 +82,7 @@ class FriendDB {
             'CREATE TABLE friends (id INTEGER NOT NULL PRIMARY KEY,name TEXT,birthday TEXT)');
         for (var element in friendlist) {
           txn.insert(tableName, {
-            if (element.friendID != null) 'id': element.friendID,
+            'id': element.friendID,
             if (element.name != null) 'name': element.name,
             if (element.birthday != null) 'birthday': element.birthday,
           });

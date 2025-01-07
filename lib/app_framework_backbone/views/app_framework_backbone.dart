@@ -28,14 +28,7 @@ class _AppFrameworkState extends State<AppFramework> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onPanUpdate: (details) {
-            if (details.delta.dx > 8) {
-              navigatorKey.currentState!.pushNamed(tableOfContents);
-            }
-          },
-          child: Navigator(
+      body: Navigator(
               initialRoute: landingPage,
               key: navigatorKey,
               onGenerateRoute: (RouteSettings settings) {
@@ -68,7 +61,7 @@ class _AppFrameworkState extends State<AppFramework> {
                 }
                 return MaterialPageRoute<void>(
                     builder: builder, settings: settings);
-              })), //aktuelle Seite als body
+              }), //aktuelle Seite als body
       //routeOnTap(selectedPage, context),
       bottomNavigationBar: NavBar(
         selectedPage: selectedPage,
@@ -87,12 +80,14 @@ routeOnTap(index) {
     case 0:
       return landingPage;
     case 1:
-      return routineTracking;
+      return tableOfContents;
     case 2:
-      return mainPage;
+      return routineTracking;
     case 3:
-      return friendsCollection;
+      return mainPage;
     case 4:
+      return friendsCollection;
+    case 5:
       return resources;
   }
 }
