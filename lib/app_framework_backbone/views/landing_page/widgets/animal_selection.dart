@@ -19,7 +19,7 @@ class animalSelection extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 SelectableAvatar(
-                  url: "lib/assets/images/froggo_bodyshot.png",
+                  url: "lib/assets/images/froggo_portrait.png",
                   animal: "froggo",
                 ),
                 SelectableAvatar(

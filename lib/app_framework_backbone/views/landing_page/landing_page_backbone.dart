@@ -62,13 +62,13 @@ class LandingPage extends StatelessWidget {
                   children: [
                     Text(AppLocalizations.of(context)!.appTitle),
                     FutureBuilder(
-                        future: AnimalBackbone().portrait(),
+                        future: AnimalBackbone().bodyshot(),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             return Image(image: AssetImage(snapshot.data!));
                           } else {
                             return Image(
-                              image: AssetImage(Froggo.portrait),
+                              image: AssetImage(Froggo.bodyshot),
                             );
                           }
                         }), //Bild des Charakters der Person, default = Appmaskottchen
