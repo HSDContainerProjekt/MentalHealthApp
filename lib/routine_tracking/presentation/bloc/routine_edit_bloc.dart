@@ -57,12 +57,15 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
     }
   }
 
-  void _changeImageID(
+  Future<void> _changeImageID(
     RoutineEditChangeImageID event,
     Emitter<RoutineEditState> emit,
-  ) {
-    if (state is RoutineEditEditing) {
-      emit((state as RoutineEditEditing).copyWith(imageID: event.imageID));
+  ) async {
+    int? newImageID = await event.imageID;
+    if (newImageID != null) {
+      if (state is RoutineEditEditing) {
+        emit((state as RoutineEditEditing).copyWith(imageID: newImageID));
+      }
     }
   }
 

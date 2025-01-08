@@ -1,11 +1,8 @@
 // Import the test package and Counter class
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
-import 'package:mental_health_app/routine_tracking/data/image_dao.dart';
-import 'package:mental_health_app/routine_tracking/data/routine_dao.dart';
-import 'package:mental_health_app/routine_tracking/data/data_model/picture.dart';
-import 'package:mental_health_app/routine_tracking/data/data_model/routine.dart';
-import 'package:mental_health_app/routine_tracking/data/data_model/time_interval.dart';
+import 'package:mental_health_app/app_framework_backbone/views/popup/image_selector/image_dao.dart';
+import 'package:mental_health_app/app_framework_backbone/views/popup/image_selector/picture.dart';
 import 'package:test/test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:sqflite/sqflite.dart';

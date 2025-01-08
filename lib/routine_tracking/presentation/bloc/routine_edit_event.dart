@@ -27,7 +27,7 @@ class RoutineEditChangeDescription extends RoutineEditEvent {
 }
 
 class RoutineEditChangeImageID extends RoutineEditEvent {
-  final int imageID;
+  final Future<int?> imageID;
 
   RoutineEditChangeImageID(this.imageID);
 }

@@ -45,6 +45,7 @@ dependencies:
   flutter_bloc: ^8.1.6
   equatable: ^2.0.3
   sqflite_common_ffi: any
+  image_picker: ^0.8.3
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +67,7 @@ flutter:
   generate: true
   assets:
     - lib/assets/images/
+    - lib/assets/images/appSelectableImages/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -82,4 +84,5 @@ flutter:
     - family: Italianno
       fonts:
         - asset: lib/fonts/Italianno-Regular.ttf
+
 
