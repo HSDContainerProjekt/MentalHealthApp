@@ -42,16 +42,37 @@ class RoutineEditView extends StatelessWidget {
           );
         }
         if (state is RoutineEditEditing) {
-          return Center(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  _TitleEditField(),
-                  _TitleEditImage(),
-                  _TitleEditDescription(),
-                ],
+          return Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      _TitleEditField(),
+                      _TitleEditImage(),
+                      _TitleEditDescription(),
+                    ],
+                  ),
+                ),
               ),
-            ),
+              Row(
+                children: [
+                  Spacer(),
+                  TextButton(
+                      onPressed: () => context
+                          .read<RoutineEditBloc>()
+                          .add(RoutineEditCancel()),
+                      child: Text("Beenden")),
+                  Spacer(),
+                  TextButton(
+                      onPressed: () => context
+                          .read<RoutineEditBloc>()
+                          .add(RoutineEditSave()),
+                      child: Text("Speichern")),
+                  Spacer(),
+                ],
+              )
+            ],
           );
         }
         throw Exception("Error");
