@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
+import 'package:mental_health_app/friend_collection/database/account_init_DB.dart';
 import 'package:mental_health_app/friend_collection/database/database_friend_collection.dart';
 import 'package:mental_health_app/friend_collection/database/friend_db.dart';
 import 'package:mental_health_app/friend_collection/database/online_database.dart';

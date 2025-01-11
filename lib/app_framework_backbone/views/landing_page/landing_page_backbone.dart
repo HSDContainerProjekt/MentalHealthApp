@@ -60,10 +60,12 @@ class LandingPage extends StatelessWidget {
                     child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(AppLocalizations.of(context)!.appTitle),
+                    Text(AppLocalizations.of(context)!
+                        .appTitle), //Bild des Charakters der Person, default = Appmaskottchen
                     FutureBuilder(
                         future: AnimalBackbone().bodyshot(),
                         builder: (context, snapshot) {
+                          var result;
                           if (snapshot.hasData) {
                             return Image(image: AssetImage(snapshot.data!));
                           } else {
@@ -83,14 +85,3 @@ class LandingPage extends StatelessWidget {
         });
   }
 }
-
-
-/**
- * 
- *         GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: (){
-            Navigator.pushNamed(context, appFrameworkPage);
-          },
-        ),
- */
