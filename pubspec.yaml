@@ -61,7 +61,10 @@ flutter:
   generate: true
   assets:
     - lib/assets/images/bookcover.jpg
+    - lib/assets/images/loading.png
+    - lib/assets/images/nodata.png
     - lib/assets/images/character_placeholder1.jpeg
+    - lib/assets/images/maxie_bodyshot.png
     - lib/assets/images/froggo_bodyshot.png
     - lib/assets/images/froggo_portrait.png
   

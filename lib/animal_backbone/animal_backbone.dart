@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:mental_health_app/friend_collection/database/account_init_DB.dart';
 import 'package:mental_health_app/friend_collection/database/friend_db.dart';
@@ -16,11 +18,10 @@ class AnimalBackbone {
     return animalType;
   }
 
-  Future<String> futureBodyshot() async {
+  Future<String> bodyshot() async {
     switch (await animalType()) {
       case "froggo":
         return Froggo.bodyshot;
-        break;
       case "maxie":
         return Maxie.bodyshot;
       default:
@@ -28,45 +29,14 @@ class AnimalBackbone {
     }
   }
 
-  Future<String> futurePortrait() async {
+  Future<String> portrait() async {
     switch (await animalType()) {
       case "froggo":
         return Froggo.portrait;
-        break;
       case "maxie":
         return Maxie.portrait;
       default:
         return Froggo.portrait;
     }
-  }
-
-  Widget bodyshot() {
-    return FutureBuilder(
-      future: AnimalBackbone().futureBodyshot(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Image(image: AssetImage(snapshot.data!));
-        } else {
-          return Image(
-            image: AssetImage(Froggo.bodyshot),
-          );
-        }
-      }
-    );
-  }
-
-  Widget portrait() {
-    return FutureBuilder(
-      future: AnimalBackbone().futurePortrait(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Image(image: AssetImage(snapshot.data!));
-        } else {
-          return Image(
-            image: AssetImage(Froggo.portrait),
-          );
-        }
-      }
-    );
   }
 }
