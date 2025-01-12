@@ -19,6 +19,10 @@ class RoutineRepository {
     return routineDAO.nextRoutines(limit);
   }
 
+  Future<List<Routine>> allRoutines() {
+    return routineDAO.allRoutines();
+  }
+
   Future<List<TimeInterval>> timeIntervalBy(Routine routine) {
     return routineDAO.timeIntervalsBy(routine.id!);
   }

@@ -15,7 +15,7 @@ class Picture extends Equatable {
   final String altText;
 
   @override
-  List<Object> get props => [id!, data, altText];
+  List<Object> get props => [data, altText];
 
   factory Picture.fromMap(Map<String, Object?> data) {
     return Picture(

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mental_health_app/app_framework_backbone/views/popup/image_selector/image_repository.dart';
-import 'package:mental_health_app/routine_tracking/presentation/bloc/image_bloc.dart';
+import 'package:mental_health_app/app_framework_backbone/views/custom_image/custom_image_widget.dart';
+import 'package:mental_health_app/app_framework_backbone/views/custom_image/image_repository.dart';
+import 'package:mental_health_app/app_framework_backbone/views/custom_image/bloc/image_bloc.dart';
 import 'package:mental_health_app/routine_tracking/presentation/bloc/routine_nav_bloc.dart';
 
 import '../../app_framework_backbone/views/popup/image_selector/image_selector.dart';
@@ -28,11 +29,9 @@ class RoutineEditView extends StatelessWidget {
       providers: [
         BlocProvider(
             create: (_) => RoutineEditBloc(
+                navBloc: context.read<RoutineNavBloc>(),
                 routineRepository: context.read<RoutineRepository>())
               ..add(initEvent!)),
-        BlocProvider(
-            create: (_) =>
-                ImageBloc(imageRepository: context.read<ImageRepository>()))
       ],
       child: BlocBuilder<RoutineEditBloc, RoutineEditState>(
           builder: (context, state) {
@@ -49,8 +48,8 @@ class RoutineEditView extends StatelessWidget {
                   child: Column(
                     children: [
                       _TitleEditField(),
-                      _TitleEditImage(),
-                      _TitleEditDescription(),
+                      _ImageEditField(),
+                      _DescriptionEditField(),
                     ],
                   ),
                 ),
@@ -86,75 +85,82 @@ class _TitleEditField extends StatelessWidget {
   Widget build(BuildContext context) {
     final RoutineEditEditing state =
         context.watch<RoutineEditBloc>().state as RoutineEditEditing;
-    return TextFormField(
-      initialValue: state.routine.title,
-      decoration: InputDecoration(
-        labelText: "Routinen Titel",
-        hintText: "Bitte einen Titel eingaben",
-      ),
-      maxLength: 20,
-      maxLines: 1,
-      inputFormatters: [
-        LengthLimitingTextInputFormatter(20),
+    return Column(
+      children: [
+        TextFormField(
+          initialValue: state.routine.title,
+          decoration: InputDecoration(
+            labelText: "Routinen Titel",
+            hintText: "Bitte einen Titel eingaben",
+          ),
+          maxLength: 20,
+          maxLines: 1,
+          inputFormatters: [
+            LengthLimitingTextInputFormatter(20),
+          ],
+          onChanged: (value) {
+            context.read<RoutineEditBloc>().add(RoutineEditChangeTitle(value));
+          },
+        ),
+        if (state.showTitleWarning) Text("Bitte einen Titel eingeben")
       ],
-      onChanged: (value) {
-        context.read<RoutineEditBloc>().add(RoutineEditChangeTitle(value));
-      },
     );
   }
 }
 
-class _TitleEditImage extends StatelessWidget {
+class _ImageEditField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final RoutineEditBloc bloc = context.read<RoutineEditBloc>();
-    final ImageBloc imageBloc = context.read<ImageBloc>();
-    final RoutineEditEditing state = bloc.state as RoutineEditEditing;
-    imageBloc.add(ImageEventLoadImage(id: state.routine.imageID));
-    return GestureDetector(
-      onTap: () {
-        Future<int?> newImageID = showDialog<int>(
-          context: context,
-          builder: (context) =>
-              ImageSelector(lastSelectedID: state.routine.imageID),
-        );
-        bloc.add(RoutineEditChangeImageID(newImageID));
+    return BlocBuilder<RoutineEditBloc, RoutineEditState>(
+      builder: (context, state) {
+        if (state is RoutineEditEditing) {
+          return GestureDetector(
+              onTap: () {
+                Future<int?> newImageID = showDialog<int>(
+                  context: context,
+                  builder: (context) =>
+                      ImageSelector(lastSelectedID: state.routine.imageID),
+                );
+                context
+                    .read<RoutineEditBloc>()
+                    .add(RoutineEditChangeImageID(newImageID));
+              },
+              //child: Text("${state.routine.imageID}"));
+              child: CustomImageWidget(imageID: state.routine.imageID));
+        }
+        return Text("Something went wrong");
       },
-      child: BlocBuilder<ImageBloc, ImageState>(
-        builder: (context, state) {
-          if (state is ImageLoading) return CircularProgressIndicator();
-          if (state is ImageLoaded) return state.image;
-          return Text("Something went wrong");
-        },
-      ),
     );
   }
 }
 
-//fit: BoxFit.cover,
-// Fixes border issues
-//width: 110.0,
-//height: 110.0,
-
-class _TitleEditDescription extends StatelessWidget {
+class _DescriptionEditField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final RoutineEditEditing state =
         context.watch<RoutineEditBloc>().state as RoutineEditEditing;
-    return TextFormField(
-      initialValue: state.routine.title,
-      decoration: InputDecoration(
-        labelText: "Routinen Beschreibung",
-        hintText: "Beschreibung",
-      ),
-      maxLength: 300,
-      maxLines: 7,
-      inputFormatters: [
-        LengthLimitingTextInputFormatter(300),
+    return Column(
+      children: [
+        TextFormField(
+          initialValue: state.routine.description,
+          decoration: InputDecoration(
+            labelText: "Routinen Beschreibung",
+            hintText: "Beschreibung",
+          ),
+          maxLength: 300,
+          maxLines: 7,
+          inputFormatters: [
+            LengthLimitingTextInputFormatter(300),
+          ],
+          onChanged: (value) {
+            context
+                .read<RoutineEditBloc>()
+                .add(RoutineEditChangeDescription(value));
+          },
+        ),
+        if (state.showDescriptionWarning)
+          Text("Bitte einen Beschreibung eingeben")
       ],
-      onChanged: (value) {
-        context.read<RoutineEditBloc>().add(RoutineEditChangeTitle(value));
-      },
     );
   }
 }

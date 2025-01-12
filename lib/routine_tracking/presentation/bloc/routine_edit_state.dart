@@ -1,27 +1,25 @@
 part of 'routine_edit_bloc.dart';
 
 @immutable
-sealed class RoutineEditState extends Equatable {}
-
-class RoutineEditInitial extends RoutineEditState {
+sealed class RoutineEditState extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
+class RoutineEditInitial extends RoutineEditState {}
+
 class RoutineEditEditing extends RoutineEditState {
+  final bool showTitleWarning;
+  final bool showDescriptionWarning;
+
   final Routine routine;
 
-  RoutineEditEditing({required this.routine});
+  RoutineEditEditing(
+      {required this.routine,
+      this.showDescriptionWarning = false,
+      this.showTitleWarning = false});
 
   @override
-  List<Object?> get props => [routine];
-
-  RoutineEditEditing copyWith({
-    String? title,
-    String? description,
-    int? imageID,
-  }) {
-    return RoutineEditEditing(
-        routine: routine.copyWith(title, description, imageID));
-  }
+  List<Object?> get props =>
+      [routine, showTitleWarning, showDescriptionWarning];
 }

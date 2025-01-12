@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import 'picture.dart';
@@ -14,12 +17,16 @@ class ImageRepository {
 
   ImageRepository({required this.imageDAO});
 
-  Future<Image> imageBy(int imageID) async {
+  Future<Picture> imageBy(int imageID) async {
     if (imageID > 0) {
-      return Image.memory((await imageDAO.imageBy(imageID)).data);
+      return imageDAO.imageBy(imageID);
     } else {
       if (appImages.containsKey(imageID)) {
-        return Image.asset(appImages[imageID]!);
+        return Picture(
+            data: (await rootBundle.load(appImages[imageID]!))
+                .buffer
+                .asUint8List(),
+            altText: "");
       } else {
         throw Exception("Image not found");
       }

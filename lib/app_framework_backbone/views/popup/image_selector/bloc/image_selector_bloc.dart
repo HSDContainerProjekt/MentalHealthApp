@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../image_repository.dart';
-import '../picture.dart';
+import '../../../custom_image/image_repository.dart';
+import '../../../custom_image/picture.dart';
 
 part 'image_selector_event.dart';
 

@@ -9,6 +9,8 @@ import '../../app_framework_backbone/database_dao.dart';
 abstract class RoutineDAO implements DatabaseDAO {
   Future<List<Routine>> nextRoutines(int limit);
 
+  Future<List<Routine>> allRoutines();
+
   Future<Routine> routineBy(int routineId);
 
   Future<int> upsert(Routine routine);
@@ -37,7 +39,7 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
         imageID INTEGER
         )
         ''');
-
+    print("Create New");
     await db.execute('''
     CREATE TABLE timeIntervals(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -105,5 +107,17 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
   Future<int> upsertTimeInterval(TimeInterval timeInterval) {
     return database.insert("timeIntervals", timeInterval.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  @override
+  Future<List<Routine>> allRoutines() async {
+    final List<Map<String, Object?>> queryResult =
+        await database.query("routines");
+    List<Routine> result = [];
+    for (Map<String, Object?> x in queryResult) {
+      Routine newRoutine = Routine.fromMap(x);
+      result.add(newRoutine);
+    }
+    return result;
   }
 }

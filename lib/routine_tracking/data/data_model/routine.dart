@@ -8,11 +8,11 @@ class Routine extends Equatable {
     required this.imageID,
   });
 
-  Routine copyWith(
+  Routine copyWith({
     String? title,
     String? description,
     int? imageID,
-  ) {
+  }) {
     return Routine(
       id: id,
       title: title ?? this.title,
