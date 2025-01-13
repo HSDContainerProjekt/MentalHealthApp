@@ -11,19 +11,16 @@ class CustomImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ImageBloc bloc = ImageBloc(
-        imageRepository: context.read<ImageRepository>(), imageID: imageID);
-    return BlocProvider.value(
-      value: bloc,
-      child: BlocBuilder<ImageBloc, ImageState>(
-        builder: (context, state) {
-          if (state is ImageLoading) return CircularProgressIndicator();
-          if (state is ImageLoaded) {
-            return Image.memory(state.picture.data);
-          }
-          return Text("Something went wrong");
-        },
-      ),
+    return BlocBuilder<ImageBloc, ImageState>(
+      bloc: ImageBloc(
+          imageRepository: context.read<ImageRepository>(), imageID: imageID),
+      builder: (context, state) {
+        if (state is ImageLoading) return CircularProgressIndicator();
+        if (state is ImageLoaded) {
+          return Image.memory(state.picture.data);
+        }
+        return Text("Something went wrong");
+      },
     );
   }
 }
