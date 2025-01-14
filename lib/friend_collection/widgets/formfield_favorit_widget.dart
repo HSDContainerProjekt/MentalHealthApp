@@ -20,7 +20,7 @@ class _FormfieldFavoritWidgetState extends State<FormfieldFavoritWidget> {
         FormBuilderTextField(
           name: widget.textFieldTitle,
           onChanged: (value) => print(value), 
-          keyboardType: TextInputType.phone,
+          keyboardType: TextInputType.text,
           autocorrect: false,    
           initialValue: widget.textFieldValue,        
           decoration: InputDecoration(

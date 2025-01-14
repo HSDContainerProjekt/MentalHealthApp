@@ -22,7 +22,7 @@ class _FormfieldPersonalinformationWidgetState extends State<FormfieldPersonalin
           FormBuilderTextField(
             name: widget.textFieldTitle,
             onChanged: (value) => print(value), 
-            keyboardType: TextInputType.phone,
+            keyboardType: TextInputType.text,
             autocorrect: false,    
             initialValue: widget.textFieldValue,        
             decoration: InputDecoration(
