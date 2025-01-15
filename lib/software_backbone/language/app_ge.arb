@@ -11,7 +11,7 @@
   "landingPageTitle": "Startseite",
   "tableOfContentTitle": "Inhaltsverzeichnis",
   "friendCollectionTitle": "Freundebuch",
-  "friendCollectionmissingOwnId":"Zum erstmaligen Einrichten des Freudebuchs wird eine Internetverbindung benötigt.",
+  "friendCollectionmissingOwnId": "Zum erstmaligen Einrichten des Freudebuchs wird eine Internetverbindung benötigt.",
   "friendCollectionCalenderTitle": "Geburtstage",
   "friendCollectionMeTitle": "Mein Freundebuch",
   "friendCollectionFriendTitle": "Meine Freundinnen Und Freunde",
@@ -28,5 +28,7 @@
   "allRoutines": "Alle deine Routinen",
   "noCurrentRoutines": "Sie haben derzeit keine Routinen zu erledigen.",
   "noRoutines": "Sie haben noch keine Routinen. Klicken Sie hier oder auf das +, um Ihre erste Routine zu erstellen.",
-  "evaluation": "Bewertung"
+  "evaluation": "Bewertung",
+  "save": "Speichern",
+  "cancel": "Abbrechen"
 }

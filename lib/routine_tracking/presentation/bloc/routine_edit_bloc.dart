@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mental_health_app/routine_tracking/domain/routine_repository.dart';
 import 'package:mental_health_app/routine_tracking/presentation/bloc/routine_nav_bloc.dart';
+import 'package:mental_health_app/routine_tracking/presentation/text_input_widget.dart';
 import 'package:path/path.dart';
 import '../../data/data_model/routine.dart';
 
@@ -14,9 +15,9 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
   final RoutineRepository routineRepository;
   final RoutineNavBloc navBloc;
 
+  late String titleError = "";
+  late String descriptionError = "";
   late Routine routine;
-  bool showTitleWarning = false;
-  bool showDescriptionWarning = false;
 
   RoutineEditBloc({required this.navBloc, required this.routineRepository})
       : super(RoutineEditInitial()) {
@@ -29,46 +30,49 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
     on<RoutineEditCancel>(_cancel);
   }
 
+  void emitEditState(Emitter<RoutineEditState> emit) {
+    emit(
+      RoutineEditEditing(
+        imageID: routine.imageID,
+        descriptionInputState:
+            TextInputState(text: routine.description, error: descriptionError),
+        titleInputState: TextInputState(text: routine.title, error: titleError),
+      ),
+    );
+  }
+
   Future<void> _fetch(
     RoutineEditFetch event,
     Emitter<RoutineEditState> emit,
   ) async {
-    print("Fetch");
     routine = await routineRepository.routineBy(event.routineID);
-    emit(RoutineEditEditing(routine: routine));
+    emitEditState(emit);
   }
 
   void _createNew(
     RoutineEditCreateNew event,
     Emitter<RoutineEditState> emit,
   ) {
-    print("CreateNew");
     routine = Routine.empty;
-    emit(RoutineEditEditing(routine: routine));
+    emitEditState(emit);
   }
 
   void _changeTitle(
     RoutineEditChangeTitle event,
     Emitter<RoutineEditState> emit,
   ) {
-    showTitleWarning = false;
     routine = routine.copyWith(title: event.title);
-    emit(RoutineEditEditing(
-        routine: routine,
-        showTitleWarning: showTitleWarning,
-        showDescriptionWarning: showDescriptionWarning));
+    titleError = "";
+    emitEditState(emit);
   }
 
   void _changeDescription(
     RoutineEditChangeDescription event,
     Emitter<RoutineEditState> emit,
   ) {
-    showDescriptionWarning = false;
     routine = routine.copyWith(description: event.description);
-    emit(RoutineEditEditing(
-        routine: routine,
-        showTitleWarning: showTitleWarning,
-        showDescriptionWarning: showDescriptionWarning));
+    descriptionError = "";
+    emitEditState(emit);
   }
 
   Future<void> _changeImageID(
@@ -78,10 +82,7 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
     int? newImageID = await event.imageID;
     if (newImageID != null) {
       routine = routine.copyWith(imageID: newImageID);
-      emit(RoutineEditEditing(
-          routine: routine,
-          showTitleWarning: showTitleWarning,
-          showDescriptionWarning: showDescriptionWarning));
+      emitEditState(emit);
     }
   }
 
@@ -96,16 +97,24 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
     RoutineEditSave event,
     Emitter<RoutineEditState> emit,
   ) async {
-    showTitleWarning = routine.title.trim() == "";
-    showDescriptionWarning = routine.description.trim() == "";
-    if (!showTitleWarning && !showDescriptionWarning) {
+    bool save = true;
+    if (routine.title.trim() == "") {
+      titleError = "Error";
+      save = false;
+    } else {
+      titleError = "";
+    }
+    if (routine.description.trim() == "") {
+      descriptionError = "Error";
+      save = false;
+    } else {
+      descriptionError = "";
+    }
+    if (save) {
       await routineRepository.save(routine);
       navBloc.add(RoutineNavToOverview());
     } else {
-      emit(RoutineEditEditing(
-          routine: routine,
-          showDescriptionWarning: showDescriptionWarning,
-          showTitleWarning: showTitleWarning));
+      emitEditState(emit);
     }
   }
 }

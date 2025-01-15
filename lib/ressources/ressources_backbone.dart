@@ -11,11 +11,14 @@ class Resources extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text(
-          AppLocalizations.of(context)!.resourcesTitle,
-          style: Theme.of(context).textTheme.displayLarge,
+    return Theme(
+      data: resourcesPageThemeData,
+      child: Scaffold(
+        body: Center(
+          child: Text(
+            AppLocalizations.of(context)!.resourcesTitle,
+            style: Theme.of(context).textTheme.displayLarge,
+          ),
         ),
       ),
     );

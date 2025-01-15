@@ -6,38 +6,42 @@ import 'package:mental_health_app/friend_collection/views/friend_collection_land
 import 'package:mental_health_app/friend_collection/views/friend_collection_me.dart';
 import 'package:mental_health_app/software_backbone/routing/routing_constants.dart';
 
+import '../../software_backbone/themes/theme_constraints.dart';
+
 class FriendCollectionScaffoldWidget extends StatelessWidget {
   const FriendCollectionScaffoldWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body:
-      Navigator(onGenerateRoute: (RouteSettings settings) {
-          WidgetBuilder builder;
-          switch (settings.name) {
-            case '/':
-              builder = (BuildContext context) => FriendCollectionLandingPage();
-            case friendsCollection:
-              builder = (BuildContext context) => FriendCollectionLandingPage();
-              break;
-            case friendsCollectionMe:
-              builder = (BuildContext context) => FriendCollectionMe();
-              break;
-            case friendsCollectionBirthdayCalender:
-              builder =
-                  (BuildContext context) => FriendCollectionBirthdayCalender();
-              break;
-            case friendsCollectionFriend:
-              builder = (BuildContext context) => FriendCollectionFriend();
-              break;
-            case friendlist:
-              builder = (BuildContext context) => FriendCollectionFriendlist();
-              break;
-            default:
-              throw Exception('Invalid route: ${settings.name}');
-          }
-          return MaterialPageRoute<void>(builder: builder, settings: settings);
-        }));
+    return Theme(
+      data: friendsPageThemeData,
+      child:
+          Scaffold(body: Navigator(onGenerateRoute: (RouteSettings settings) {
+        WidgetBuilder builder;
+        switch (settings.name) {
+          case '/':
+            builder = (BuildContext context) => FriendCollectionLandingPage();
+          case friendsCollection:
+            builder = (BuildContext context) => FriendCollectionLandingPage();
+            break;
+          case friendsCollectionMe:
+            builder = (BuildContext context) => FriendCollectionMe();
+            break;
+          case friendsCollectionBirthdayCalender:
+            builder =
+                (BuildContext context) => FriendCollectionBirthdayCalender();
+            break;
+          case friendsCollectionFriend:
+            builder = (BuildContext context) => FriendCollectionFriend();
+            break;
+          case friendlist:
+            builder = (BuildContext context) => FriendCollectionFriendlist();
+            break;
+          default:
+            throw Exception('Invalid route: ${settings.name}');
+        }
+        return MaterialPageRoute<void>(builder: builder, settings: settings);
+      })),
+    );
   }
 }

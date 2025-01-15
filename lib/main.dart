@@ -18,6 +18,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = const RoutineObserver();
   final RoutineDAO routineDAO = RoutineDAOSQFLiteImpl();
+  deleteDatabase(join(await getDatabasesPath(), 'routines_db.db'));
   await routineDAO.init();
   final ImageDAO imageDAO = ImageDAOSQFLiteImpl();
   await imageDAO.init();
@@ -63,8 +64,7 @@ class App extends StatelessWidget {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         locale: const Locale('de'),
-        theme: lightMainPageThemeData,
-        darkTheme: darkMainPageThemeData,
+        theme: mainPageThemeData,
       ),
     );
   }

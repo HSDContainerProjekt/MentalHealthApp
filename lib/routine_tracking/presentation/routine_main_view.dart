@@ -7,12 +7,16 @@ import 'package:mental_health_app/routine_tracking/presentation/routine_edit_vie
 import 'package:mental_health_app/routine_tracking/presentation/routine_overview_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../software_backbone/themes/theme_constraints.dart';
+
 class RoutineMainView extends StatelessWidget {
   const RoutineMainView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
+    return Theme(
+      data: routinesPageThemeData,
+      child: BlocProvider(
         create: (_) => RoutineNavBloc(),
         child: Column(
           children: [
@@ -29,12 +33,13 @@ class RoutineMainView extends StatelessWidget {
                 }
                 if (state is RoutineNavEdit) {
                   return RoutineEditView(state: state);
-
                 }
                 throw Exception("Something went wrong. State unknown");
               },
             ))
           ],
-        ));
+        ),
+      ),
+    );
   }
 }

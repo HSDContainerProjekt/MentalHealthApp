@@ -81,7 +81,7 @@
     "description": "Message displayed for Input of friendID"
   },
   "myFriendID": "My friend id:",
-  "@myFriendID":{
+  "@myFriendID": {
     "description": "Text displayed for own Friend id"
   },
   "missingValueError": "Please enter an ID",
@@ -103,5 +103,13 @@
   "evaluation": "Evaluation",
   "@evaluation": {
     "description": "Evaluation"
+  },
+  "save": "Save",
+  "@save": {
+    "description": "Save"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel"
   }
 }

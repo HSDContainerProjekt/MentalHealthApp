@@ -9,17 +9,15 @@ sealed class RoutineEditState extends Equatable {
 class RoutineEditInitial extends RoutineEditState {}
 
 class RoutineEditEditing extends RoutineEditState {
-  final bool showTitleWarning;
-  final bool showDescriptionWarning;
-
-  final Routine routine;
+  final TextInputState titleInputState;
+  final TextInputState descriptionInputState;
+  final int imageID;
 
   RoutineEditEditing(
-      {required this.routine,
-      this.showDescriptionWarning = false,
-      this.showTitleWarning = false});
+      {required this.imageID,
+      required this.titleInputState,
+      required this.descriptionInputState});
 
   @override
-  List<Object?> get props =>
-      [routine, showTitleWarning, showDescriptionWarning];
+  List<Object?> get props => [titleInputState, descriptionInputState, imageID];
 }
