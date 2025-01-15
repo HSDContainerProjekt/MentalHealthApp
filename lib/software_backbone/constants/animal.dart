@@ -8,7 +8,7 @@ class Froggo {
 
 class Maxie {
   static const String bodyshot =
-      "lib/assets/images/character_placeholder1.jpeg";
+      "lib/assets/images/maxie_bodyshot.png";
   static const String portrait =
       "lib/assets/images/character_placeholder1.jpeg";
 }

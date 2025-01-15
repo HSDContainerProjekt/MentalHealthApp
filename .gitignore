@@ -41,3 +41,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Database Details
+/lib/software_backbone/constants/database_connection_details.dart
