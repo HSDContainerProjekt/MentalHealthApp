@@ -47,7 +47,14 @@ class FriendCollectionMe extends StatelessWidget {
                                       decoration: BoxDecoration(
                                           border:
                                               Border.all(color: Colors.black)),
-                                      child: AnimalBackbone().portrait(),
+                                      child: FutureBuilder(future: AnimalBackbone().portrait(), builder:(context, snapshot) {
+                                        if(snapshot.hasData){
+                                          return Image(image: AssetImage(snapshot.data!));
+                                        }
+                                        else {
+                                          return Image(image: AssetImage(Froggo.portrait));
+                                        }
+                                      }),
                                     ),
                                     FormBuilder(
                                       key:
@@ -165,7 +172,14 @@ class FriendCollectionMe extends StatelessWidget {
                                       decoration: BoxDecoration(
                                           border:
                                               Border.all(color: Colors.black)),
-                                      child: AnimalBackbone().portrait(),
+                                      child: FutureBuilder(future: AnimalBackbone().portrait(), builder:(context, snapshot) {
+                                        if(snapshot.hasData){
+                                          return Image(image: AssetImage(snapshot.data!));
+                                        }
+                                        else {
+                                          return Image(image: AssetImage(Froggo.portrait));
+                                        }
+                                      })
                                     ),
                                     FormBuilder(
                                       key:
