@@ -10,7 +10,7 @@ import 'package:mental_health_app/app_framework_backbone/views/landing_page/land
 import 'package:mental_health_app/app_framework_backbone/views/main_page/main_page_backbone.dart';
 import 'package:mental_health_app/navigation/widgets/navigation_bar.dart';
 import 'package:mental_health_app/ressources/ressources_backbone.dart';
-import 'package:mental_health_app/routine_tracking/presentation/routine_tracking_backbone.dart';
+import 'package:mental_health_app/routine_tracking/presentation/routine_main_view.dart';
 import 'package:mental_health_app/software_backbone/routing/routing_constants.dart';
 
 class AppFramework extends StatefulWidget {
@@ -44,7 +44,7 @@ class _AppFrameworkState extends State<AppFramework> {
                     builder = (BuildContext context) => TableOfContent();
                     break;
                   case routineTracking:
-                    builder = (BuildContext context) => RoutineScaffoldWidget();
+                    builder = (BuildContext context) => RoutineMainView();
                     break;
                   case mainPage:
                     builder = (BuildContext context) => HomePage();
