@@ -189,6 +189,10 @@
   "@november":{"description": "the eleventh month of the year"},
   "december":"December",
   "@december":{"description": "the tvelfth month of the year"},
+  "name":"Name",
+  "@name":{"description": "name of the column uesd to display the friends names in the birthday calender"},
+  "date":"Date",
+  "@date":{"description": "name of the column uesd to display the friends birthdates in the birthday calender"},
   "select":"select",
   "@select":{"description": "the word used if you submit a selection"}
 }

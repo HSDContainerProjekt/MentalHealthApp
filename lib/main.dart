@@ -28,6 +28,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomMaterial(
-        theme: lightMainPageThemeData, darkTheme: darkMainPageThemeData);
+      theme: lightMainPageThemeData, darkTheme: darkMainPageThemeData);
   }
 }
