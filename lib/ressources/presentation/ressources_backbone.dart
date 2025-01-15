@@ -10,6 +10,7 @@ import '../model/emergency_ambulance.dart';
 import '../model/university.dart';
 import '../model/counseling_service.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Resources extends StatefulWidget {
   const Resources({super.key});
@@ -97,7 +98,10 @@ class ResourcesState extends State<Resources> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.resourcesTitle),
+        title: Text(
+          AppLocalizations.of(context)!.resourcesTitle,
+          style: GoogleFonts.patrickHand(fontSize: 24),
+        ),
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -132,8 +136,10 @@ class ResourcesState extends State<Resources> {
                 return TextField(
                   controller: textEditingController,
                   focusNode: focusNode,
+                  style: GoogleFonts.patrickHand(fontSize: 16),
                   decoration: InputDecoration(
                     hintText: AppLocalizations.of(context)!.selectCity,
+                    hintStyle: GoogleFonts.patrickHand(fontSize: 16),
                     prefixIcon: const Icon(Icons.search),
                     border: const OutlineInputBorder(),
                     filled: true,
@@ -171,7 +177,10 @@ class ResourcesState extends State<Resources> {
                             },
                             child: Container(
                               padding: const EdgeInsets.all(16.0),
-                              child: Text(option.name),
+                              child: Text(
+                                option.name,
+                                style: GoogleFonts.patrickHand(fontSize: 16),
+                              ),
                             ),
                           );
                         },
@@ -185,7 +194,10 @@ class ResourcesState extends State<Resources> {
               const SizedBox(height: 20),
               Text(
                 AppLocalizations.of(context)!.emergencyServices,
-                style: Theme.of(context).textTheme.titleLarge,
+                style: GoogleFonts.patrickHand(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 10),
               Expanded(
@@ -194,14 +206,23 @@ class ResourcesState extends State<Resources> {
                     ...ambulances.map((ambulance) => Card(
                       child: ListTile(
                         leading: const Icon(Icons.local_hospital),
-                        title: Text(ambulance.address),
-                        subtitle: Text(ambulance.phoneNumber),
+                        title: Text(
+                          ambulance.address,
+                          style: GoogleFonts.patrickHand(fontSize: 16),
+                        ),
+                        subtitle: Text(
+                          ambulance.phoneNumber,
+                          style: GoogleFonts.patrickHand(fontSize: 14),
+                        ),
                       ),
                     )),
                     const SizedBox(height: 20),
                     Text(
                       AppLocalizations.of(context)!.universities,
-                      style: Theme.of(context).textTheme.titleLarge,
+                      style: GoogleFonts.patrickHand(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     ...universities.map((university) {
                       final uniCounselingServices = counselingServices
@@ -209,12 +230,21 @@ class ResourcesState extends State<Resources> {
                           .toList();
 
                       return ExpansionTile(
-                        title: Text(university.name),
+                        title: Text(
+                          university.name,
+                          style: GoogleFonts.patrickHand(fontSize: 16),
+                        ),
                         children: uniCounselingServices.map((cs) => Card(
                           child: ListTile(
                             leading: const Icon(Icons.psychology),
-                            title: Text(cs.address),
-                            subtitle: Text(cs.phoneNumber),
+                            title: Text(
+                              cs.address,
+                              style: GoogleFonts.patrickHand(fontSize: 16),
+                            ),
+                            subtitle: Text(
+                              cs.phoneNumber,
+                              style: GoogleFonts.patrickHand(fontSize: 14),
+                            ),
                           ),
                         )).toList(),
                       );
