@@ -149,5 +149,50 @@
   "@favoriteColor":{
     "description": "the title of the widget used to display the users favorite color"
   },
-  "select":"select"
+  "myName":"My Name:",
+  "@myName":{
+    "description": "the title of the input field used to display the users name"
+  },
+  "myNickName":"My Nickname:",
+  "@myNickName":{
+    "description": "the title of the input field used to display the users nickname"
+  },
+  "myBirthday":"My Birthday:",
+  "@myBirthday":{
+    "description": "the title of the input field used to display the users name"
+  },
+  "myZodiacSign":"My Zodiacsign:",
+  "@myZodiacSign":{
+    "description": "the title of the input field used to display the users zodiac sign"
+  },
+  "january":"January",
+  "@january":{"description": "the first month of the year"},
+  "february":"February",
+  "@february":{"description": "the second month of the year"},
+  "march":"March",
+  "@march":{"description": "the third month of the year"},
+  "april":"April",
+  "@april":{"description": "the fourth month of the year"},
+  "may":"May",
+  "@may":{"description": "the fifth month of the year"},
+  "june":"June",
+  "@june":{"description": "the sixth month of the year"},
+  "july":"July",
+  "@july":{"description": "the seventh month of the year"},
+  "august":"August",
+  "@august":{"description": "the eighth month of the year"},
+  "september":"September",
+  "@september":{"description": "the ninth month of the year"},
+  "october":"October",
+  "@october":{"description": "the tenth month of the year"},
+  "november":"November",
+  "@november":{"description": "the eleventh month of the year"},
+  "december":"December",
+  "@december":{"description": "the tvelfth month of the year"},
+  "name":"Name",
+  "@name":{"description": "name of the column uesd to display the friends names in the birthday calender"},
+  "date":"Date",
+  "@date":{"description": "name of the column uesd to display the friends birthdates in the birthday calender"},
+  "select":"select",
+  "@select":{"description": "the word used if you submit a selection"}
 }

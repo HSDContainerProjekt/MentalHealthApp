@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 class FormfieldPersonalinformationWidget extends StatefulWidget {
   final String textFieldTitle;
   final String textFieldValue; 
@@ -12,12 +14,26 @@ class FormfieldPersonalinformationWidget extends StatefulWidget {
 class _FormfieldPersonalinformationWidgetState extends State<FormfieldPersonalinformationWidget> {
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      keyboardType: TextInputType.text,
-      autocorrect: false,
-      decoration: InputDecoration(
-        labelText: widget.textFieldTitle,
-      ),
-    );
+    return 
+      
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [        
+          FormBuilderTextField(
+            name: widget.textFieldTitle,
+            onChanged: (value) => print(value), 
+            keyboardType: TextInputType.text,
+            autocorrect: false,    
+            initialValue: widget.textFieldValue,        
+            decoration: InputDecoration(
+              constraints: BoxConstraints(maxWidth: 200.0)
+            ),      
+          ),
+          Align( alignment: Alignment.topLeft,
+            child: Text(widget.textFieldTitle,)
+          )
+        ],
+      )
+    ;
   }
 }
