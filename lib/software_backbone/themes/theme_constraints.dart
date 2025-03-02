@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 ColorScheme baseColorScheme = const ColorScheme.light(
   surface: Color(0xFFE6E6E6),
+  error: Color(0xFFC80000),
 );
 
 /// Page specific colors
@@ -98,6 +99,7 @@ TextTheme textThemeBase = const TextTheme(
   /// Text that is in an element on the page
   bodyMedium: TextStyle(
     fontSize: 14,
+    height: 1,
   ),
 
   /// Unused and not defined yet
@@ -137,7 +139,10 @@ ThemeData mainPageThemeData = basePageThemeData.copyWith(
 ThemeData routinesPageThemeData = basePageThemeData.copyWith(
     colorScheme: routinePageColorScheme,
     floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: routinePageColorScheme.primary));
+      backgroundColor: routinePageColorScheme.primary,
+    ),
+    textSelectionTheme:
+        TextSelectionThemeData(selectionColor: routinePageColorScheme.primary));
 
 /// Friends
 ThemeData friendsPageThemeData = basePageThemeData.copyWith(

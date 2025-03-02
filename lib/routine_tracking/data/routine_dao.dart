@@ -35,11 +35,12 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
     CREATE TABLE routines(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT, 
+        shortDescription TEXT,
         description TEXT,
         imageID INTEGER
         )
         ''');
-    print("Create New");
+
     await db.execute('''
     CREATE TABLE timeIntervals(
         id INTEGER PRIMARY KEY AUTOINCREMENT,

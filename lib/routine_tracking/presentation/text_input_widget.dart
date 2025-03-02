@@ -5,18 +5,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TextInputState extends Equatable {
   final String text;
-  final String error;
+  final String? error;
 
-  const TextInputState({this.text = "", this.error = ""});
+  const TextInputState({this.text = "", this.error});
 
   @override
   List<Object?> get props => [text, error];
 }
 
 class TextInputWidget<B extends StateStreamable<S>, S> extends StatelessWidget {
-  late TextStyle? textStyle;
+  late TextStyle? inputTextStyle;
+  late TextStyle? labelTextStyle;
+  late TextStyle? errorTextStyle;
+
   final int? maxLength;
-  final int? minLength;
+  final int? minLines;
+  final int? maxLines;
   final List<TextInputFormatter>? inputFormatters;
   final ValueChanged<String>? onChanged;
   final String? label;
@@ -26,8 +30,11 @@ class TextInputWidget<B extends StateStreamable<S>, S> extends StatelessWidget {
   TextInputWidget(
       {super.key,
       required this.selector,
-      this.textStyle,
-      this.minLength,
+      this.minLines,
+      this.maxLines,
+      this.inputTextStyle,
+      this.labelTextStyle,
+      this.errorTextStyle,
       this.maxLength,
       this.inputFormatters,
       this.onChanged,
@@ -35,7 +42,13 @@ class TextInputWidget<B extends StateStreamable<S>, S> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    this.textStyle ??= Theme.of(context).textTheme.titleMedium;
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
+    this.inputTextStyle ??= Theme.of(context).textTheme.headlineMedium;
+    this.labelTextStyle ??= Theme.of(context).textTheme.labelMedium;
+    this.errorTextStyle ??= Theme.of(context)
+        .textTheme
+        .labelSmall
+        ?.copyWith(color: colorScheme.error);
 
     return BlocSelector<B, S, TextInputState>(
       selector: this.selector,
@@ -46,14 +59,28 @@ class TextInputWidget<B extends StateStreamable<S>, S> extends StatelessWidget {
           TextPosition(offset: controller.text.length),
         );
         return TextField(
-          textAlign: TextAlign.center,
-          style: this.textStyle,
+          cursorColor: colorScheme.primary,
+          cursorErrorColor: colorScheme.error,
           decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: this.label,
-              errorText: state.error),
-          maxLength: this.minLength,
-          maxLines: this.maxLength,
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: colorScheme.primary,
+                width: 1.0,
+              ),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: colorScheme.error, width: 1.0),
+            ),
+            errorText: state.error,
+            errorStyle: this.errorTextStyle,
+            labelText: this.label,
+            labelStyle: this.labelTextStyle,
+          ),
+          textAlign: TextAlign.center,
+          style: this.inputTextStyle,
+          maxLength: this.maxLength,
+          minLines: this.minLines,
+          maxLines: this.maxLines,
           inputFormatters: this.inputFormatters,
           controller: controller,
           onChanged: this.onChanged,

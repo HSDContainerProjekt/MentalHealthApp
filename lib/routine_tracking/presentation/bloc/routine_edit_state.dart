@@ -10,14 +10,24 @@ class RoutineEditInitial extends RoutineEditState {}
 
 class RoutineEditEditing extends RoutineEditState {
   final TextInputState titleInputState;
+  final TextInputState shortDescriptionInputState;
   final TextInputState descriptionInputState;
   final int imageID;
+  final bool timeIntervalOpen;
 
   RoutineEditEditing(
       {required this.imageID,
       required this.titleInputState,
-      required this.descriptionInputState});
+      required this.shortDescriptionInputState,
+      required this.descriptionInputState,
+      required this.timeIntervalOpen});
 
   @override
-  List<Object?> get props => [titleInputState, descriptionInputState, imageID];
+  List<Object?> get props => [
+        titleInputState,
+        shortDescriptionInputState,
+        descriptionInputState,
+        imageID,
+        timeIntervalOpen,
+      ];
 }

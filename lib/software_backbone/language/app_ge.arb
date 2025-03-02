@@ -30,5 +30,7 @@
   "noRoutines": "Sie haben noch keine Routinen. Klicken Sie hier oder auf das +, um Ihre erste Routine zu erstellen.",
   "evaluation": "Bewertung",
   "save": "Speichern",
-  "cancel": "Abbrechen"
+  "cancel": "Abbrechen",
+  "shortDescription": "Kurzbeschreibung",
+  "title": "Titel"
 }

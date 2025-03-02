@@ -111,5 +111,13 @@
   "cancel": "Cancel",
   "@cancel": {
     "description": "Cancel"
+  },
+  "shortDescription": "Short description",
+  "@shortDescription": {
+    "description": "Short description"
+  },
+  "title": "Title",
+  "@title": {
+    "description": "Title"
   }
 }

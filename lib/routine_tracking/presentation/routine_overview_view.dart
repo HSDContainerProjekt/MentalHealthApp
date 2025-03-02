@@ -99,17 +99,27 @@ class _RoutineWidget extends StatelessWidget {
             child: CustomImageWidget(imageID: routine.imageID),
           ),
           Expanded(
-            child: Column(
-              children: [
-                Text(
-                  routine.title,
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-                Text(
-                  routine.description,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              ],
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 0),
+              child: Column(
+                children: [
+                  Text(
+                    textAlign: TextAlign.center,
+                    routine.title,
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                  Divider(
+                    endIndent: 5,
+                    indent: 5,
+                    height: 5,
+                  ),
+                  Text(
+                    textAlign: TextAlign.justify,
+                    routine.shortDescription,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ],
+              ),
             ),
           ),
           SizedBox(

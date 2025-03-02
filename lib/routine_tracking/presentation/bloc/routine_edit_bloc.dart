@@ -15,28 +15,35 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
   final RoutineRepository routineRepository;
   final RoutineNavBloc navBloc;
 
-  late String titleError = "";
-  late String descriptionError = "";
+  late String? titleError;
+  late String? shortDescriptionError;
   late Routine routine;
+  late bool timeIntervalOpen = false;
 
   RoutineEditBloc({required this.navBloc, required this.routineRepository})
       : super(RoutineEditInitial()) {
+    titleError = null;
+    shortDescriptionError = null;
     on<RoutineEditFetch>(_fetch);
     on<RoutineEditCreateNew>(_createNew);
     on<RoutineEditChangeTitle>(_changeTitle);
     on<RoutineEditChangeImageID>(_changeImageID);
+    on<RoutineEditChangeShortDescription>(_changeShortDescription);
     on<RoutineEditChangeDescription>(_changeDescription);
     on<RoutineEditSave>(_save);
     on<RoutineEditCancel>(_cancel);
+    on<RoutineEditOpenCloseTimeInterval>(_openCloseTimeInterval);
   }
 
   void emitEditState(Emitter<RoutineEditState> emit) {
     emit(
       RoutineEditEditing(
         imageID: routine.imageID,
-        descriptionInputState:
-            TextInputState(text: routine.description, error: descriptionError),
+        shortDescriptionInputState: TextInputState(
+            text: routine.shortDescription, error: shortDescriptionError),
         titleInputState: TextInputState(text: routine.title, error: titleError),
+        descriptionInputState: TextInputState(text: routine.description),
+        timeIntervalOpen: timeIntervalOpen,
       ),
     );
   }
@@ -62,7 +69,16 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
     Emitter<RoutineEditState> emit,
   ) {
     routine = routine.copyWith(title: event.title);
-    titleError = "";
+    titleError = null;
+    emitEditState(emit);
+  }
+
+  void _changeShortDescription(
+    RoutineEditChangeShortDescription event,
+    Emitter<RoutineEditState> emit,
+  ) {
+    routine = routine.copyWith(shortDescription: event.shortDescription);
+    shortDescriptionError = null;
     emitEditState(emit);
   }
 
@@ -71,7 +87,6 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
     Emitter<RoutineEditState> emit,
   ) {
     routine = routine.copyWith(description: event.description);
-    descriptionError = "";
     emitEditState(emit);
   }
 
@@ -93,6 +108,14 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
     navBloc.add(RoutineNavToOverview());
   }
 
+  void _openCloseTimeInterval(
+    RoutineEditOpenCloseTimeInterval event,
+    Emitter<RoutineEditState> emit,
+  ) {
+    timeIntervalOpen = !timeIntervalOpen;
+    emitEditState(emit);
+  }
+
   Future<void> _save(
     RoutineEditSave event,
     Emitter<RoutineEditState> emit,
@@ -102,13 +125,13 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
       titleError = "Error";
       save = false;
     } else {
-      titleError = "";
+      titleError = null;
     }
-    if (routine.description.trim() == "") {
-      descriptionError = "Error";
+    if (routine.shortDescription.trim() == "") {
+      shortDescriptionError = "Error";
       save = false;
     } else {
-      descriptionError = "";
+      shortDescriptionError = null;
     }
     if (save) {
       await routineRepository.save(routine);

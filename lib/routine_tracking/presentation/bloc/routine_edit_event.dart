@@ -20,6 +20,12 @@ class RoutineEditChangeTitle extends RoutineEditEvent {
   RoutineEditChangeTitle(this.title);
 }
 
+class RoutineEditChangeShortDescription extends RoutineEditEvent {
+  final String shortDescription;
+
+  RoutineEditChangeShortDescription(this.shortDescription);
+}
+
 class RoutineEditChangeDescription extends RoutineEditEvent {
   final String description;
 
@@ -35,3 +41,5 @@ class RoutineEditChangeImageID extends RoutineEditEvent {
 class RoutineEditSave extends RoutineEditEvent {}
 
 class RoutineEditCancel extends RoutineEditEvent {}
+
+class RoutineEditOpenCloseTimeInterval extends RoutineEditEvent {}
