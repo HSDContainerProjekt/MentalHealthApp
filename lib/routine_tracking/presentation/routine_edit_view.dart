@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mental_health_app/app_framework_backbone/views/custom_image/custom_image_widget.dart';
 import 'package:mental_health_app/routine_tracking/presentation/bloc/routine_nav_bloc.dart';
 import 'package:mental_health_app/routine_tracking/presentation/text_input_widget.dart';
+import 'package:numberpicker/numberpicker.dart';
 
 import '../../app_framework_backbone/views/popup/image_selector/image_selector.dart';
+import '../../app_framework_backbone/views/popup/postit.dart';
 import '../domain/routine_repository.dart';
 import 'bloc/routine_edit_bloc.dart';
 
@@ -34,30 +36,15 @@ class RoutineEditView extends StatelessWidget {
         ),
       ],
       child: Column(children: [
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+          child: _EditorSwitchButton(),
+        ),
         Expanded(
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                  child: _TimeIntervalField(),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                  child: _TitleEditField(),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
-                  child: _ImageEditField(),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-                  child: _ShortDescriptionEditField(),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
-                  child: _DescriptionEditField(),
-                ),
+                _Editor(),
               ],
             ),
           ),
@@ -97,70 +84,227 @@ class RoutineEditView extends StatelessWidget {
   }
 }
 
-class _TimeIntervalField extends StatelessWidget {
+class _EditorSwitchButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<RoutineEditBloc, RoutineEditState, bool>(
+    return BlocSelector<RoutineEditBloc, RoutineEditState, EditorState>(
       selector: (state) {
-        if (state is RoutineEditEditing) return state.timeIntervalOpen;
-        return false;
+        if (state is RoutineEditEditing) return state.editorState;
+        return EditorState.ContentEditor;
       },
       builder: (context, state) {
-        if (state) {
-          return Column(
+        switch (state) {
+          case EditorState.ContentEditor:
+            return Align(
+              alignment: Alignment.centerRight,
+              child: ElevatedButton(
+                onPressed: () => context.read<RoutineEditBloc>().add(
+                    RoutineEditSwitchEditorState(EditorState.IntervalEditor)),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text("Zeit"),
+                    VerticalDivider(
+                      width: 5,
+                    ),
+                    Icon(Icons.timer_sharp),
+                  ],
+                ),
+              ),
+            );
+          case EditorState.IntervalEditor:
+            return Align(
+              alignment: Alignment.centerRight,
+              child: ElevatedButton(
+                onPressed: () => context.read<RoutineEditBloc>().add(
+                    RoutineEditSwitchEditorState(EditorState.ContentEditor)),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text("Inhalt"),
+                    VerticalDivider(
+                      width: 5,
+                    ),
+                    Icon(Icons.edit_document),
+                  ],
+                ),
+              ),
+            );
+        }
+      },
+    );
+  }
+}
+
+class _Editor extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<RoutineEditBloc, RoutineEditState, EditorState>(
+      selector: (state) {
+        if (state is RoutineEditEditing) return state.editorState;
+        return EditorState.ContentEditor;
+      },
+      builder: (context, state) {
+        switch (state) {
+          case EditorState.ContentEditor:
+            return _ContentEditor();
+          case EditorState.IntervalEditor:
+            return _IntervalEditor();
+        }
+      },
+    );
+  }
+}
+
+class _ContentEditor extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          child: _TitleEditField(),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
+          child: _ImageEditField(),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+          child: _ShortDescriptionEditField(),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
+          child: _DescriptionEditField(),
+        ),
+      ],
+    );
+  }
+}
+
+class _IntervalEditor extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+        onPressed: () {
+          Future<int?> newImageID = showDialog<int>(
+              context: context, builder: (context) => _IntervalEditPopup());
+        },
+        child: Icon(Icons.add));
+  }
+}
+
+class _IntervalEditPopup extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return PostIt(
+      headline: 'Interval',
+      mainBuilder: (context) {
+        return Center(
+          child: Column(
             children: [
-              Align(
-                alignment: Alignment.centerRight,
-                child: ElevatedButton(
-                  onPressed: () => context
-                      .read<RoutineEditBloc>()
-                      .add(RoutineEditOpenCloseTimeInterval()),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
+              Row(
+                children: [
+                  Spacer(),
+                  Text("Ab:"),
+                  TextButton(
+                    onPressed: () {
+                      showDatePicker(
+                        initialEntryMode: DatePickerEntryMode.calendarOnly,
+                        context: context,
+                        initialDate: DateTime(2021, 7, 25),
+                        firstDate: DateTime(2021),
+                        lastDate: DateTime(2022),
+                      );
+                    },
+                    child: Text("05.03.2025"),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      showTimePicker(
+                        initialEntryMode: TimePickerEntryMode.input,
+                        initialTime: TimeOfDay.now(),
+                        context: context,
+                      );
+                    },
+                    child: Text("12:30"),
+                  ),
+                  Spacer(),
+                ],
+              ),
+              Row(
+                children: [
+                  Spacer(),
+                  Text("Wiederholen alle:"),
+                  Column(
                     children: [
-                      Text("Zeit"),
-                      VerticalDivider(
-                        width: 5,
+                      Text("Tage"),
+                      NumberPicker(
+                        itemHeight: 25,
+                        itemWidth: 30,
+                        itemCount: 2,
+                        minValue: 0,
+                        maxValue: 99,
+                        value: 0,
+                        onChanged: (value) {},
                       ),
-                      Icon(Icons.timer_sharp),
                     ],
                   ),
-                ),
-              ),
-              Container(
-                height: 300,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  border:
-                      Border.all(color: Theme.of(context).colorScheme.primary),
-                ),
-                child: Center(
-                  child: Text("data"),
-                ),
+                  Column(
+                    children: [
+                      Text("Stunden"),
+                      NumberPicker(
+                        zeroPad: true,
+                        itemHeight: 25,
+                        itemWidth: 30,
+                        itemCount: 2,
+                        minValue: 0,
+                        maxValue: 23,
+                        value: 0,
+                        onChanged: (value) {},
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text("Minuten"),
+                      NumberPicker(
+                        zeroPad: true,
+                        itemHeight: 25,
+                        itemWidth: 30,
+                        itemCount: 2,
+                        minValue: 0,
+                        maxValue: 59,
+                        value: 0,
+                        onChanged: (value) {},
+                      ),
+                    ],
+                  ),
+                  Spacer(),
+                ],
               ),
             ],
-          );
-        }
-        return Align(
-          alignment: Alignment.centerRight,
-          child: ElevatedButton(
-            onPressed: () => context
-                .read<RoutineEditBloc>()
-                .add(RoutineEditOpenCloseTimeInterval()),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text("Zeit"),
-                VerticalDivider(
-                  width: 5,
-                ),
-                Icon(Icons.timer_sharp),
-              ],
-            ),
           ),
         );
       },
+      buttons: [
+        PostItButton(
+          headline: "Abbrechen",
+          onClick: () => print("Save"),
+        ),
+        PostItButton(
+          headline: "Speichern",
+          onClick: () => print("Save"),
+        ),
+      ],
     );
+  }
+}
+
+class _TimeIntervalEntry extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    throw UnimplementedError();
   }
 }
 

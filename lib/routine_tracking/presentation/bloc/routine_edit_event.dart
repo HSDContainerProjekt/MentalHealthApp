@@ -42,4 +42,8 @@ class RoutineEditSave extends RoutineEditEvent {}
 
 class RoutineEditCancel extends RoutineEditEvent {}
 
-class RoutineEditOpenCloseTimeInterval extends RoutineEditEvent {}
+class RoutineEditSwitchEditorState extends RoutineEditEvent {
+  final EditorState newState;
+
+  RoutineEditSwitchEditorState(this.newState);
+}

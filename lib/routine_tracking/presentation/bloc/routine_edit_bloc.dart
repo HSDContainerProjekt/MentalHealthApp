@@ -18,7 +18,7 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
   late String? titleError;
   late String? shortDescriptionError;
   late Routine routine;
-  late bool timeIntervalOpen = false;
+  late EditorState editorState = EditorState.ContentEditor;
 
   RoutineEditBloc({required this.navBloc, required this.routineRepository})
       : super(RoutineEditInitial()) {
@@ -32,7 +32,7 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
     on<RoutineEditChangeDescription>(_changeDescription);
     on<RoutineEditSave>(_save);
     on<RoutineEditCancel>(_cancel);
-    on<RoutineEditOpenCloseTimeInterval>(_openCloseTimeInterval);
+    on<RoutineEditSwitchEditorState>(_changeEditorState);
   }
 
   void emitEditState(Emitter<RoutineEditState> emit) {
@@ -43,7 +43,7 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
             text: routine.shortDescription, error: shortDescriptionError),
         titleInputState: TextInputState(text: routine.title, error: titleError),
         descriptionInputState: TextInputState(text: routine.description),
-        timeIntervalOpen: timeIntervalOpen,
+        editorState: editorState,
       ),
     );
   }
@@ -108,11 +108,11 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
     navBloc.add(RoutineNavToOverview());
   }
 
-  void _openCloseTimeInterval(
-    RoutineEditOpenCloseTimeInterval event,
+  void _changeEditorState(
+    RoutineEditSwitchEditorState event,
     Emitter<RoutineEditState> emit,
   ) {
-    timeIntervalOpen = !timeIntervalOpen;
+    editorState = event.newState;
     emitEditState(emit);
   }
 
