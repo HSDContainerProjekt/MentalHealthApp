@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:mental_health_app/animal_backbone/animal_backbone.dart';
 import 'package:mental_health_app/friend_collection/database/database_operation.dart';
+import 'package:mental_health_app/friend_collection/model/friend.dart';
 import 'package:mental_health_app/friend_collection/widgets/formfield_personalinformation_widget.dart';
 import 'package:mental_health_app/software_backbone/constants/animal.dart';
 import 'package:mental_health_app/software_backbone/routing/routing_constants.dart';
@@ -17,15 +18,18 @@ class FriendCollectionMe extends StatelessWidget {
   Widget build(BuildContext context) {
     final _myFavoriteformKey = GlobalKey<FormState>();
     final _myInformationformKey = GlobalKey<FormState>();
-    
+
     EdgeInsets paddingvalue = EdgeInsets.all(6);
-    
-    return FutureBuilder(
+
+    return FutureBuilder<Friend>(
       future: DatabaseOperation().getOwnFriendDataAndTryToUpdate(),
       builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return SafeArea(child: Text("waiting"));
+        }
         if (snapshot.hasData) {
           var ownData = snapshot.data;
-          return SafeArea(
+          return SafeArea( 
               child: Scaffold(
                   backgroundColor: Colors.white70,
                   body: GestureDetector(
@@ -47,14 +51,19 @@ class FriendCollectionMe extends StatelessWidget {
                                       decoration: BoxDecoration(
                                           border:
                                               Border.all(color: Colors.black)),
-                                      child: FutureBuilder(future: AnimalBackbone().portrait(), builder:(context, snapshot) {
-                                        if(snapshot.hasData){
-                                          return Image(image: AssetImage(snapshot.data!));
-                                        }
-                                        else {
-                                          return Image(image: AssetImage(Froggo.portrait));
-                                        }
-                                      }),
+                                      child: FutureBuilder(
+                                          future: AnimalBackbone().portrait(),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.hasData) {
+                                              return Image(
+                                                  image: AssetImage(
+                                                      snapshot.data!));
+                                            } else {
+                                              return Image(
+                                                  image: AssetImage(
+                                                      Froggo.portrait));
+                                            }
+                                          }),
                                     ),
                                     FormBuilder(
                                       key:
@@ -64,13 +73,21 @@ class FriendCollectionMe extends StatelessWidget {
                                       child: Column(
                                         children: <Widget>[
                                           FormfieldPersonalinformationWidget(
-                                              "name", ownData?.name ?? ''),
+                                              "name",
+                                              ownData?.name ?? '',
+                                              "name"),
                                           FormfieldPersonalinformationWidget(
-                                              "nickname", ownData?.nickname ?? ''),
+                                              "nickname",
+                                              ownData?.nickname ?? '',
+                                              "nickname"),
                                           FormfieldPersonalinformationWidget(
-                                              "birthday", ownData?.birthday ?? ''),
+                                              "birthday",
+                                              ownData?.birthday ?? '',
+                                              "birthday"),
                                           FormfieldPersonalinformationWidget(
-                                              "zodiacsign", ownData?.zodiacSign ?? ''),
+                                              "zodiacsign",
+                                              ownData?.zodiacSign ?? '',
+                                              "zodiacSign"),
                                         ],
                                       ),
                                     )
@@ -102,32 +119,40 @@ class FriendCollectionMe extends StatelessWidget {
                                                 AppLocalizations.of(context)!
                                                     .favoriteSong,
                                                 ownData?.favoriteSong ?? '',
-                                                "textFieldHint"),
+                                                "textFieldHint",
+                                                "favoriteSong"),
                                             FormfieldFavoritWidget(
                                                 AppLocalizations.of(context)!
                                                     .favoriteFood,
                                                 ownData?.favoriteFood ?? '',
-                                                "textFieldHint"),
+                                                "textFieldHint",
+                                                "favoriteFood"),
                                             FormfieldFavoritWidget(
                                                 AppLocalizations.of(context)!
                                                     .favoriteBook,
                                                 ownData?.favoriteBook ?? '',
-                                                "textFieldHint"),
+                                                "textFieldHint",
+                                                "favoriteBook"),
                                             FormfieldFavoritWidget(
                                                 AppLocalizations.of(context)!
                                                     .favoriteMovie,
                                                 ownData?.favoriteFilm ?? '',
-                                                "textFieldHint"),
+                                                "textFieldHint",
+                                                'favoriteFilm'),
                                             FormfieldFavoritWidget(
                                                 AppLocalizations.of(context)!
                                                     .favoriteAnimal,
                                                 ownData?.favoriteAnimal ?? '',
-                                                "textFieldHint"),
+                                                "textFieldHint",
+                                                'favoriteAnimal'),
                                             FormfieldFavoritWidget(
                                                 AppLocalizations.of(context)!
                                                     .favoriteNumber,
-                                                ownData?.favoriteNumber.toString() ?? '',
-                                                "textFieldHint"),
+                                                ownData?.favoriteNumber
+                                                        .toString() ??
+                                                    '',
+                                                "textFieldHint",
+                                                'favoriteNumber'),
                                           ],
                                         ),
                                       )
@@ -140,9 +165,18 @@ class FriendCollectionMe extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.stretch,
                                         children: [
-                                          CustomColorWidget(Icons.remove_red_eye_outlined,AppLocalizations.of(context)!.eyeColor), // Augenfarbe,
-                                          CustomColorWidget(Icons.favorite, AppLocalizations.of(context)!.hairColor),
-                                          CustomColorWidget(Icons.color_lens,AppLocalizations.of(context)!.favoriteColor)
+                                          CustomColorWidget(
+                                              Icons.remove_red_eye_outlined,
+                                              AppLocalizations.of(context)!
+                                                  .eyeColor), // Augenfarbe,
+                                          CustomColorWidget(
+                                              Icons.favorite,
+                                              AppLocalizations.of(context)!
+                                                  .hairColor),
+                                          CustomColorWidget(
+                                              Icons.color_lens,
+                                              AppLocalizations.of(context)!
+                                                  .favoriteColor)
                                         ],
                                       )))
                             ],
@@ -169,18 +203,22 @@ class FriendCollectionMe extends StatelessWidget {
                                 children: [
                                   Row(children: [
                                     Container(
-                                      decoration: BoxDecoration(
-                                          border:
-                                              Border.all(color: Colors.black)),
-                                      child: FutureBuilder(future: AnimalBackbone().portrait(), builder:(context, snapshot) {
-                                        if(snapshot.hasData){
-                                          return Image(image: AssetImage(snapshot.data!));
-                                        }
-                                        else {
-                                          return Image(image: AssetImage(Froggo.portrait));
-                                        }
-                                      })
-                                    ),
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: Colors.black)),
+                                        child: FutureBuilder(
+                                            future: AnimalBackbone().portrait(),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.hasData) {
+                                                return Image(
+                                                    image: AssetImage(
+                                                        snapshot.data!));
+                                              } else {
+                                                return Image(
+                                                    image: AssetImage(
+                                                        Froggo.portrait));
+                                              }
+                                            })),
                                     FormBuilder(
                                       key:
                                           _myInformationformKey, // GlobalKey<FormState>
@@ -189,13 +227,13 @@ class FriendCollectionMe extends StatelessWidget {
                                       child: Column(
                                         children: <Widget>[
                                           FormfieldPersonalinformationWidget(
-                                              "name", "name"),
+                                              "name", '', "name"),
                                           FormfieldPersonalinformationWidget(
-                                              "", "name"),
+                                              "nickname", '', "nickname"),
                                           FormfieldPersonalinformationWidget(
-                                              "name", "name"),
+                                              "birthday", '', "birthday"),
                                           FormfieldPersonalinformationWidget(
-                                              "name", "name"),
+                                              "zodiacsign", '', "zodiacSign"),
                                         ],
                                       ),
                                     )
@@ -226,33 +264,39 @@ class FriendCollectionMe extends StatelessWidget {
                                             FormfieldFavoritWidget(
                                                 AppLocalizations.of(context)!
                                                     .favoriteSong,
-                                                "",
-                                                "textFieldHint"),
+                                                'tests',
+                                                "textFieldHint",
+                                                "favoriteSong"),
                                             FormfieldFavoritWidget(
                                                 AppLocalizations.of(context)!
                                                     .favoriteFood,
-                                                "",
-                                                "textFieldHint"),
+                                                '',
+                                                "textFieldHint",
+                                                "favoriteFood"),
                                             FormfieldFavoritWidget(
                                                 AppLocalizations.of(context)!
                                                     .favoriteBook,
-                                                "",
-                                                "textFieldHint"),
+                                                '',
+                                                "textFieldHint",
+                                                "favoriteBook"),
                                             FormfieldFavoritWidget(
                                                 AppLocalizations.of(context)!
                                                     .favoriteMovie,
-                                                "",
-                                                "textFieldHint"),
+                                                '',
+                                                "textFieldHint",
+                                                'favoriteFilm'),
                                             FormfieldFavoritWidget(
                                                 AppLocalizations.of(context)!
                                                     .favoriteAnimal,
-                                                "",
-                                                "textFieldHint"),
+                                                '',
+                                                "textFieldHint",
+                                                'favoriteAnimal'),
                                             FormfieldFavoritWidget(
                                                 AppLocalizations.of(context)!
                                                     .favoriteNumber,
-                                                "",
-                                                "textFieldHint"),
+                                                '',
+                                                "textFieldHint",
+                                                'favoriteNumber'),
                                           ],
                                         ),
                                       )
@@ -265,9 +309,18 @@ class FriendCollectionMe extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.stretch,
                                         children: [
-                                          CustomColorWidget(Icons.remove_red_eye_outlined,AppLocalizations.of(context)!.eyeColor), // Augenfarbe,
-                                          CustomColorWidget(Icons.favorite, AppLocalizations.of(context)!.hairColor),
-                                          CustomColorWidget(Icons.color_lens,AppLocalizations.of(context)!.favoriteColor)
+                                          CustomColorWidget(
+                                              Icons.remove_red_eye_outlined,
+                                              AppLocalizations.of(context)!
+                                                  .eyeColor), // Augenfarbe,
+                                          CustomColorWidget(
+                                              Icons.favorite,
+                                              AppLocalizations.of(context)!
+                                                  .hairColor),
+                                          CustomColorWidget(
+                                              Icons.color_lens,
+                                              AppLocalizations.of(context)!
+                                                  .favoriteColor)
                                         ],
                                       )))
                             ],

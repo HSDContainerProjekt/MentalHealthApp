@@ -12,23 +12,46 @@ import 'package:sqflite/sqflite.dart';
 
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
-  await DatabaseOperation().clearAllDatabases();
+  DatabaseOperation().clearAllDatabases();
 }
 
 class DatabaseOperation {
   Future<Friend> getOwnFriendDataAndTryToUpdate() async {
     int ownId = await ownIdDB().getOwnIdAsInt();
     Friend ownFriend = await FriendDB().fetchByID(ownId);
-    if (await OnlineDatabase().connected()) {
+    log(ownFriend.toString());
+    try {
       OnlineDatabase().updateFriend(ownFriend);
+    } catch (e) {
+      log(e.toString());
     }
     return ownFriend;
+  }
+
+  Future<List<Friend>> getOwnFriendlistAndTryToUpdate() async {
+    List<Friend> friendlist = await FriendDB().getFriends();
+    return friendlist;
   }
 
   Future<void> clearAllDatabases() async {
     try {
       await OnlineDatabase().clearAllOnlineDatabases();
       await DatabaseFriendCollection().delete();
+    } catch (e) {}
+  }
+
+  Future<void> saveAndTryToUpdateString(String field, String value) async {
+    var ownId = await ownIdDB().getOwnIdAsInt();
+    FriendDB().saveValue(ownId, field, value);
+    try {
+      OnlineDatabase().saveStringValue(ownId, field, value);
+    } catch (e) {}
+  }
+
+  Future<void> saveAndTryToUpdateColor(IconData icon, int color) async {
+    FriendDB().saveColor(icon, color);
+    try {
+      OnlineDatabase().saveColorValue(icon, color);
     } catch (e) {}
   }
 }

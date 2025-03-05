@@ -4,6 +4,7 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:mental_health_app/friend_collection/database/account_init_DB.dart';
 import 'package:mental_health_app/friend_collection/database/database_friend_collection.dart';
+import 'package:mental_health_app/friend_collection/database/database_operation.dart';
 import 'package:mental_health_app/friend_collection/database/friend_db.dart';
 import 'package:mental_health_app/friend_collection/database/ownID_db.dart';
 import 'package:mental_health_app/friend_collection/model/friend.dart';
@@ -12,36 +13,29 @@ import 'package:mental_health_app/friend_collection/model/own_id.dart';
 import 'package:mental_health_app/software_backbone/constants/database_connection_details.dart';
 import 'package:mysql_client/mysql_client.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  var result = await OnlineDatabase().connected();
-  log(result.toString());
-}
-
 class OnlineDatabase {
   Future<void> connect() async {
-    var DBConnection = await MySQLConnection.createConnection(
+    var dbConnection = await MySQLConnection.createConnection(
         host: DatabaseDetails().host,
         port: DatabaseDetails().port,
         userName: DatabaseDetails().username,
         password: DatabaseDetails().password,
         databaseName: DatabaseDetails().databasename);
-    await DBConnection.connect();
-    log("connect");
-    DBConnection.close();
+    await dbConnection.connect();
+    dbConnection.close();
   }
 
   Future<bool> connected() async {
     try {
-      var DBConnection = await MySQLConnection.createConnection(
-        host: DatabaseDetails().host,
-        port: DatabaseDetails().port,
-        userName: DatabaseDetails().username,
-        password: DatabaseDetails().password,
-        databaseName: DatabaseDetails().databasename);
-      await DBConnection.connect(timeoutMs: 2000);
-      var bool = DBConnection.connected;
-      DBConnection.close();
+      var dbConnection = await MySQLConnection.createConnection(
+          host: DatabaseDetails().host,
+          port: DatabaseDetails().port,
+          userName: DatabaseDetails().username,
+          password: DatabaseDetails().password,
+          databaseName: DatabaseDetails().databasename);
+      await dbConnection.connect(timeoutMs: 3000);
+      var bool = dbConnection.connected;
+      dbConnection.close();
       return bool;
     } catch (e) {
       return false;
@@ -49,58 +43,58 @@ class OnlineDatabase {
   }
 
   Future<void> createFriend(int id) async {
-    var DBConnection = await MySQLConnection.createConnection(
+    var dbConnection = await MySQLConnection.createConnection(
         host: DatabaseDetails().host,
         port: DatabaseDetails().port,
         userName: DatabaseDetails().username,
         password: DatabaseDetails().password,
         databaseName: DatabaseDetails().databasename);
-    await DBConnection.connect();
-    await DBConnection.execute(
-        "INSERT INTO friends (FriendID) VALUES (:id)", {"id": id});
-    DBConnection.close();
+    await dbConnection.connect();
+    await dbConnection
+        .execute("INSERT INTO friends (FriendID) VALUES (:id)", {"id": id});
+    dbConnection.close();
   }
 
   Future<IResultSet> fetchAllIds() async {
-    var DBConnection = await MySQLConnection.createConnection(
+    var dbConnection = await MySQLConnection.createConnection(
         host: "192.168.178.35",
         port: 3306,
         userName: "ADMIN",
         password: "adminpw1234",
         databaseName: "friendsonlinedatabase");
-    await DBConnection.connect();
-    var result = await DBConnection.execute("SELECT FriendID from friends");
-    DBConnection.close();
+    await dbConnection.connect();
+    var result = await dbConnection.execute("SELECT FriendID from friends");
+    dbConnection.close();
     return result;
   }
 
   Future<void> createFriendRequest(int ownId, int friendId) async {
     try {
-      var DBConnection = await MySQLConnection.createConnection(
+      var dbConnection = await MySQLConnection.createConnection(
           host: DatabaseDetails().host,
-        port: DatabaseDetails().port,
-        userName: DatabaseDetails().username,
-        password: DatabaseDetails().password,
-        databaseName: DatabaseDetails().databasename);
-      await DBConnection.connect();
-      await DBConnection.execute(
+          port: DatabaseDetails().port,
+          userName: DatabaseDetails().username,
+          password: DatabaseDetails().password,
+          databaseName: DatabaseDetails().databasename);
+      await dbConnection.connect();
+      await dbConnection.execute(
           "INSERT INTO friendship (friend1, friend2, status) VALUES (:ownId, :friendId, 1)",
           {"ownId": ownId, "friendId": friendId});
-      DBConnection.close();
+      dbConnection.close();
     } catch (e) {}
   }
 
   Future<List<FriendRequest>> getOwnFriendRequests() async {
     try {
-      var DBConnection = await MySQLConnection.createConnection(
+      var dbConnection = await MySQLConnection.createConnection(
           host: DatabaseDetails().host,
-        port: DatabaseDetails().port,
-        userName: DatabaseDetails().username,
-        password: DatabaseDetails().password,
-        databaseName: DatabaseDetails().databasename);
-      await DBConnection.connect();
+          port: DatabaseDetails().port,
+          userName: DatabaseDetails().username,
+          password: DatabaseDetails().password,
+          databaseName: DatabaseDetails().databasename);
+      await dbConnection.connect();
       var ownId = await ownIdDB().getOwnIdAsInt();
-      var result = await DBConnection.execute(
+      var result = await dbConnection.execute(
           "SELECT * FROM friendship where Friend2=:ownId AND status=1",
           {"ownId": ownId});
       List<FriendRequest> list = <FriendRequest>[];
@@ -123,11 +117,11 @@ class OnlineDatabase {
   Future<void> acceptFriendRequest(int friendId) async {
     try {
       var DBConnection = await MySQLConnection.createConnection(
-        host: DatabaseDetails().host,
-        port: DatabaseDetails().port,
-        userName: DatabaseDetails().username,
-        password: DatabaseDetails().password,
-        databaseName: DatabaseDetails().databasename);
+          host: DatabaseDetails().host,
+          port: DatabaseDetails().port,
+          userName: DatabaseDetails().username,
+          password: DatabaseDetails().password,
+          databaseName: DatabaseDetails().databasename);
       await DBConnection.connect();
       var ownId = await ownIdDB().getOwnIdAsInt();
       await DBConnection.execute(
@@ -140,11 +134,11 @@ class OnlineDatabase {
   Future<List<Friend>> getFriends() async {
     try {
       var DBConnection = await MySQLConnection.createConnection(
-        host: DatabaseDetails().host,
-        port: DatabaseDetails().port,
-        userName: DatabaseDetails().username,
-        password: DatabaseDetails().password,
-        databaseName: DatabaseDetails().databasename);
+          host: DatabaseDetails().host,
+          port: DatabaseDetails().port,
+          userName: DatabaseDetails().username,
+          password: DatabaseDetails().password,
+          databaseName: DatabaseDetails().databasename);
       await DBConnection.connect();
       var ownId = await ownIdDB().getOwnIdAsInt();
       var idResult = await DBConnection.execute(
@@ -162,8 +156,8 @@ class OnlineDatabase {
             var id = row.colByName("FriendID");
             var name = row.colByName("Name");
             var birthday = row.colByName("Birthday");
-            var friend = Friend(
-                friendID: int.parse(id!), name: name, birthday: birthday);
+            var friend =
+                Friend(id: int.parse(id!), name: name, birthday: birthday);
             log("friend added");
             list.add(friend);
           }
@@ -176,8 +170,8 @@ class OnlineDatabase {
             var id = row.colByName("FriendID");
             var name = row.colByName("Name");
             var birthday = row.colByName("Birthday");
-            var friend = Friend(
-                friendID: int.parse(id!), name: name, birthday: birthday);
+            var friend =
+                Friend(id: int.parse(id!), name: name, birthday: birthday);
             log("friend added");
             list.add(friend);
           }
@@ -194,10 +188,10 @@ class OnlineDatabase {
     try {
       var DBConnection = await MySQLConnection.createConnection(
           host: DatabaseDetails().host,
-        port: DatabaseDetails().port,
-        userName: DatabaseDetails().username,
-        password: DatabaseDetails().password,
-        databaseName: DatabaseDetails().databasename);
+          port: DatabaseDetails().port,
+          userName: DatabaseDetails().username,
+          password: DatabaseDetails().password,
+          databaseName: DatabaseDetails().databasename);
       await DBConnection.connect();
       await DBConnection.execute(
           "UPDATE friends SET name = :name, nickname = :nickname,birthday = :birthday, zodiacSign = :zodiacSign, animal = :animal, hairColor = :hairColor, eyecolor = :eyecolor, favoriteColor = :favoriteColor, favoriteSong = :favoriteSong, favoriteFood = :favoriteFood, favoriteBook = :favoriteBook, favoriteFilm = :favoriteFilm, favoriteAnimal = :favoriteAnimal, favoriteNumber = :favoriteNumber WHERE friendID = :friendID",
@@ -216,7 +210,7 @@ class OnlineDatabase {
             "favoriteFilm": friend.favoriteBook,
             "favoriteAnimal": friend.favoriteAnimal,
             "favoriteNumber": friend.favoriteNumber,
-            "friendID": friend.friendID
+            "friendID": friend.id
           });
     } catch (e) {
       log(e.toString());
@@ -226,11 +220,11 @@ class OnlineDatabase {
   Future<void> updateAnimal(int id, String animal) async {
     try {
       var DBConnection = await MySQLConnection.createConnection(
-        host: DatabaseDetails().host,
-        port: DatabaseDetails().port,
-        userName: DatabaseDetails().username,
-        password: DatabaseDetails().password,
-        databaseName: DatabaseDetails().databasename);
+          host: DatabaseDetails().host,
+          port: DatabaseDetails().port,
+          userName: DatabaseDetails().username,
+          password: DatabaseDetails().password,
+          databaseName: DatabaseDetails().databasename);
       await DBConnection.connect();
       await DBConnection.execute(
           "UPDATE friends SET animal = :animal WHERE friendID = :friendID",
@@ -241,11 +235,11 @@ class OnlineDatabase {
   Future<void> deleteFriendRequest(int friendId) async {
     try {
       var DBConnection = await MySQLConnection.createConnection(
-        host: DatabaseDetails().host,
-        port: DatabaseDetails().port,
-        userName: DatabaseDetails().username,
-        password: DatabaseDetails().password,
-        databaseName: DatabaseDetails().databasename);
+          host: DatabaseDetails().host,
+          port: DatabaseDetails().port,
+          userName: DatabaseDetails().username,
+          password: DatabaseDetails().password,
+          databaseName: DatabaseDetails().databasename);
       await DBConnection.connect();
       int ownId = await ownIdDB().getOwnIdAsInt();
       await DBConnection.execute(
@@ -259,15 +253,64 @@ class OnlineDatabase {
     try {
       var DBConnection = await MySQLConnection.createConnection(
           host: DatabaseDetails().host,
-        port: DatabaseDetails().port,
-        userName: DatabaseDetails().username,
-        password: DatabaseDetails().password,
-        databaseName: DatabaseDetails().databasename);
+          port: DatabaseDetails().port,
+          userName: DatabaseDetails().username,
+          password: DatabaseDetails().password,
+          databaseName: DatabaseDetails().databasename);
       await DBConnection.connect();
       int ownId = await ownIdDB().getOwnIdAsInt();
       await DBConnection.execute("DELETE FROM friendship");
       await DBConnection.execute("DELETE FROM friends");
       DBConnection.close();
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  Future<void> saveStringValue(int ownId, String field, String value) async {
+    try {
+      var DBConnection = await MySQLConnection.createConnection(
+          host: DatabaseDetails().host,
+          port: DatabaseDetails().port,
+          userName: DatabaseDetails().username,
+          password: DatabaseDetails().password,
+          databaseName: DatabaseDetails().databasename);
+      await DBConnection.connect();
+      await DBConnection.execute(
+          "UPDATE friends SET $field = :value WHERE friendID = :friendID",
+          {"value": value, "friendID": ownId});
+      DBConnection.close();
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  Future<void> saveColorValue(IconData icon, int color) async {
+    var ownId = await ownIdDB().getOwnIdAsInt();
+    try {
+      var DBConnection = await MySQLConnection.createConnection(
+          host: DatabaseDetails().host,
+          port: DatabaseDetails().port,
+          userName: DatabaseDetails().username,
+          password: DatabaseDetails().password,
+          databaseName: DatabaseDetails().databasename);
+      await DBConnection.connect();
+      switch (icon) {
+        case Icons.remove_red_eye_outlined:
+          await DBConnection.execute(
+              "UPDATE friends SET eyecolor = :value WHERE friendID = :friendID",
+              {"value": color, "friendID": ownId});
+        case Icons.favorite:
+          await DBConnection.execute(
+              "UPDATE friends SET hairColor = :value WHERE friendID = :friendID",
+              {"value": color, "friendID": ownId});
+        case Icons.color_lens:
+          await DBConnection.execute(
+              "UPDATE friends SET favoriteColor = :value WHERE friendID = :friendID",
+              {"value": color, "friendID": ownId});
+        default:
+          return await DBConnection.close();
+      }
     } catch (e) {
       log(e.toString());
     }

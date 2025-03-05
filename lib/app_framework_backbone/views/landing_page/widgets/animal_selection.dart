@@ -79,7 +79,10 @@ class _SelectableAvatarState extends State<SelectableAvatar> {
           color: hasFocus ? Colors.blue : Colors.black,
         ),
       ),
-      child: CircleAvatar(backgroundImage: AssetImage(image)),
+      child: CircleAvatar(
+          backgroundImage: AssetImage(image),
+          foregroundImage:
+              hasFocus ? AssetImage("lib/assets/images/check.png") : null),
     );
   }
 }

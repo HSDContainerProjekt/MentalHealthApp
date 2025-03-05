@@ -18,7 +18,7 @@ class FriendCollectionLandingPage extends StatelessWidget {
               child: Text("loading..."),
             );
           }
-          if (snapshot.hasError || snapshot.data == 0) {
+          if (snapshot.hasError || snapshot.data == -1) {
             return Center(
               child: Text(
                 AppLocalizations.of(context)!.friendCollectionmissingOwnId,

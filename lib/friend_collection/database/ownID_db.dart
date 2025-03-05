@@ -53,7 +53,6 @@ class ownIdDB {
   }
 
   bool resultSetContainsID(IResultSet resultSet, int id) {
-    log("called");
     for (final row in resultSet.rows) {
       if (row.assoc().containsValue(id.toString())) {
         log("true");
@@ -71,17 +70,16 @@ class ownIdDB {
 
   Future<int> getOrCreateOwnID() async {
     if (ownIDIsEmpty(await getOwnId())) {
-      log("called");
       if (await OnlineDatabase().connected()) {
         var id = await createAvailableID();
         await FriendDB().create(id, await AccountInitDb().getOwnAnimalAsString());
         await OnlineDatabase().updateAnimal(id, await AccountInitDb().getOwnAnimalAsString());
         return id;
       } else {
-        return 0;
+        return -1;
       }
     } else {
-      log("calledelse");
+
       var ownIDList = await getOwnId();
       var OwnID = ownIDList.first;
       var id = OwnID.id;

@@ -112,7 +112,7 @@ class _FriendCollectionFriendlistState
                         icon: Icon(Icons.check))
                   ])),
           Text(AppLocalizations.of(context)!.friendCollectionFriendRequests,
-                            style: Theme.of(context).textTheme.titleLarge),
+              style: Theme.of(context).textTheme.titleLarge),
           FutureBuilder<List<FriendRequest>>(
             future: OnlineDatabase().getOwnFriendRequests(),
             builder: (context, snapshot) {
@@ -134,7 +134,7 @@ class _FriendCollectionFriendlistState
             },
           ),
           Text(AppLocalizations.of(context)!.friendCollectionFriendTitle,
-                            style: Theme.of(context).textTheme.titleLarge),
+              style: Theme.of(context).textTheme.titleLarge),
           FutureBuilder<List<Friend>>(
             future: FriendDB().getFriends(),
             builder: (context, snapshot) {
@@ -148,8 +148,8 @@ class _FriendCollectionFriendlistState
                   shrinkWrap: true,
                   itemCount: list!.length,
                   itemBuilder: (context, index) {
-                    Friend item = list![index];
-                    return FriendWidget(friend: item);
+                    Friend friend = list![index];
+                    return FriendWidget(friend: friend);
                   },
                 );
               }
@@ -209,14 +209,12 @@ class FriendWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text(friend.friendID.toString(),
+          Text(friend.id.toString(),
               style: Theme.of(context).textTheme.displayLarge),
           Text(friend.name.toString(),
               style: Theme.of(context).textTheme.displayLarge),
           IconButton(
-            onPressed: () {
-              log("1");
-            },
+            onPressed: () {},
             icon: Icon(Icons.delete),
           ),
         ],
