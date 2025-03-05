@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:mental_health_app/routine_tracking/data/data_model/time_interval.dart';
 import 'package:mental_health_app/routine_tracking/domain/routine_repository.dart';
 import 'package:mental_health_app/routine_tracking/presentation/bloc/routine_nav_bloc.dart';
 import 'package:mental_health_app/routine_tracking/presentation/text_input_widget.dart';
@@ -18,6 +19,8 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
   late String? titleError;
   late String? shortDescriptionError;
   late Routine routine;
+  late List<TimeInterval> timeIntervals = [];
+
   late EditorState editorState = EditorState.ContentEditor;
 
   RoutineEditBloc({required this.navBloc, required this.routineRepository})
@@ -33,6 +36,7 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
     on<RoutineEditSave>(_save);
     on<RoutineEditCancel>(_cancel);
     on<RoutineEditSwitchEditorState>(_changeEditorState);
+    on<RoutineEditAddTimeInterval>(_addTimeInterval);
   }
 
   void emitEditState(Emitter<RoutineEditState> emit) {
@@ -40,12 +44,26 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
       RoutineEditEditing(
         imageID: routine.imageID,
         shortDescriptionInputState: TextInputState(
-            text: routine.shortDescription, error: shortDescriptionError),
+          text: routine.shortDescription,
+          error: shortDescriptionError,
+        ),
         titleInputState: TextInputState(text: routine.title, error: titleError),
         descriptionInputState: TextInputState(text: routine.description),
         editorState: editorState,
+        timeIntervals: timeIntervals,
       ),
     );
+  }
+
+  void _addTimeInterval(
+    RoutineEditAddTimeInterval event,
+    Emitter<RoutineEditState> emit,
+  ) {
+    List<TimeInterval> newTimeIntervals = [];
+    newTimeIntervals.addAll(timeIntervals);
+    newTimeIntervals.add(event.newTimeInterval);
+    timeIntervals = newTimeIntervals;
+    emitEditState(emit);
   }
 
   Future<void> _fetch(

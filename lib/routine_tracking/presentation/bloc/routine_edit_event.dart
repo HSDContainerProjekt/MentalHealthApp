@@ -47,3 +47,9 @@ class RoutineEditSwitchEditorState extends RoutineEditEvent {
 
   RoutineEditSwitchEditorState(this.newState);
 }
+
+class RoutineEditAddTimeInterval extends RoutineEditEvent {
+  final TimeInterval newTimeInterval;
+
+  RoutineEditAddTimeInterval(this.newTimeInterval);
+}

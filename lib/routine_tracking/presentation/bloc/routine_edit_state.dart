@@ -1,6 +1,6 @@
 part of 'routine_edit_bloc.dart';
 
-enum EditorState { IntervalEditor, ContentEditor }
+enum EditorState { IntervalEditor, ContentEditor, EvaluationEditor }
 
 @immutable
 sealed class RoutineEditState extends Equatable {
@@ -16,13 +16,15 @@ class RoutineEditEditing extends RoutineEditState {
   final TextInputState descriptionInputState;
   final int imageID;
   final EditorState editorState;
+  final List<TimeInterval> timeIntervals;
 
   RoutineEditEditing(
       {required this.imageID,
       required this.titleInputState,
       required this.shortDescriptionInputState,
       required this.descriptionInputState,
-      required this.editorState});
+      required this.editorState,
+      required this.timeIntervals});
 
   @override
   List<Object?> get props => [
@@ -31,5 +33,6 @@ class RoutineEditEditing extends RoutineEditState {
         descriptionInputState,
         imageID,
         editorState,
+        timeIntervals
       ];
 }
