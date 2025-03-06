@@ -18,6 +18,7 @@ void main(List<String> args) async {
 class DatabaseOperation {
   Future<Friend> getOwnFriendDataAndTryToUpdate() async {
     int ownId = await ownIdDB().getOwnIdAsInt();
+    log(ownId.toString());
     Friend ownFriend = await FriendDB().fetchByID(ownId);
     log("ownpage opened");
     log(ownFriend.toString());

@@ -92,6 +92,7 @@ class FriendDB {
     return returnFriend;
   }
 
+  //Eigene Id wird nicht in Freundesliste übertragen
   Future<List<Friend>> getFriends() async {
     var ownId = await ownIdDB().getOwnIdAsInt();
     final database = await DatabaseFriendCollection().database;
@@ -116,28 +117,10 @@ class FriendDB {
     var ownId = await ownIdDB().getOwnIdAsInt();
     final database = await DatabaseFriendCollection().database;
     if (friendlist != null) {
-      await database.transaction((txn) async {
-        await txn.execute('DROP TABLE IF EXISTS friends');
-        await txn.execute('''CREATE TABLE $tableName (
-                id INTEGER NOT NULL PRIMARY KEY,
-                name TEXT, 
-                nickname TEXT,
-                birthday TEXT,
-                zodiacSign TEXT,
-                animal TEXT,
-                hairColor TEXT,
-                eyecolor TEXT,
-                favoriteColor TEXT,
-                favoriteSong TEXT,
-                favoriteFood TEXT,
-                favoriteBook TEXT,
-                favoriteFilm TEXT,
-                favoriteAnimal TEXT,
-                favoriteNumber NUMBER
-              )''');
-        for (var element in friendlist) {
-          if (element.id != ownId) {
-            txn.insert(tableName, {
+      for (var element in friendlist) {
+        database.insert(
+            tableName,
+            {
               'id': element.id,
               if (element.name != null) 'name': element.name,
               if (element.nickname != null) 'nicknname': element.nickname,
@@ -160,10 +143,9 @@ class FriendDB {
                 'favoriteAnimal': element.favoriteAnimal,
               if (element.favoriteNumber != null)
                 'favoriteNumber': element.favoriteNumber
-            });
-          }
-        }
-      });
+            },
+            conflictAlgorithm: ConflictAlgorithm.replace);
+      }
     }
   }
 

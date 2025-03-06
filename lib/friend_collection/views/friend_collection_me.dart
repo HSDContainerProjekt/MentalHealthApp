@@ -28,7 +28,6 @@ class _FriendCollectionMeState extends State<FriendCollectionMe> {
   }
 
 
-
   @override
   Widget build(BuildContext context) {
     final myFavoriteformKey = GlobalKey<FormState>();
@@ -36,7 +35,7 @@ class _FriendCollectionMeState extends State<FriendCollectionMe> {
     EdgeInsets paddingvalue = EdgeInsets.all(6);
 
     return FutureBuilder<Friend>(
-      future: friendDataFuture, // Trigger the updated future here
+      future: DatabaseOperation().getOwnFriendDataAndTryToUpdate(), 
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return SafeArea(child: Text("waiting"));
