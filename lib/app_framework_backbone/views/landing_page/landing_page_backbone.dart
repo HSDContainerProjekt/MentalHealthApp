@@ -16,11 +16,7 @@ class LandingPage extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data == true) {
             return Scaffold(
-                body: GestureDetector(
-              onTap: () {
-                Navigator.pushReplacementNamed(context, mainPage);
-              },
-              child: Stack(children: <Widget>[
+                body: Stack(children: <Widget>[
                 Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
@@ -40,7 +36,7 @@ class LandingPage extends StatelessWidget {
                   ],
                 ))
               ]),
-            ));
+            );
           } else {
             return Scaffold(
                 body: GestureDetector(

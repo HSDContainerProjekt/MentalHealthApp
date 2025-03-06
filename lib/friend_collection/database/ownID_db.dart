@@ -46,20 +46,16 @@ class ownIdDB {
       id = Math.Random().nextInt(10);
     }
     OnlineDatabase().createFriend(id);
-    log(id.toString());
     create(id);
-    log("created");
     return id;
   }
 
   bool resultSetContainsID(IResultSet resultSet, int id) {
     for (final row in resultSet.rows) {
       if (row.assoc().containsValue(id.toString())) {
-        log("true");
         return true;
       }
     }
-    log("false");
     return false;
   }
 
@@ -83,7 +79,6 @@ class ownIdDB {
       var ownIDList = await getOwnId();
       var OwnID = ownIDList.first;
       var id = OwnID.id;
-      log(id.toString());
       return id;
     }
   }

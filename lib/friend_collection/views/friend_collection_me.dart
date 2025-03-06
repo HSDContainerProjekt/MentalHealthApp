@@ -11,25 +11,39 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mental_health_app/friend_collection/widgets/custom_color_widget.dart';
 import 'package:mental_health_app/friend_collection/widgets/formfield_favorit_widget.dart';
 
-class FriendCollectionMe extends StatelessWidget {
+class FriendCollectionMe extends StatefulWidget {
   const FriendCollectionMe({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final _myFavoriteformKey = GlobalKey<FormState>();
-    final _myInformationformKey = GlobalKey<FormState>();
+  _FriendCollectionMeState createState() => _FriendCollectionMeState();
+}
 
+class _FriendCollectionMeState extends State<FriendCollectionMe> {
+  late Future<Friend> friendDataFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    friendDataFuture = DatabaseOperation().getOwnFriendDataAndTryToUpdate();
+  }
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    final myFavoriteformKey = GlobalKey<FormState>();
+    final myInformationformKey = GlobalKey<FormState>();
     EdgeInsets paddingvalue = EdgeInsets.all(6);
 
     return FutureBuilder<Friend>(
-      future: DatabaseOperation().getOwnFriendDataAndTryToUpdate(),
+      future: friendDataFuture, // Trigger the updated future here
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return SafeArea(child: Text("waiting"));
         }
         if (snapshot.hasData) {
           var ownData = snapshot.data;
-          return SafeArea( 
+          return SafeArea(
               child: Scaffold(
                   backgroundColor: Colors.white70,
                   body: GestureDetector(
@@ -67,7 +81,7 @@ class FriendCollectionMe extends StatelessWidget {
                                     ),
                                     FormBuilder(
                                       key:
-                                          _myInformationformKey, // GlobalKey<FormState>
+                                          myInformationformKey, // GlobalKey<FormState>
                                       autovalidateMode:
                                           AutovalidateMode.onUserInteraction,
                                       child: Column(
@@ -91,7 +105,7 @@ class FriendCollectionMe extends StatelessWidget {
                                         ],
                                       ),
                                     )
-                                  ])
+                                  ]),
                                 ],
                               )),
                           IntrinsicHeight(
@@ -110,7 +124,7 @@ class FriendCollectionMe extends StatelessWidget {
                                       ),
                                       FormBuilder(
                                         key:
-                                            _myFavoriteformKey, // GlobalKey<FormState>
+                                            myFavoriteformKey, // GlobalKey<FormState>
                                         autovalidateMode:
                                             AutovalidateMode.onUserInteraction,
                                         child: Column(
@@ -157,7 +171,7 @@ class FriendCollectionMe extends StatelessWidget {
                                         ),
                                       )
                                     ],
-                                  )), // Das ist mein(e) lieblings
+                                  )),
                               IntrinsicWidth(
                                   child: Padding(
                                       padding: paddingvalue,
@@ -178,7 +192,7 @@ class FriendCollectionMe extends StatelessWidget {
                                               AppLocalizations.of(context)!
                                                   .favoriteColor)
                                         ],
-                                      )))
+                                      ))),
                             ],
                           ))
                         ],
@@ -221,7 +235,7 @@ class FriendCollectionMe extends StatelessWidget {
                                             })),
                                     FormBuilder(
                                       key:
-                                          _myInformationformKey, // GlobalKey<FormState>
+                                          myInformationformKey, // GlobalKey<FormState>
                                       autovalidateMode:
                                           AutovalidateMode.onUserInteraction,
                                       child: Column(
@@ -237,7 +251,7 @@ class FriendCollectionMe extends StatelessWidget {
                                         ],
                                       ),
                                     )
-                                  ])
+                                  ]),
                                 ],
                               )),
                           IntrinsicHeight(
@@ -256,7 +270,7 @@ class FriendCollectionMe extends StatelessWidget {
                                       ),
                                       FormBuilder(
                                         key:
-                                            _myFavoriteformKey, // GlobalKey<FormState>
+                                            myFavoriteformKey, // GlobalKey<FormState>
                                         autovalidateMode:
                                             AutovalidateMode.onUserInteraction,
                                         child: Column(
@@ -264,7 +278,7 @@ class FriendCollectionMe extends StatelessWidget {
                                             FormfieldFavoritWidget(
                                                 AppLocalizations.of(context)!
                                                     .favoriteSong,
-                                                'tests',
+                                                '',
                                                 "textFieldHint",
                                                 "favoriteSong"),
                                             FormfieldFavoritWidget(
@@ -301,7 +315,7 @@ class FriendCollectionMe extends StatelessWidget {
                                         ),
                                       )
                                     ],
-                                  )), // Das ist mein(e) lieblings
+                                  )),
                               IntrinsicWidth(
                                   child: Padding(
                                       padding: paddingvalue,
@@ -322,7 +336,7 @@ class FriendCollectionMe extends StatelessWidget {
                                               AppLocalizations.of(context)!
                                                   .favoriteColor)
                                         ],
-                                      )))
+                                      ))),
                             ],
                           ))
                         ],

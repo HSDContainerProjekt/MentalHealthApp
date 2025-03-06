@@ -20,7 +20,7 @@ class FriendCollectionFriendlist extends StatefulWidget {
 class _FriendCollectionFriendlistState
     extends State<FriendCollectionFriendlist> {
   final myController = TextEditingController();
-  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = new GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -88,7 +88,7 @@ class _FriendCollectionFriendlistState
                     ),
                     Expanded(
                         child: Form(
-                            key: _formKey,
+                            key: formKey,
                             child: TextFormField(
                               controller: myController,
                               keyboardType: TextInputType.number,
@@ -103,7 +103,7 @@ class _FriendCollectionFriendlistState
                             ))),
                     IconButton(
                         onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
+                          if (formKey.currentState!.validate()) {
                             await OnlineDatabase().createFriendRequest(
                                 await ownIdDB().getOwnIdAsInt(),
                                 int.parse(myController.text));

@@ -158,7 +158,6 @@ class OnlineDatabase {
             var birthday = row.colByName("Birthday");
             var friend =
                 Friend(id: int.parse(id!), name: name, birthday: birthday);
-            log("friend added");
             list.add(friend);
           }
         } else {
@@ -166,13 +165,11 @@ class OnlineDatabase {
               "SELECT * FROM friends WHERE FriendID=:friendId",
               {"friendId": friend1});
           for (final row in result.rows) {
-            log(row.assoc().toString());
             var id = row.colByName("FriendID");
             var name = row.colByName("Name");
             var birthday = row.colByName("Birthday");
             var friend =
                 Friend(id: int.parse(id!), name: name, birthday: birthday);
-            log("friend added");
             list.add(friend);
           }
         }

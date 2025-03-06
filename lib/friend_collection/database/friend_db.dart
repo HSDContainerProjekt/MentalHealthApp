@@ -35,7 +35,6 @@ class FriendDB {
 
   Future<int> create(int id, String animal) async {
     final database = await DatabaseFriendCollection().database;
-    log("account created id: $id");
     return await database.insert(tableName, {'id': id, 'animal': animal},
         conflictAlgorithm: ConflictAlgorithm.rollback);
   }
@@ -63,9 +62,7 @@ class FriendDB {
   Future<List<Friend>> fetchAll() async {
     final database = await DatabaseFriendCollection().database;
     final friends = await database.rawQuery("""SELECT * from $tableName""");
-    print("mapped");
-    print(friends);
-    print("end");
+
     return friends.map((friend) => Friend.fromSqfliteDatabase(friend)).toList();
   }
 
