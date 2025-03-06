@@ -12,3 +12,11 @@ class RoutineOverviewEditRoutine extends RoutineOverviewEvent {
 
   RoutineOverviewEditRoutine({required this.routineID});
 }
+
+class RoutineOverviewEditRoutineDelete extends RoutineOverviewEvent {
+  final Routine routine;
+  final Future<bool?> delete;
+
+  RoutineOverviewEditRoutineDelete(
+      {required this.routine, required this.delete});
+}

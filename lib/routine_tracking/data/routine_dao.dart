@@ -18,6 +18,8 @@ abstract class RoutineDAO implements DatabaseDAO {
   Future<int> upsertTimeInterval(TimeInterval timeInterval);
 
   Future<List<TimeInterval>> timeIntervalsBy(int routineID);
+
+  Future<void> delete(Routine routine);
 }
 
 class RoutineDAOSQFLiteImpl implements RoutineDAO {
@@ -95,7 +97,7 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
   @override
   Future<List<TimeInterval>> timeIntervalsBy(int routineID) async {
     final List<Map<String, Object?>> queryResult =
-        await database.query("timeIntervals", where: "routineID");
+        await database.query("timeIntervals", where: "routineID = $routineID");
     List<TimeInterval> result = [];
     for (Map<String, Object?> x in queryResult) {
       TimeInterval newRoutine = TimeInterval.fromMap(x);
@@ -120,5 +122,11 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
       result.add(newRoutine);
     }
     return result;
+  }
+
+  @override
+  Future<void> delete(Routine routine) async {
+    database.delete("routines", where: "id = ${routine.id}");
+    database.delete("routineID", where: "id = ${routine.id}");
   }
 }

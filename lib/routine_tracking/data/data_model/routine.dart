@@ -44,7 +44,9 @@ class Routine extends Equatable {
     return Routine(
       id: data["id"] as int,
       title: data["title"] as String,
-      shortDescription: data["shortDescription"] as String,
+      shortDescription: data["shortDescription"] != null
+          ? data["shortDescription"] as String
+          : "",
       description: data["description"] as String,
       imageID: data["imageID"] as int,
     );

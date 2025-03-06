@@ -71,6 +71,7 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
     Emitter<RoutineEditState> emit,
   ) async {
     routine = await routineRepository.routineBy(event.routineID);
+    timeIntervals = await routineRepository.timeIntervalBy(routine);
     emitEditState(emit);
   }
 
@@ -152,7 +153,7 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
       shortDescriptionError = null;
     }
     if (save) {
-      await routineRepository.save(routine);
+      await routineRepository.save(routine, timeIntervals);
       navBloc.add(RoutineNavToOverview());
     } else {
       emitEditState(emit);

@@ -25,6 +25,7 @@ class RoutineOverviewBloc
     on<RoutineOverviewCreateNew>(_createNew);
     on<RoutineOverviewRefresh>(_refresh);
     on<RoutineOverviewEditRoutine>(_editRoutine);
+    on<RoutineOverviewEditRoutineDelete>(_delete);
   }
 
   Future<void> _createNew(
@@ -55,5 +56,16 @@ class RoutineOverviewBloc
         loadingAllRoutines: false,
         loadingNextRoutines: false,
         nextRoutines: nextRoutines));
+  }
+
+  Future<void> _delete(
+    RoutineOverviewEditRoutineDelete event,
+    Emitter<RoutineOverviewState> emit,
+  ) async {
+    bool? delete = await event.delete;
+    if (delete != null && delete) {
+      routineRepository.deleteRoutine(event.routine);
+      add(RoutineOverviewRefresh());
+    }
   }
 }

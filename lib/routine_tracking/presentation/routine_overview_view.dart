@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mental_health_app/app_framework_backbone/views/custom_image/custom_image_widget.dart';
+import 'package:mental_health_app/app_framework_backbone/views/popup/postit.dart';
 import 'package:mental_health_app/routine_tracking/presentation/bloc/routine_nav_bloc.dart';
 import 'package:mental_health_app/routine_tracking/presentation/bloc/routine_overview_bloc.dart';
 
@@ -38,7 +39,9 @@ class RoutineOverviewView extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: state.nextRoutines.length,
                     itemBuilder: (context, index) {
-                      return Text("data");
+                      return _RoutineWidget(
+                        routine: state.nextRoutines[index],
+                      );
                     },
                   );
                 },
@@ -152,18 +155,6 @@ class _RoutineWidget extends StatelessWidget {
                           shape: CircleBorder(), padding: EdgeInsets.all(0)),
                       onPressed: () {
                         Navigator.of(context)
-                            .pushNamed("/detail", arguments: routine);
-                      },
-                      child: Icon(Icons.fullscreen),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          shape: CircleBorder(), padding: EdgeInsets.all(0)),
-                      onPressed: () {
-                        Navigator.of(context)
                             .pushNamed("/statistics", arguments: routine);
                       },
                       child: Icon(Icons.bar_chart),
@@ -181,12 +172,64 @@ class _RoutineWidget extends StatelessWidget {
                       child: Icon(Icons.edit_document),
                     ),
                   ),
+                  Expanded(
+                    flex: 1,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          shape: CircleBorder(), padding: EdgeInsets.all(0)),
+                      onPressed: () {
+                        Future<bool?> deleteItem = showDialog<bool>(
+                          context: context,
+                          builder: (context) => _DeletePopUp(routine),
+                        );
+                        context.read<RoutineOverviewBloc>().add(
+                            RoutineOverviewEditRoutineDelete(
+                                routine: routine, delete: deleteItem));
+                      },
+                      child: Icon(Icons.delete),
+                    ),
+                  ),
                 ],
               )
             ]),
           )
         ],
       ),
+    );
+  }
+}
+
+class _DeletePopUp extends StatelessWidget {
+  final Routine routine;
+
+  const _DeletePopUp(this.routine);
+
+  @override
+  Widget build(BuildContext context) {
+    return PostIt(
+      headline: "Löschem",
+      mainBuilder: (context) {
+        return Align(
+          alignment: Alignment.center,
+          child: Text(
+              textAlign: TextAlign.center,
+              "Sind sie sicher, dass sie die Routine ${routine.title} Löschen möchten?"),
+        );
+      },
+      buttons: [
+        PostItButton(
+          headline: "Ja",
+          onClick: () {
+            Navigator.pop(context, true);
+          },
+        ),
+        PostItButton(
+          headline: "Nein",
+          onClick: () {
+            Navigator.pop(context, false);
+          },
+        ),
+      ],
     );
   }
 }
