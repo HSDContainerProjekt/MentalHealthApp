@@ -12,3 +12,4 @@ const String friendsCollectionBirthdayCalender =
 const String friendsCollectionFriend = "friends_collection/friend";
 const String friendlist = "friends_collection/friendlist";
 const String resources = "/resources";
+
