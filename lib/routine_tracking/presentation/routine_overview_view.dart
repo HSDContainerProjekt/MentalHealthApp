@@ -21,6 +21,7 @@ class RoutineOverviewView extends StatelessWidget {
           navBloc: context.read<RoutineNavBloc>())
         ..add(RoutineOverviewRefresh()),
       child: Scaffold(
+        backgroundColor: Colors.transparent,
         body: SingleChildScrollView(
           child: Column(
             children: [

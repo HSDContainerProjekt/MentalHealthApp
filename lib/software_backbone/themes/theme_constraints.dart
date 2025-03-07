@@ -4,29 +4,35 @@ import 'package:flutter/material.dart';
 /// example what color is used for what https://api.flutter.dev/flutter/material/ColorScheme-class.html
 
 ColorScheme baseColorScheme = const ColorScheme.light(
-  surface: Color(0xFFE6E6E6),
+  surface: Color(0xFFFFFFFF),
   error: Color(0xFFC80000),
 );
 
 /// Page specific colors
+
+/// MainPage
+ColorScheme tableOfContentsPageColorScheme = baseColorScheme.copyWith(
+  primary: const Color(0xFFb2dfd2),
+);
+
 /// MainPage
 ColorScheme mainPageColorScheme = baseColorScheme.copyWith(
-  primary: const Color(0xFFFF0000),
+  primary: const Color(0xFFf178ab),
 );
 
 /// Routines
 ColorScheme routinePageColorScheme = baseColorScheme.copyWith(
-  primary: const Color(0xFFFF8000),
+  primary: const Color(0xFFd6e16d),
 );
 
 /// Friends
 ColorScheme friendsPageColorScheme = baseColorScheme.copyWith(
-  primary: const Color(0xFF00FF00),
+  primary: const Color(0xFFa0c4e8),
 );
 
 /// External resources
 ColorScheme resourcesPageColorScheme = baseColorScheme.copyWith(
-  primary: const Color(0xFF0080FF),
+  primary: const Color(0xFFcf98c4),
 );
 //#endregion
 

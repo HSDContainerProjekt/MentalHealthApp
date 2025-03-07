@@ -29,39 +29,39 @@ class _AppFrameworkState extends State<AppFramework> {
     return Scaffold(
       appBar: AppBar(),
       body: Navigator(
-              initialRoute: landingPage,
-              key: navigatorKey,
-              onGenerateRoute: (RouteSettings settings) {
-                WidgetBuilder builder;
-                switch (settings.name) {
-                  case '/':
-                    builder = (BuildContext context) => LandingPage();
-                    break;
-                  case landingPage:
-                    builder = (BuildContext context) => LandingPage();
-                    break;
-                  case tableOfContents:
-                    builder = (BuildContext context) => TableOfContent();
-                    break;
-                  case routineTracking:
-                    builder = (BuildContext context) => RoutineMainView();
-                    break;
-                  case mainPage:
-                    builder = (BuildContext context) => HomePage();
-                    break;
-                  case friendsCollection:
-                    builder = (BuildContext context) =>
-                        FriendCollectionScaffoldWidget();
-                    break;
-                  case resources:
-                    builder = (BuildContext context) => Resources();
-                    break;
-                  default:
-                    throw Exception('Invalid route: ${settings.name}');
-                }
-                return MaterialPageRoute<void>(
-                    builder: builder, settings: settings);
-              }), //aktuelle Seite als body
+          initialRoute: landingPage,
+          key: navigatorKey,
+          onGenerateRoute: (RouteSettings settings) {
+            WidgetBuilder builder;
+            switch (settings.name) {
+              case '/':
+                builder = (BuildContext context) => LandingPage();
+                break;
+              case landingPage:
+                builder = (BuildContext context) => LandingPage();
+                break;
+              case tableOfContents:
+                builder = (BuildContext context) => TableOfContent();
+                break;
+              case routineTracking:
+                builder = (BuildContext context) => RoutineMainView();
+                break;
+              case mainPage:
+                builder = (BuildContext context) => HomePage();
+                break;
+              case friendsCollection:
+                builder =
+                    (BuildContext context) => FriendCollectionScaffoldWidget();
+                break;
+              case resources:
+                builder = (BuildContext context) => Resources();
+                break;
+              default:
+                throw Exception('Invalid route: ${settings.name}');
+            }
+            return MaterialPageRoute<void>(
+                builder: builder, settings: settings);
+          }), //aktuelle Seite als body
       //routeOnTap(selectedPage, context),
       bottomNavigationBar: NavBar(
         selectedPage: selectedPage,
@@ -82,9 +82,9 @@ routeOnTap(index) {
     case 1:
       return tableOfContents;
     case 2:
-      return routineTracking;
-    case 3:
       return mainPage;
+    case 3:
+      return routineTracking;
     case 4:
       return friendsCollection;
     case 5:
