@@ -47,7 +47,7 @@ class RoutineOverviewBloc
     Emitter<RoutineOverviewState> emit,
   ) async {
     emit(RoutineOverviewState());
-    nextRoutines = await routineRepository.nextRoutines(5);
+    nextRoutines = await routineRepository.nextRoutines(3);
     emit(RoutineOverviewState(
         nextRoutines: nextRoutines, loadingNextRoutines: false));
     allRoutines = await routineRepository.allRoutines();

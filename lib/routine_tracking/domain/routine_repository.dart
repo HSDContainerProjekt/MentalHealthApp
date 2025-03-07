@@ -13,6 +13,7 @@ class RoutineRepository {
 
   Future<void> save(Routine routine, List<TimeInterval> timeIntervals) async {
     int routineID = await routineDAO.upsert(routine);
+    await routineDAO.deleteTimeIntervals(routine);
     for (TimeInterval timeInterval in timeIntervals) {
       await routineDAO
           .upsertTimeInterval(timeInterval.copyWith(routineID: routineID));

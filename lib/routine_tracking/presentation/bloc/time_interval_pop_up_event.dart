@@ -9,6 +9,14 @@ class TimeIntervalPopUpChangeDate extends TimeIntervalPopUpEvent {
   TimeIntervalPopUpChangeDate(this.dateTime);
 }
 
+class TimeIntervalPopUpShowInterval extends TimeIntervalPopUpEvent {
+  final TimeInterval timeInterval;
+  final int? number;
+
+  TimeIntervalPopUpShowInterval(
+      {required this.timeInterval, required this.number});
+}
+
 class TimeIntervalPopUpChangeTime extends TimeIntervalPopUpEvent {
   final TimeOfDay timeOfDay;
 

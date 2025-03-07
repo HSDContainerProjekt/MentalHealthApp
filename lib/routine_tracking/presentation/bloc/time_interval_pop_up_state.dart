@@ -1,18 +1,17 @@
 part of 'time_interval_pop_up_bloc.dart';
 
-final class TimeIntervalPopUpState extends Equatable {
-  final TimeInterval timeInterval;
+class TimeIntervalPopUpState extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
 
-  TimeIntervalPopUpState({required this.timeInterval});
+final class TimeIntervalPopUpInitial extends TimeIntervalPopUpState {}
 
-  String dateAsString() {
-    return timeInterval.dateAsString();
-  }
+final class TimeIntervalPopUpShow extends TimeIntervalPopUpState {
+  final TimeIntervalState timeIntervalState;
 
-  String timeAsString() {
-    return timeInterval.timeAsString();
-  }
+  TimeIntervalPopUpShow({required this.timeIntervalState});
 
   @override
-  List<Object?> get props => [timeInterval];
+  List<Object?> get props => [timeIntervalState];
 }

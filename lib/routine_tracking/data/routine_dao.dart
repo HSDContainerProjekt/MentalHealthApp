@@ -20,6 +20,8 @@ abstract class RoutineDAO implements DatabaseDAO {
   Future<List<TimeInterval>> timeIntervalsBy(int routineID);
 
   Future<void> delete(Routine routine);
+
+  Future<void> deleteTimeIntervals(Routine routine);
 }
 
 class RoutineDAOSQFLiteImpl implements RoutineDAO {
@@ -68,7 +70,7 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
     int lookUpTime = DateTime.now().millisecondsSinceEpoch;
 
     final List<Map<String, Object?>> queryResult = await database.rawQuery(
-        'SELECT routines.id, routines.title, routines.description, routines.imageID , MIN($lookUpTime + ((timeIntervals.timeInterval - $lookUpTime + timeIntervals.firstDateTime) % timeIntervals.timeInterval)) AS nextTime FROM routines JOIN timeIntervals ON routines.id = timeIntervals.routineID LEFT JOIN routineResults ON routineResults.timeIntervalID = timeIntervals.id AND routineResults.number = cast(($lookUpTime - timeIntervals.firstDateTime) / timeIntervals.timeInterval as int) WHERE routineResults.timeIntervalID IS NULL GROUP BY routines.id ORDER BY nextTime LIMIT 10');
+        'SELECT routines.id, routines.title, routines.description, routines.imageID , MIN($lookUpTime + ((timeIntervals.timeInterval - $lookUpTime + timeIntervals.firstDateTime) % timeIntervals.timeInterval)) AS nextTime FROM routines JOIN timeIntervals ON routines.id = timeIntervals.routineID LEFT JOIN routineResults ON routineResults.timeIntervalID = timeIntervals.id AND routineResults.number = cast(($lookUpTime - timeIntervals.firstDateTime) / timeIntervals.timeInterval as int) WHERE routineResults.timeIntervalID IS NULL GROUP BY routines.id ORDER BY nextTime LIMIT $limit');
     List<Routine> result = [];
     for (Map<String, Object?> x in queryResult) {
       Routine newRoutine = Routine.fromMap(x);
@@ -127,6 +129,11 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
   @override
   Future<void> delete(Routine routine) async {
     database.delete("routines", where: "id = ${routine.id}");
-    database.delete("routineID", where: "id = ${routine.id}");
+    deleteTimeIntervals(routine);
+  }
+
+  @override
+  Future<void> deleteTimeIntervals(Routine routine) async {
+    database.delete("timeIntervals", where: "routineID = ${routine.id}");
   }
 }

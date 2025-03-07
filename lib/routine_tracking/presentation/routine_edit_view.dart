@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mental_health_app/app_framework_backbone/views/custom_image/custom_image_widget.dart';
@@ -212,27 +213,30 @@ class _IntervalEditor extends StatelessWidget {
           return [];
         },
         builder: (context, state) {
-          return ListView.builder(
-            shrinkWrap: true,
-            itemCount: state.length,
-            itemBuilder: (context, index) {
-              return _TimeIntervalEntry(timeInterval: state[index]);
-            },
+          int index = 0;
+          return Column(
+            children: state.map((item) {
+              TimeIntervalState timeIntervalState =
+                  TimeIntervalState(timeInterval: item, number: index++);
+              return _TimeIntervalEntry(timeIntervalState: timeIntervalState);
+            }).toList(),
           );
         },
       ),
       ElevatedButton(
         onPressed: () async {
-          TimeInterval? timeInterval = await showDialog<TimeInterval>(
-            context: context,
-            builder: (context) => _IntervalEditPopup(
-              timeInterval: TimeInterval.empty(),
-            ),
-          );
-          if (timeInterval != null) {
+          TimeIntervalState? timeIntervalState =
+              await showDialog<TimeIntervalState>(
+                  context: context,
+                  builder: (context) {
+                    return _IntervalEditPopup(
+                        timeIntervalState: TimeIntervalState(
+                            timeInterval: TimeInterval.empty()));
+                  });
+          if (timeIntervalState != null) {
             context
                 .read<RoutineEditBloc>()
-                .add(RoutineEditAddTimeInterval(timeInterval));
+                .add(RoutineEditAddTimeInterval(timeIntervalState));
           }
         },
         child: Icon(Icons.add),
@@ -249,162 +253,182 @@ class _EvaluationEditor extends StatelessWidget {
 }
 
 class _IntervalEditPopup extends StatelessWidget {
-  final TimeInterval timeInterval;
+  final TimeIntervalState timeIntervalState;
 
-  const _IntervalEditPopup({super.key, required this.timeInterval});
+  const _IntervalEditPopup({super.key, required this.timeIntervalState});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<TimeIntervalPopUpBloc>(
-      create: (_) => TimeIntervalPopUpBloc(timeInterval),
+      create: (_) => TimeIntervalPopUpBloc()
+        ..add(TimeIntervalPopUpShowInterval(
+            timeInterval: timeIntervalState.timeInterval,
+            number: timeIntervalState.number)),
       child: BlocBuilder<TimeIntervalPopUpBloc, TimeIntervalPopUpState>(
         builder: (context, state) {
           return PostIt(
             headline: 'Interval',
             mainBuilder: (context) {
-              return Center(
-                child: Column(
-                  children: [
-                    Spacer(),
-                    Row(
-                      children: [
-                        Spacer(),
-                        Text("Ab:"),
-                        Spacer(),
-                        TextButton(
-                          onPressed: () async {
-                            DateTime? dateTime = await showDatePicker(
-                              initialEntryMode:
-                                  DatePickerEntryMode.calendarOnly,
-                              context: context,
-                              initialDate: state.timeInterval.firstDateTime,
-                              firstDate: state.timeInterval.firstDateTime
-                                  .add(Duration(days: -10000)),
-                              lastDate: state.timeInterval.firstDateTime
-                                  .add(Duration(days: 10000)),
-                            );
+              if (state is TimeIntervalPopUpShow) {
+                return Center(
+                  child: Column(
+                    children: [
+                      Spacer(),
+                      Row(
+                        children: [
+                          Spacer(),
+                          Text("Ab:"),
+                          Spacer(),
+                          TextButton(
+                            onPressed: () async {
+                              DateTime? dateTime = await showDatePicker(
+                                initialEntryMode:
+                                    DatePickerEntryMode.calendarOnly,
+                                context: context,
+                                initialDate: state.timeIntervalState
+                                    .timeInterval.firstDateTime,
+                                firstDate: state.timeIntervalState.timeInterval
+                                    .firstDateTime
+                                    .add(Duration(days: -10000)),
+                                lastDate: state.timeIntervalState.timeInterval
+                                    .firstDateTime
+                                    .add(Duration(days: 10000)),
+                              );
 
-                            if (dateTime != null) {
-                              context
-                                  .read<TimeIntervalPopUpBloc>()
-                                  .add(TimeIntervalPopUpChangeDate(dateTime));
-                            }
-                          },
-                          child: Text(state.dateAsString()),
-                        ),
-                        TextButton(
-                          onPressed: () async {
-                            TimeOfDay? timeOfDay = await showTimePicker(
-                              initialEntryMode: TimePickerEntryMode.input,
-                              initialTime: TimeOfDay.fromDateTime(
-                                  state.timeInterval.firstDateTime),
-                              context: context,
-                            );
-                            if (timeOfDay != null) {
-                              context
-                                  .read<TimeIntervalPopUpBloc>()
-                                  .add(TimeIntervalPopUpChangeTime(timeOfDay));
-                            }
-                          },
-                          child: Text(state.timeAsString()),
-                        ),
-                        Spacer(),
-                      ],
-                    ),
-                    Spacer(),
-                    Row(
-                      children: [
-                        Spacer(),
-                        Text("Wiederholen alle:"),
-                        Spacer(),
-                        Column(
-                          children: [
-                            Text("Tage"),
-                            NumberPicker(
-                              textStyle: Theme.of(context).textTheme.labelSmall,
-                              selectedTextStyle: Theme.of(context)
-                                  .textTheme
-                                  .labelSmall
-                                  ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary),
-                              itemHeight: 25,
-                              itemWidth: 30,
-                              itemCount: 3,
-                              minValue: 0,
-                              maxValue: 99,
-                              value: state.timeInterval.timeInterval.inDays,
-                              onChanged: (value) {
+                              if (dateTime != null) {
+                                context
+                                    .read<TimeIntervalPopUpBloc>()
+                                    .add(TimeIntervalPopUpChangeDate(dateTime));
+                              }
+                            },
+                            child: Text(state.timeIntervalState.timeInterval
+                                .dateAsString()),
+                          ),
+                          TextButton(
+                            onPressed: () async {
+                              TimeOfDay? timeOfDay = await showTimePicker(
+                                initialEntryMode: TimePickerEntryMode.input,
+                                initialTime: TimeOfDay.fromDateTime(state
+                                    .timeIntervalState
+                                    .timeInterval
+                                    .firstDateTime),
+                                context: context,
+                              );
+                              if (timeOfDay != null) {
                                 context.read<TimeIntervalPopUpBloc>().add(
-                                    TimeIntervalPopUpChangeDurationDay(value));
-                              },
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Text("Stunden"),
-                            NumberPicker(
-                              textStyle: Theme.of(context).textTheme.labelSmall,
-                              selectedTextStyle: Theme.of(context)
-                                  .textTheme
-                                  .labelSmall
-                                  ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary),
-                              zeroPad: true,
-                              itemHeight: 25,
-                              itemWidth: 30,
-                              itemCount: 3,
-                              minValue: 0,
-                              maxValue: 23,
-                              value:
-                                  state.timeInterval.timeInterval.inHours % 24,
-                              onChanged: (value) {
-                                context.read<TimeIntervalPopUpBloc>().add(
-                                    TimeIntervalPopUpChangeDurationHours(
-                                        value));
-                              },
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Text("Minuten"),
-                            NumberPicker(
-                              textStyle: Theme.of(context).textTheme.labelSmall,
-                              selectedTextStyle: Theme.of(context)
-                                  .textTheme
-                                  .labelSmall
-                                  ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary),
-                              zeroPad: true,
-                              itemHeight: 25,
-                              itemWidth: 30,
-                              itemCount: 3,
-                              minValue: 0,
-                              maxValue: 59,
-                              value: state.timeInterval.timeInterval.inMinutes %
-                                  60,
-                              onChanged: (value) {
-                                context.read<TimeIntervalPopUpBloc>().add(
-                                    TimeIntervalPopUpChangeDurationMinute(
-                                        value));
-                              },
-                            ),
-                          ],
-                        ),
-                        Spacer(),
-                      ],
-                    ),
-                    Spacer()
-                  ],
-                ),
-              );
+                                    TimeIntervalPopUpChangeTime(timeOfDay));
+                              }
+                            },
+                            child: Text(state.timeIntervalState.timeInterval
+                                .timeAsString()),
+                          ),
+                          Spacer(),
+                        ],
+                      ),
+                      Spacer(),
+                      Row(
+                        children: [
+                          Spacer(),
+                          Text("Wiederholen alle:"),
+                          Spacer(),
+                          Column(
+                            children: [
+                              Text("Tage"),
+                              NumberPicker(
+                                textStyle:
+                                    Theme.of(context).textTheme.labelSmall,
+                                selectedTextStyle: Theme.of(context)
+                                    .textTheme
+                                    .labelSmall
+                                    ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary),
+                                itemHeight: 25,
+                                itemWidth: 30,
+                                itemCount: 3,
+                                minValue: 0,
+                                maxValue: 99,
+                                value: state.timeIntervalState.timeInterval
+                                    .timeInterval.inDays,
+                                onChanged: (value) {
+                                  context.read<TimeIntervalPopUpBloc>().add(
+                                      TimeIntervalPopUpChangeDurationDay(
+                                          value));
+                                },
+                              ),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Text("Stunden"),
+                              NumberPicker(
+                                textStyle:
+                                    Theme.of(context).textTheme.labelSmall,
+                                selectedTextStyle: Theme.of(context)
+                                    .textTheme
+                                    .labelSmall
+                                    ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary),
+                                zeroPad: true,
+                                itemHeight: 25,
+                                itemWidth: 30,
+                                itemCount: 3,
+                                minValue: 0,
+                                maxValue: 23,
+                                value: state.timeIntervalState.timeInterval
+                                        .timeInterval.inHours %
+                                    24,
+                                onChanged: (value) {
+                                  context.read<TimeIntervalPopUpBloc>().add(
+                                      TimeIntervalPopUpChangeDurationHours(
+                                          value));
+                                },
+                              ),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Text("Minuten"),
+                              NumberPicker(
+                                textStyle:
+                                    Theme.of(context).textTheme.labelSmall,
+                                selectedTextStyle: Theme.of(context)
+                                    .textTheme
+                                    .labelSmall
+                                    ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary),
+                                zeroPad: true,
+                                itemHeight: 25,
+                                itemWidth: 30,
+                                itemCount: 3,
+                                minValue: 0,
+                                maxValue: 59,
+                                value: state.timeIntervalState.timeInterval
+                                        .timeInterval.inMinutes %
+                                    60,
+                                onChanged: (value) {
+                                  context.read<TimeIntervalPopUpBloc>().add(
+                                      TimeIntervalPopUpChangeDurationMinute(
+                                          value));
+                                },
+                              ),
+                            ],
+                          ),
+                          Spacer(),
+                        ],
+                      ),
+                      Spacer()
+                    ],
+                  ),
+                );
+              }
+
+              return CircularProgressIndicator();
             },
             buttons: [
               PostItButton(
@@ -414,8 +438,13 @@ class _IntervalEditPopup extends StatelessWidget {
               PostItButton(
                 headline: "Speichern",
                 onClick: () {
-                  Navigator.pop(context,
-                      context.read<TimeIntervalPopUpBloc>().state.timeInterval);
+                  TimeIntervalPopUpState state =
+                      context.read<TimeIntervalPopUpBloc>().state;
+                  if (state is TimeIntervalPopUpShow) {
+                    Navigator.pop(context, state.timeIntervalState);
+                  } else {
+                    Navigator.pop(context);
+                  }
                 },
               ),
             ],
@@ -426,13 +455,28 @@ class _IntervalEditPopup extends StatelessWidget {
   }
 }
 
-class _TimeIntervalEntry extends StatelessWidget {
+class TimeIntervalState extends Equatable {
   final TimeInterval timeInterval;
+  final int? number;
 
-  const _TimeIntervalEntry({super.key, required this.timeInterval});
+  const TimeIntervalState({required this.timeInterval, this.number});
+
+  @override
+  List<Object?> get props => [timeInterval, number];
+}
+
+class _TimeIntervalEntry extends StatelessWidget {
+  final TimeIntervalState timeIntervalState;
+
+  const _TimeIntervalEntry({
+    super.key,
+    required this.timeIntervalState,
+  });
 
   @override
   Widget build(BuildContext context) {
+    TimeInterval timeInterval = timeIntervalState.timeInterval;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
       child: Container(
@@ -460,16 +504,17 @@ class _TimeIntervalEntry extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                           shape: CircleBorder(), padding: EdgeInsets.all(0)),
                       onPressed: () async {
-                        TimeInterval? editTimeInterval =
-                            await showDialog<TimeInterval>(
+                        TimeIntervalState? editTimeIntervalState =
+                            await showDialog<TimeIntervalState>(
                           context: context,
                           builder: (context) => _IntervalEditPopup(
-                            timeInterval: timeInterval,
+                            timeIntervalState: timeIntervalState,
                           ),
                         );
-                        if (editTimeInterval != null) {
+                        if (editTimeIntervalState != null) {
                           context.read<RoutineEditBloc>().add(
-                              RoutineEditAddTimeInterval(editTimeInterval));
+                              RoutineEditAddTimeInterval(
+                                  editTimeIntervalState));
                         }
                       },
                       child: Icon(Icons.edit),
@@ -480,7 +525,11 @@ class _TimeIntervalEntry extends StatelessWidget {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           shape: CircleBorder(), padding: EdgeInsets.all(0)),
-                      onPressed: () {},
+                      onPressed: () {
+                        context.read<RoutineEditBloc>().add(
+                            RoutineDeleteTimeInterval(
+                                number: timeIntervalState.number!));
+                      },
                       child: Icon(Icons.delete),
                     ),
                   ),

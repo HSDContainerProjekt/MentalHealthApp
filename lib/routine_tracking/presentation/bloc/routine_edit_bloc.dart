@@ -7,6 +7,7 @@ import 'package:mental_health_app/routine_tracking/presentation/bloc/routine_nav
 import 'package:mental_health_app/routine_tracking/presentation/text_input_widget.dart';
 import 'package:path/path.dart';
 import '../../data/data_model/routine.dart';
+import '../routine_edit_view.dart';
 
 part 'routine_edit_event.dart';
 
@@ -36,7 +37,8 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
     on<RoutineEditSave>(_save);
     on<RoutineEditCancel>(_cancel);
     on<RoutineEditSwitchEditorState>(_changeEditorState);
-    on<RoutineEditAddTimeInterval>(_addTimeInterval);
+    on<RoutineEditAddTimeInterval>(_editAddTimeInterval);
+    on<RoutineDeleteTimeInterval>(_deleteTimeInterval);
   }
 
   void emitEditState(Emitter<RoutineEditState> emit) {
@@ -55,14 +57,32 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
     );
   }
 
-  void _addTimeInterval(
+  void _deleteTimeInterval(
+    RoutineDeleteTimeInterval event,
+    Emitter<RoutineEditState> emit,
+  ) {
+    List<TimeInterval> newTimeIntervals = [];
+    newTimeIntervals.addAll(timeIntervals);
+    newTimeIntervals.removeAt(event.number);
+    timeIntervals = newTimeIntervals;
+
+    emitEditState(emit);
+  }
+
+  void _editAddTimeInterval(
     RoutineEditAddTimeInterval event,
     Emitter<RoutineEditState> emit,
   ) {
     List<TimeInterval> newTimeIntervals = [];
     newTimeIntervals.addAll(timeIntervals);
-    newTimeIntervals.add(event.newTimeInterval);
+    if (event.timeIntervalState.number != null) {
+      newTimeIntervals[event.timeIntervalState.number!] =
+          event.timeIntervalState.timeInterval;
+    } else {
+      newTimeIntervals.add(event.timeIntervalState.timeInterval);
+    }
     timeIntervals = newTimeIntervals;
+
     emitEditState(emit);
   }
 
