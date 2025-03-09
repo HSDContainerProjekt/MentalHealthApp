@@ -16,28 +16,38 @@ class RoutineMainView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
       data: routinesPageThemeData,
-      child: BlocProvider(
-        create: (_) => RoutineNavBloc(),
-        child: Column(
-          children: [
-            Center(
-                child: Text(AppLocalizations.of(context)!.routineTitle,
-                    style: Theme.of(context).textTheme.titleLarge)),
-            Expanded(child: BlocBuilder<RoutineNavBloc, RoutineNavState>(
-              builder: (context, state) {
-                if (state is RoutineNavOverview) {
-                  return RoutineOverviewView();
-                }
-                if (state is RoutineNavDetail) {
-                  return Text("Detail");
-                }
-                if (state is RoutineNavEdit) {
-                  return RoutineEditView(state: state);
-                }
-                throw Exception("Something went wrong. State unknown");
-              },
-            ))
-          ],
+      child: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            repeat: ImageRepeat.repeatY,
+            fit: BoxFit.fitWidth,
+            image: AssetImage(
+                "lib/assets/images/background_paper/paper_shadow/dotted_paper_white-green_shadow.jpg"),
+          ),
+        ),
+        child: BlocProvider(
+          create: (_) => RoutineNavBloc(),
+          child: Column(
+            children: [
+              Center(
+                  child: Text(AppLocalizations.of(context)!.routineTitle,
+                      style: Theme.of(context).textTheme.titleLarge)),
+              Expanded(child: BlocBuilder<RoutineNavBloc, RoutineNavState>(
+                builder: (context, state) {
+                  if (state is RoutineNavOverview) {
+                    return RoutineOverviewView();
+                  }
+                  if (state is RoutineNavDetail) {
+                    return Text("Detail");
+                  }
+                  if (state is RoutineNavEdit) {
+                    return RoutineEditView(state: state);
+                  }
+                  throw Exception("Something went wrong. State unknown");
+                },
+              ))
+            ],
+          ),
         ),
       ),
     );

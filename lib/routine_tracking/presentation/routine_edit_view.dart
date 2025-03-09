@@ -38,51 +38,53 @@ class RoutineEditView extends StatelessWidget {
           )..add(initEvent!),
         ),
       ],
-      child: Column(children: [
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-          child: _EditorSwitchButton(),
-        ),
-        Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                _Editor(),
-              ],
-            ),
-          ),
-        ),
-        Divider(
-          color: Theme.of(context).colorScheme.primary,
-        ),
-        BlocBuilder<RoutineEditBloc, RoutineEditState>(
-          buildWhen: (oldState, newState) {
-            return oldState is RoutineEditInitial;
-          },
-          builder: (context, state) => Padding(
+      child: Column(
+        children: [
+          Padding(
             padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-            child: Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                      onPressed: () => context
-                          .read<RoutineEditBloc>()
-                          .add(RoutineEditCancel()),
-                      child: Text("Beenden")),
-                ),
-                VerticalDivider(),
-                Expanded(
-                  child: ElevatedButton(
-                      onPressed: () => context
-                          .read<RoutineEditBloc>()
-                          .add(RoutineEditSave()),
-                      child: Text("Speichern")),
-                ),
-              ],
+            child: _EditorSwitchButton(),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  _Editor(),
+                ],
+              ),
             ),
           ),
-        ),
-      ]),
+          Divider(
+            color: Theme.of(context).colorScheme.primary,
+          ),
+          BlocBuilder<RoutineEditBloc, RoutineEditState>(
+            buildWhen: (oldState, newState) {
+              return oldState is RoutineEditInitial;
+            },
+            builder: (context, state) => Padding(
+              padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                        onPressed: () => context
+                            .read<RoutineEditBloc>()
+                            .add(RoutineEditCancel()),
+                        child: Text("Beenden")),
+                  ),
+                  VerticalDivider(),
+                  Expanded(
+                    child: ElevatedButton(
+                        onPressed: () => context
+                            .read<RoutineEditBloc>()
+                            .add(RoutineEditSave()),
+                        child: Text("Speichern")),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

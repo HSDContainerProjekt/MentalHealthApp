@@ -21,55 +21,60 @@ class RoutineOverviewView extends StatelessWidget {
           navBloc: context.read<RoutineNavBloc>())
         ..add(RoutineOverviewRefresh()),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
         body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(AppLocalizations.of(context)!.currentRoutines,
-                    style: Theme.of(context).textTheme.headlineMedium),
-              ),
-              BlocBuilder<RoutineOverviewBloc, RoutineOverviewState>(
-                builder: (context, state) {
-                  if (state.loadingNextRoutines) {
-                    return CircularProgressIndicator();
-                  }
-                  return ListView.builder(
-                    primary: false,
-                    shrinkWrap: true,
-                    itemCount: state.nextRoutines.length,
-                    itemBuilder: (context, index) {
-                      return _RoutineWidget(
-                        routine: state.nextRoutines[index],
-                      );
-                    },
-                  );
-                },
-              ),
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: Text(AppLocalizations.of(context)!.allRoutines,
-                    style: Theme.of(context).textTheme.headlineMedium),
-              ),
-              BlocBuilder<RoutineOverviewBloc, RoutineOverviewState>(
-                builder: (context, state) {
-                  if (state.loadingNextRoutines) {
-                    return CircularProgressIndicator();
-                  }
-                  return ListView.builder(
-                    primary: false,
-                    shrinkWrap: true,
-                    itemCount: state.allRoutines.length,
-                    itemBuilder: (context, index) {
-                      return _RoutineWidget(
-                        routine: state.allRoutines[index],
-                      );
-                    },
-                  );
-                },
-              ),
-            ],
+          child: Padding(
+            padding: EdgeInsets.all(10),
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(AppLocalizations.of(context)!.currentRoutines,
+                      style: Theme.of(context).textTheme.headlineMedium),
+                ),
+                BlocBuilder<RoutineOverviewBloc, RoutineOverviewState>(
+                  builder: (context, state) {
+                    if (state.loadingNextRoutines) {
+                      return CircularProgressIndicator();
+                    }
+                    return ListView.builder(
+                      primary: false,
+                      shrinkWrap: true,
+                      itemCount: state.nextRoutines.length,
+                      itemBuilder: (context, index) {
+                        return _RoutineWidget(
+                          routine: state.nextRoutines[index],
+                        );
+                      },
+                    );
+                  },
+                ),
+                SizedBox(height: 20),
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(AppLocalizations.of(context)!.allRoutines,
+                      style: Theme.of(context).textTheme.headlineMedium),
+                ),
+                BlocBuilder<RoutineOverviewBloc, RoutineOverviewState>(
+                  builder: (context, state) {
+                    if (state.loadingNextRoutines) {
+                      return CircularProgressIndicator();
+                    }
+                    return ListView.builder(
+                      primary: false,
+                      shrinkWrap: true,
+                      itemCount: state.allRoutines.length,
+                      itemBuilder: (context, index) {
+                        return _RoutineWidget(
+                          routine: state.allRoutines[index],
+                        );
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
         floatingActionButton: FloatingActionButton(

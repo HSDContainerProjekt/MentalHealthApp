@@ -1,3 +1,5 @@
+import 'package:mental_health_app/routine_tracking/data/data_model/evaluation_criteria.dart';
+
 import 'data_model/routine.dart';
 import 'data_model/time_interval.dart';
 import 'dart:async';
@@ -18,6 +20,8 @@ abstract class RoutineDAO implements DatabaseDAO {
   Future<int> upsertTimeInterval(TimeInterval timeInterval);
 
   Future<List<TimeInterval>> timeIntervalsBy(int routineID);
+
+  Future<List<EvaluationCriteria>> evaluationCriteriaBy(int routineID);
 
   Future<void> delete(Routine routine);
 
@@ -60,7 +64,49 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
         timeIntervalID INTEGER,
         number INTEGER,
         result TEXT CHECK(result IN ('DONE', 'FAILED')),
-         PRIMARY KEY (timeIntervalID, number)
+        PRIMARY KEY (timeIntervalID, number),
+        FOREIGN KEY(timeIntervalID) REFERENCES timeIntervals(id)
+        )
+        ''');
+
+    await db.execute('''
+    CREATE TABLE evaluationCriteria(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        routineID INTEGER,
+        description TEXT, 
+        FOREIGN KEY(routineID) REFERENCES routines(id)
+        )
+        ''');
+
+    await db.execute('''
+    CREATE TABLE evaluationCriteriaText(
+        evaluationCriteriaID INTEGER PRIMARY KEY,
+        FOREIGN KEY(evaluationCriteriaID) REFERENCES evaluationCriteria(id)
+        )
+        ''');
+
+    await db.execute('''
+    CREATE TABLE evaluationCriteriaToggle(
+        evaluationCriteriaID INTEGER PRIMARY KEY,
+        FOREIGN KEY(evaluationCriteriaID) REFERENCES evaluationCriteria(id)
+        )
+        ''');
+
+    await db.execute('''
+    CREATE TABLE evaluationCriteriaToggleStates(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        evaluationCriteriaID INTEGER,
+        state TEXT,
+        FOREIGN KEY(evaluationCriteriaID) REFERENCES evaluationCriteriaToggle(id)
+        )
+        ''');
+
+    await db.execute('''
+    CREATE TABLE evaluationCriteriaValueRange(
+        evaluationCriteriaID INTEGER PRIMARY KEY,
+        minimalValue REAL,
+        maximumValue REAL,
+        FOREIGN KEY(evaluationCriteriaID) REFERENCES evaluationCriteria(id)
         )
         ''');
   }
@@ -135,5 +181,29 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
   @override
   Future<void> deleteTimeIntervals(Routine routine) async {
     database.delete("timeIntervals", where: "routineID = ${routine.id}");
+  }
+
+  @override
+  Future<List<EvaluationCriteria>> evaluationCriteriaBy(int routineID) async {
+    final List<Map<String, Object?>> queryResult = await database.rawQuery('SELECT * FROM evaluationcriteria JOIN ((SELECT *, NUll as maximumvalue, NUll as minimumvalue, evaluationcriteriatoggle AS table FROM evaluationcriteriatoggle) UNION ALL (SELECT *, NUll as maximumvalue, NUll as minimumvalue, evaluationcriteriatext AS table FROM evaluationcriteriatext) UNION ALL (SELECT *, "evaluationcriteriavaluerange" AS table FROM evaluationcriteriavaluerange)) t1 On evaluationcriteria.id = t1.evaluationcriteriaid WHERE routineID = $routineID');
+    List<EvaluationCriteria> result = [];
+    for (Map<String, Object?> x in queryResult) {
+      EvaluationCriteria newEvaluationCriteria;
+      switch (x["table"] as String) {
+        case "evaluationcriteriatoggle":
+          final List<Map<String, Object?>> queryResult2 = await database.rawQuery('SELECT * FROM evaluationcriteriatogglestates WHERE evaluationcriteriatogglestates.evaluationCriteriaid = ${x["evaluationCriteriaid"]}');
+          newEvaluationCriteria = EvaluationCriteriaToggle.fromMap(x,queryResult2);
+          break;
+        case "evaluationcriteriatext":
+          newEvaluationCriteria = EvaluationCriteriaText.fromMap(x);
+          break;
+        case "evaluationcriteriavaluerange":
+          newEvaluationCriteria = EvaluationCriteriaValueRange.fromMap(x);
+          break;
+        default: throw Exception("Failed construct object from loaded data.");
+      }
+      result.add(newEvaluationCriteria);
+    }
+    return result;
   }
 }
