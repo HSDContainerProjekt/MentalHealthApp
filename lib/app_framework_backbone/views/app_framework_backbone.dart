@@ -10,7 +10,6 @@ import 'package:mental_health_app/app_framework_backbone/views/landing_page/land
 import 'package:mental_health_app/app_framework_backbone/views/main_page/main_page_backbone.dart';
 import 'package:mental_health_app/navigation/widgets/navigation_bar.dart';
 import 'package:mental_health_app/ressources/presentation/ressources_backbone.dart';
-import 'package:mental_health_app/ressources/ressources_backbone.dart';
 import 'package:mental_health_app/routine_tracking/presentation/routine_main_view.dart';
 import 'package:mental_health_app/software_backbone/routing/routing_constants.dart';
 
