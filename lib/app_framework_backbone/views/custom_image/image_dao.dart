@@ -1,4 +1,4 @@
-import '../../../database_dao.dart';
+import '../../database_dao.dart';
 import 'picture.dart';
 import 'dart:async';
 import 'package:path/path.dart';

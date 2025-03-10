@@ -1,27 +1,38 @@
 part of 'routine_edit_bloc.dart';
 
-@immutable
-sealed class RoutineEditState extends Equatable {}
+enum EditorState { IntervalEditor, ContentEditor, EvaluationEditor }
 
-class RoutineEditInitial extends RoutineEditState {
+@immutable
+sealed class RoutineEditState extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
-class RoutineEditEditing extends RoutineEditState {
-  final Routine routine;
+class RoutineEditInitial extends RoutineEditState {}
 
-  RoutineEditEditing({required this.routine});
+class RoutineEditEditing extends RoutineEditState {
+  final TextInputState titleInputState;
+  final TextInputState shortDescriptionInputState;
+  final TextInputState descriptionInputState;
+  final int imageID;
+  final EditorState editorState;
+  final List<TimeInterval> timeIntervals;
+
+  RoutineEditEditing(
+      {required this.imageID,
+      required this.titleInputState,
+      required this.shortDescriptionInputState,
+      required this.descriptionInputState,
+      required this.editorState,
+      required this.timeIntervals});
 
   @override
-  List<Object?> get props => [routine];
-
-  RoutineEditEditing copyWith({
-    String? title,
-    String? description,
-    int? imageID,
-  }) {
-    return RoutineEditEditing(
-        routine: routine.copyWith(title, description, imageID));
-  }
+  List<Object?> get props => [
+        titleInputState,
+        shortDescriptionInputState,
+        descriptionInputState,
+        imageID,
+        editorState,
+        timeIntervals
+      ];
 }

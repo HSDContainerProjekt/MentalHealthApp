@@ -3,51 +3,36 @@ import 'package:flutter/material.dart';
 //#region Color schemes for background and highlights
 /// example what color is used for what https://api.flutter.dev/flutter/material/ColorScheme-class.html
 
-
-
-/// Base color
-/// The base color schemes should contain the default colors used on every page like the background color.
-ColorScheme lightColorSchemeBase = const ColorScheme.light(
-  brightness: Brightness.light,
-  surface: Color(0xFFE6E6E6),
-);
-ColorScheme darkColorSchemeBase = const ColorScheme.dark(
-  brightness: Brightness.dark,
-  surface: Color(0xFF1E1E1E),
+ColorScheme baseColorScheme = const ColorScheme.light(
+  surface: Color(0xFFFFFFFF),
+  error: Color(0xFFC80000),
 );
 
 /// Page specific colors
+
 /// MainPage
-ColorScheme lightMainPageColorScheme = lightColorSchemeBase.copyWith(
-  primary: const Color(0xFFFF0000),
+ColorScheme tableOfContentsPageColorScheme = baseColorScheme.copyWith(
+  primary: const Color(0xFFb2dfd2),
 );
-ColorScheme darkMainPageColorScheme = darkColorSchemeBase.copyWith(
-  primary: const Color(0xFFC80000),
+
+/// MainPage
+ColorScheme mainPageColorScheme = baseColorScheme.copyWith(
+  primary: const Color(0xFFf178ab),
 );
 
 /// Routines
-ColorScheme lightRoutinePageColorScheme = lightColorSchemeBase.copyWith(
-  primary: const Color(0xFFFF8000),
-);
-ColorScheme darkRoutineColorScheme = darkColorSchemeBase.copyWith(
-  primary: const Color(0xFFC86400),
-  onPrimary: const Color(0xFFC86400),
+ColorScheme routinePageColorScheme = baseColorScheme.copyWith(
+  primary: const Color(0xFFd6e16d),
 );
 
 /// Friends
-ColorScheme lightFriendsPageColorScheme = lightColorSchemeBase.copyWith(
-  primary: const Color(0xFF00FF00),
-);
-ColorScheme darkFriendsColorScheme = darkColorSchemeBase.copyWith(
-  primary: const Color(0xFF00C800),
+ColorScheme friendsPageColorScheme = baseColorScheme.copyWith(
+  primary: const Color(0xFFa0c4e8),
 );
 
 /// External resources
-ColorScheme lightResourcesPageColorScheme = lightColorSchemeBase.copyWith(
-  primary: const Color(0xFF0080FF),
-);
-ColorScheme darkResourcesColorScheme = darkColorSchemeBase.copyWith(
-  primary: const Color(0xFF0064C8),
+ColorScheme resourcesPageColorScheme = baseColorScheme.copyWith(
+  primary: const Color(0xFFcf98c4),
 );
 //#endregion
 
@@ -120,6 +105,7 @@ TextTheme textThemeBase = const TextTheme(
   /// Text that is in an element on the page
   bodyMedium: TextStyle(
     fontSize: 14,
+    height: 1,
   ),
 
   /// Unused and not defined yet
@@ -142,82 +128,35 @@ TextTheme textThemeBase = const TextTheme(
   ),
 );
 
-/// The Light and Dark Versions contains the color information's
-TextTheme lightTextTheme = textThemeBase.copyWith(
-  displayLarge:
-      textThemeBase.headlineMedium?.copyWith(color: const Color(0xFF1E1E1E)),
-);
-TextTheme darkTextTheme = textThemeBase.copyWith(
-  displayLarge:
-      textThemeBase.headlineMedium?.copyWith(color: const Color(0xFFE6E6E6)),
-);
-
-/// Page specific textThemes
-/// MainPage
-TextTheme lightMainPageTextTheme = lightTextTheme.copyWith();
-TextTheme darkMainPageTextTheme = darkTextTheme.copyWith();
-
-/// Routines
-TextTheme lightRoutinesPageTextTheme = lightTextTheme.copyWith();
-TextTheme darkRoutinesPageTextTheme = darkTextTheme.copyWith();
-
-/// Friends
-TextTheme lightFriendsPageTextTheme = lightTextTheme.copyWith();
-TextTheme darkFriendsPageTextTheme = darkTextTheme.copyWith();
-
-/// External resources
-TextTheme lightResourcesPageTextTheme = lightTextTheme.copyWith();
-TextTheme darkResourcesPageTextTheme = darkTextTheme.copyWith();
-//#endregion
-
 //#region ThemeData combination from text and color schemes
+
+ThemeData basePageThemeData = ThemeData(
+  colorScheme: baseColorScheme,
+  textTheme: textThemeBase,
+);
 
 /// Page specific themeData
 /// MainPage
-ThemeData lightMainPageThemeData = ThemeData(
-  brightness: Brightness.light,
-  colorScheme: lightMainPageColorScheme,
-  textTheme: lightMainPageTextTheme,
-);
-ThemeData darkMainPageThemeData = ThemeData(
-  brightness: Brightness.dark,
-  colorScheme: darkMainPageColorScheme,
-  textTheme: darkMainPageTextTheme,
+ThemeData mainPageThemeData = basePageThemeData.copyWith(
+  colorScheme: mainPageColorScheme,
 );
 
 /// Routines
-ThemeData lightRoutinesPageThemeData = ThemeData(
-  brightness: Brightness.light,
-  colorScheme: lightRoutinePageColorScheme,
-  textTheme: lightRoutinesPageTextTheme,
-);
-ThemeData darkRoutinesPageThemeData = ThemeData(
-  brightness: Brightness.dark,
-  colorScheme: darkRoutineColorScheme,
-  textTheme: darkRoutinesPageTextTheme,
-);
+ThemeData routinesPageThemeData = basePageThemeData.copyWith(
+    colorScheme: routinePageColorScheme,
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: routinePageColorScheme.primary,
+    ),
+    textSelectionTheme:
+        TextSelectionThemeData(selectionColor: routinePageColorScheme.primary));
 
 /// Friends
-ThemeData lightFriendsPageThemeData = ThemeData(
-  brightness: Brightness.light,
-  colorScheme: lightFriendsPageColorScheme,
-  textTheme: lightFriendsPageTextTheme,
-);
-ThemeData darkFriendsPageThemeData = ThemeData(
-  brightness: Brightness.dark,
-  colorScheme: darkFriendsColorScheme,
-  textTheme: darkFriendsPageTextTheme,
+ThemeData friendsPageThemeData = basePageThemeData.copyWith(
+  colorScheme: friendsPageColorScheme,
 );
 
 /// External resources
-ThemeData lightResourcesPageThemeData = ThemeData(
-  brightness: Brightness.light,
-  colorScheme: lightResourcesPageColorScheme,
-  textTheme: lightResourcesPageTextTheme,
-);
-ThemeData darkResourcesPageThemeData = ThemeData(
-  brightness: Brightness.dark,
-  colorScheme: darkResourcesColorScheme,
-  textTheme: darkResourcesPageTextTheme,
+ThemeData resourcesPageThemeData = basePageThemeData.copyWith(
+  colorScheme: resourcesPageColorScheme,
 );
 //#endregion

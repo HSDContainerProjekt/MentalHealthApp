@@ -20,6 +20,12 @@ class RoutineEditChangeTitle extends RoutineEditEvent {
   RoutineEditChangeTitle(this.title);
 }
 
+class RoutineEditChangeShortDescription extends RoutineEditEvent {
+  final String shortDescription;
+
+  RoutineEditChangeShortDescription(this.shortDescription);
+}
+
 class RoutineEditChangeDescription extends RoutineEditEvent {
   final String description;
 
@@ -35,3 +41,21 @@ class RoutineEditChangeImageID extends RoutineEditEvent {
 class RoutineEditSave extends RoutineEditEvent {}
 
 class RoutineEditCancel extends RoutineEditEvent {}
+
+class RoutineEditSwitchEditorState extends RoutineEditEvent {
+  final EditorState newState;
+
+  RoutineEditSwitchEditorState(this.newState);
+}
+
+class RoutineEditAddTimeInterval extends RoutineEditEvent {
+  final TimeIntervalState timeIntervalState;
+
+  RoutineEditAddTimeInterval(this.timeIntervalState);
+}
+
+class RoutineDeleteTimeInterval extends RoutineEditEvent {
+  final int number;
+
+  RoutineDeleteTimeInterval({required this.number});
+}

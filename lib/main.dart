@@ -8,16 +8,25 @@ import 'package:mental_health_app/software_backbone/routing/routing_constants.da
 import 'package:mental_health_app/software_backbone/themes/theme_constraints.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-import 'app_framework_backbone/views/popup/image_selector/image_dao.dart';
-import 'app_framework_backbone/views/popup/image_selector/image_repository.dart';
+import 'app_framework_backbone/views/custom_image/image_dao.dart';
+import 'app_framework_backbone/views/custom_image/image_repository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  sqfliteFfiInit();
+  databaseFactory = databaseFactoryFfi;
+
   Bloc.observer = const RoutineObserver();
   final RoutineDAO routineDAO = RoutineDAOSQFLiteImpl();
+  //deleteDatabase(join(await getDatabasesPath(), 'routines_db.db'));
   await routineDAO.init();
   final ImageDAO imageDAO = ImageDAOSQFLiteImpl();
+  //deleteDatabase(join(await getDatabasesPath(), 'images_db.db'));
   await imageDAO.init();
 
   bootstrap(routineDAO: routineDAO, imageDAO: imageDAO);
@@ -61,8 +70,7 @@ class App extends StatelessWidget {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         locale: const Locale('de'),
-        theme: lightMainPageThemeData,
-        darkTheme: darkMainPageThemeData,
+        theme: mainPageThemeData,
       ),
     );
   }

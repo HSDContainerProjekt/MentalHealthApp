@@ -8,7 +8,7 @@ final class ImageInitial extends ImageState {}
 final class ImageLoading extends ImageState {}
 
 final class ImageLoaded extends ImageState {
-  final Image image;
+  final Picture picture;
 
-  ImageLoaded({required this.image});
+  ImageLoaded({required this.picture});
 }
