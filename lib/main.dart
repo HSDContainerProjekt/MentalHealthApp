@@ -17,7 +17,6 @@ import 'app_framework_backbone/views/custom_image/image_repository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   sqfliteFfiInit();
   databaseFactory = databaseFactoryFfi;
 

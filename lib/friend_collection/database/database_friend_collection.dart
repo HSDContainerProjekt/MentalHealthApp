@@ -4,6 +4,7 @@ import 'package:mental_health_app/friend_collection/database/friend_db.dart';
 import 'package:mental_health_app/friend_collection/database/ownID_db.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 class DatabaseFriendCollection {
   Database? _database;
@@ -22,14 +23,11 @@ class DatabaseFriendCollection {
     return join(path, name);
   }
 
-  Future<Database> _initialize() async {
-    final path = await fullPath;
-    var database = await openDatabase(
-      path,
-      version: 1,
-      onCreate: create,
-      singleInstance: true,
-    );
+  Future<Database> _initialize({String? databasePath}) async {
+    databasePath ??= (await getApplicationDocumentsDirectory()).path + '/friends_db.db';
+
+
+    var database = await openDatabase(databasePath, onCreate: create, version: 1);
     return database;
   }
 

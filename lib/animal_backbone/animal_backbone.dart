@@ -33,4 +33,16 @@ class AnimalBackbone {
         return Froggo.portrait;
     }
   }
+
+  Future<String> animation() async {
+    switch (await animalType()) {
+      case "froggo":
+        return Froggo.animation;
+      case "maxie":
+        return Maxie.animation;
+      default:
+        return Froggo.animation;
+    }
+  }
+
 }
