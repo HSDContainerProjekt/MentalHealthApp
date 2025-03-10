@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -58,32 +59,33 @@ class TextInputWidget<B extends StateStreamable<S>, S> extends StatelessWidget {
         controller.selection = TextSelection.fromPosition(
           TextPosition(offset: controller.text.length),
         );
-        return TextField(
-          cursorColor: colorScheme.primary,
-          cursorErrorColor: colorScheme.error,
-          decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                color: colorScheme.primary,
-                width: 1.0,
+        return DottedBorder(
+          strokeWidth: 2,
+          radius: Radius.circular(5),
+          dashPattern: [5],
+          child: TextField(
+            cursorColor: colorScheme.primary,
+            cursorErrorColor: colorScheme.error,
+            decoration: InputDecoration(
+              focusedBorder: InputBorder.none,
+              counterText: "",
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: colorScheme.error, width: 1.0),
               ),
+              errorText: state.error,
+              errorStyle: this.errorTextStyle,
+              labelText: this.label,
+              labelStyle: this.labelTextStyle,
             ),
-            errorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: colorScheme.error, width: 1.0),
-            ),
-            errorText: state.error,
-            errorStyle: this.errorTextStyle,
-            labelText: this.label,
-            labelStyle: this.labelTextStyle,
+            textAlign: TextAlign.center,
+            style: this.inputTextStyle,
+            maxLength: this.maxLength,
+            minLines: this.minLines,
+            maxLines: this.maxLines,
+            inputFormatters: this.inputFormatters,
+            controller: controller,
+            onChanged: this.onChanged,
           ),
-          textAlign: TextAlign.center,
-          style: this.inputTextStyle,
-          maxLength: this.maxLength,
-          minLines: this.minLines,
-          maxLines: this.maxLines,
-          inputFormatters: this.inputFormatters,
-          controller: controller,
-          onChanged: this.onChanged,
         );
       },
     );

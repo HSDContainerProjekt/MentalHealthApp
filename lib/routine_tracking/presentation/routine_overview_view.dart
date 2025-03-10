@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mental_health_app/app_framework_backbone/views/custom_image/custom_image_widget.dart';
@@ -95,11 +96,10 @@ class _RoutineWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(width: 2),
-        borderRadius: BorderRadius.all(Radius.circular(5)),
-      ),
+    return DottedBorder(
+      strokeWidth: 2,
+      radius: Radius.circular(5),
+      dashPattern: [5],
       child: Row(
         children: [
           Container(
