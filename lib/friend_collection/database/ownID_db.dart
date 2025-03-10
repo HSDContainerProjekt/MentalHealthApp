@@ -40,7 +40,7 @@ class ownIdDB {
   }
 
   Future<int> createAvailableID() async {
-    IResultSet ids = await OnlineDatabase().fetchAllIds();
+    IResultSet ids = (await OnlineDatabase().fetchAllIds()) as IResultSet;
     int id = 1;
     while (resultSetContainsID(ids, id)) {
       id = Math.Random().nextInt(10);
