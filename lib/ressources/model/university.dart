@@ -1,19 +1,13 @@
 class University {
   final int universityId;
-  final int cityId;
   final String name;
+  final String city;
+  final String counselingLink;
 
   University({
     required this.universityId,
-    required this.cityId,
     required this.name,
+    required this.city,
+    required this.counselingLink,
   });
-
-  factory University.fromJson(Map<String, dynamic> json) {
-    return University(
-      universityId: json['UniversityID'],
-      cityId: json['CityID'],
-      name: json['Name'],
-    );
-  }
 }

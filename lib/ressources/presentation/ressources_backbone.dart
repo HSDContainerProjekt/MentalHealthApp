@@ -11,6 +11,7 @@ import '../model/university.dart';
 import '../model/counseling_service.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Resources extends StatefulWidget {
   const Resources({super.key});
@@ -21,11 +22,9 @@ class Resources extends StatefulWidget {
 
 class ResourcesState extends State<Resources> {
   final DatabaseService _db = DatabaseService();
-  City? selectedCity;
-  List<City> cities = [];
-  List<EmergencyAmbulance> ambulances = [];
+  String? selectedCity;
+  List<String> cities = [];
   List<University> universities = [];
-  List<CounselingService> counselingServices = [];
   bool isLoading = true;
 
   @override
@@ -64,32 +63,40 @@ class ResourcesState extends State<Resources> {
     }
   }
 
-  Future<void> _updateResources() async {
+  Future<void> _updateUniversities() async {
     if (selectedCity != null) {
       setState(() => isLoading = true);
       try {
-        final cityId = selectedCity!.cityId;
-        final loadedAmbulances = await _db.getAmbulances(cityId: cityId);
-        final loadedUniversities = await _db.getUniversities(cityId: cityId);
-        final uniServices = await Future.wait(
-            loadedUniversities.map((uni) =>
-                _db.getCounselingServices(universityId: uni.universityId)
-            )
-        );
-
+        final loadedUniversities = await _db.getUniversities(city: selectedCity);
         setState(() {
-          ambulances = loadedAmbulances;
           universities = loadedUniversities;
-          counselingServices = uniServices.expand((x) => x).toList();
           isLoading = false;
         });
       } catch (e) {
         setState(() => isLoading = false);
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Fehler beim Laden der Ressourcen'))
+              const SnackBar(content: Text('Fehler beim Laden der Universitäten'))
           );
         }
+      }
+    }
+  }
+
+  Future<void> _launchUrl(String url) async {
+    try {
+      if (!await launchUrl(Uri.parse(url))) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Konnte Link nicht öffnen'))
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Ungültiger Link'))
+        );
       }
     }
   }
@@ -110,27 +117,26 @@ class ResourcesState extends State<Resources> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Autocomplete<City>(
-              displayStringForOption: (City city) => city.name,
+            Autocomplete<String>(
               optionsBuilder: (TextEditingValue textEditingValue) {
                 if (textEditingValue.text == '') {
-                  return const Iterable<City>.empty();
+                  return const Iterable<String>.empty();
                 }
-                return cities.where((City city) {
-                  return city.name
+                return cities.where((String city) {
+                  return city
                       .toLowerCase()
                       .startsWith(textEditingValue.text.toLowerCase());
                 });
               },
-              onSelected: (City city) {
+              onSelected: (String city) {
                 setState(() {
                   selectedCity = city;
                 });
-                _updateResources();
+                _updateUniversities();
               },
               fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
                 if (selectedCity != null && textEditingController.text.isEmpty) {
-                  textEditingController.text = selectedCity!.name;
+                  textEditingController.text = selectedCity!;
                 }
 
                 return TextField(
@@ -151,6 +157,7 @@ class ResourcesState extends State<Resources> {
                         textEditingController.clear();
                         setState(() {
                           selectedCity = null;
+                          universities.clear();
                         });
                       },
                     )
@@ -170,7 +177,7 @@ class ResourcesState extends State<Resources> {
                         shrinkWrap: true,
                         itemCount: options.length,
                         itemBuilder: (BuildContext context, int index) {
-                          final City option = options.elementAt(index);
+                          final String option = options.elementAt(index);
                           return InkWell(
                             onTap: () {
                               onSelected(option);
@@ -178,7 +185,7 @@ class ResourcesState extends State<Resources> {
                             child: Container(
                               padding: const EdgeInsets.all(16.0),
                               child: Text(
-                                option.name,
+                                option,
                                 style: GoogleFonts.patrickHand(fontSize: 16),
                               ),
                             ),
@@ -190,10 +197,10 @@ class ResourcesState extends State<Resources> {
                 );
               },
             ),
-            if (selectedCity != null) ...[
+            if (selectedCity != null && universities.isNotEmpty) ...[
               const SizedBox(height: 20),
               Text(
-                AppLocalizations.of(context)!.emergencyServices,
+                AppLocalizations.of(context)!.universities,
                 style: GoogleFonts.patrickHand(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -201,55 +208,25 @@ class ResourcesState extends State<Resources> {
               ),
               const SizedBox(height: 10),
               Expanded(
-                child: ListView(
-                  children: [
-                    ...ambulances.map((ambulance) => Card(
+                child: ListView.builder(
+                  itemCount: universities.length,
+                  itemBuilder: (context, index) {
+                    final university = universities[index];
+                    return Card(
+                      margin: const EdgeInsets.only(bottom: 8.0),
                       child: ListTile(
-                        leading: const Icon(Icons.local_hospital),
-                        title: Text(
-                          ambulance.address,
-                          style: GoogleFonts.patrickHand(fontSize: 16),
-                        ),
-                        subtitle: Text(
-                          ambulance.phoneNumber,
-                          style: GoogleFonts.patrickHand(fontSize: 14),
-                        ),
-                      ),
-                    )),
-                    const SizedBox(height: 20),
-                    Text(
-                      AppLocalizations.of(context)!.universities,
-                      style: GoogleFonts.patrickHand(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    ...universities.map((university) {
-                      final uniCounselingServices = counselingServices
-                          .where((cs) => cs.universityId == university.universityId)
-                          .toList();
-
-                      return ExpansionTile(
                         title: Text(
                           university.name,
                           style: GoogleFonts.patrickHand(fontSize: 16),
                         ),
-                        children: uniCounselingServices.map((cs) => Card(
-                          child: ListTile(
-                            leading: const Icon(Icons.psychology),
-                            title: Text(
-                              cs.address,
-                              style: GoogleFonts.patrickHand(fontSize: 16),
-                            ),
-                            subtitle: Text(
-                              cs.phoneNumber,
-                              style: GoogleFonts.patrickHand(fontSize: 14),
-                            ),
-                          ),
-                        )).toList(),
-                      );
-                    }),
-                  ],
+                        trailing: IconButton(
+                          icon: const Icon(Icons.launch),
+                          onPressed: () => _launchUrl(university.counselingLink),
+                          tooltip: 'Zur psychologischen Beratung',
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ],

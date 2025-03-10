@@ -97,23 +97,19 @@
     "description": "Message displayed when no Friends"
   },
   "resourcesTitle": "Resources",
-  "@resourcesTitle": {
+   "@resourcesTitle": {
     "description": "Title of the application's resources page"
   },
   "selectCity": "Search for a city",
   "@selectCity": {
-    "description": "Prompt to select a city from the dropdown"
+   "description": "Prompt to search for a city"
   },
-  "emergencyServices": "Emergency Services",
-  "@emergencyServices": {
-    "description": "Header for emergency services section"
-  },
-  "universities": "Universities" ,
+  "universities": "Universities",
   "@universities": {
-    "description": "Header for universities section"
+   "description": "Header for universities section"
   },
   "evaluation": "Evaluation",
   "@evaluation": {
-    "description": "Evaluation"
+   "description": "Evaluation"
   }
 }

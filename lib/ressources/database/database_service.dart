@@ -1,131 +1,78 @@
 import 'package:mysql_client/mysql_client.dart';
 import '../model/city.dart';
 import '../model/emergency_ambulance.dart';
+import 'package:postgres/postgres.dart';
 import '../model/university.dart';
 import '../model/counseling_service.dart';
 
 class DatabaseService {
-  Future<MySQLConnection> _getConnection() async {
-    var conn = await MySQLConnection.createConnection(
-        host: "localhost",
-        port: 3306,
-        userName: "Admin",
-        password: "adminpw1234",
-        databaseName: "mental_health_app"
+  Future<PostgreSQLConnection> _getConnection() async {
+    return PostgreSQLConnection(
+        'jonas-kampshoff.de',
+        5432,
+        'mental_health_app',
+        username: 'postgres',
+        password: 'ImWinteristkeinTischDraußen'
     );
-    await conn.connect();
-    return conn;
   }
+  //adminpw1234
 
   Future<bool> connected() async {
     try {
       var conn = await _getConnection();
-      var isConnected = conn.connected;
-      conn.close();
-      return isConnected;
+      await conn.open();
+      await conn.close();
+      return true;
     } catch (e) {
-      print('Verbindungsfehler: $e');
+      print('Datenbankverbindungsfehler: $e');
       return false;
     }
   }
 
-  Future<List<City>> getCities() async {
+  Future<List<String>> getCities() async {
+    final conn = await _getConnection();
+    await conn.open();
+
     try {
-      var conn = await _getConnection();
-      var result = await conn.execute("SELECT * FROM City");
-      List<City> cities = [];
-
-      for (final row in result.rows) {
-        cities.add(City(
-            cityId: int.parse(row.colByName("CityID")!),
-            name: row.colByName("Name")!
-        ));
-      }
-
-      conn.close();
-      return cities;
-    } catch (e) {
-      return [];
+      var result = await conn.query('SELECT DISTINCT city FROM Universities ORDER BY city');
+      return result.map((row) => row[0] as String).toList();
+    } finally {
+      await conn.close();
     }
   }
 
-  Future<List<EmergencyAmbulance>> getAmbulances({int? cityId}) async {
-    try {
-      var conn = await _getConnection();
-      var result = await conn.execute(
-          cityId != null
-              ? "SELECT * FROM EmergencyAmbulance WHERE CityID = :cityId"
-              : "SELECT * FROM EmergencyAmbulance",
-          {"cityId": cityId}
-      );
+  Future<List<University>> getUniversities({String? city}) async {
+    final conn = await _getConnection();
+    await conn.open();
 
-      List<EmergencyAmbulance> ambulances = [];
-      for (final row in result.rows) {
-        ambulances.add(EmergencyAmbulance(
-            ambulanceId: int.parse(row.colByName("AmbulanceID")!),
-            cityId: int.parse(row.colByName("CityID")!),
-            address: row.colByName("Address")!,
-            phoneNumber: row.colByName("PhoneNumber")!
-        ));
+    try {
+      List<Map<String, dynamic>> result;
+
+      if (city != null) {
+        result = await conn.mappedResultsQuery(
+            'SELECT * FROM Universities WHERE city = @city ORDER BY name',
+            substitutionValues: {'city': city}
+        );
+      } else {
+        result = await conn.mappedResultsQuery(
+            'SELECT * FROM Universities ORDER BY name'
+        );
       }
-
-      conn.close();
-      return ambulances;
-    } catch (e) {
-      return [];
-    }
-  }
-
-  Future<List<University>> getUniversities({int? cityId}) async {
-    try {
-      var conn = await _getConnection();
-      var result = await conn.execute(
-          cityId != null
-              ? "SELECT * FROM University WHERE CityID = :cityId"
-              : "SELECT * FROM University",
-          {"cityId": cityId}
-      );
 
       List<University> universities = [];
-      for (final row in result.rows) {
+      for (var row in result) {
+        var universityData = row['universities'];
         universities.add(University(
-            universityId: int.parse(row.colByName("UniversityID")!),
-            cityId: int.parse(row.colByName("CityID")!),
-            name: row.colByName("Name")!
+            universityId: universityData!['id'] as int,
+            name: universityData['name'] as String,
+            city: universityData['city'] as String,
+            counselingLink: universityData['counseling_link'] as String
         ));
       }
 
-      conn.close();
       return universities;
-    } catch (e) {
-      return [];
-    }
-  }
-
-  Future<List<CounselingService>> getCounselingServices({int? universityId}) async {
-    try {
-      var conn = await _getConnection();
-      var result = await conn.execute(
-          universityId != null
-              ? "SELECT * FROM PsychologicalCounselingService WHERE UniversityID = :universityId"
-              : "SELECT * FROM PsychologicalCounselingService",
-          {"universityId": universityId}
-      );
-
-      List<CounselingService> services = [];
-      for (final row in result.rows) {
-        services.add(CounselingService(
-            counselingServiceId: int.parse(row.colByName("CounselingServiceID")!),
-            universityId: int.parse(row.colByName("UniversityID")!),
-            address: row.colByName("Address")!,
-            phoneNumber: row.colByName("PhoneNumber")!
-        ));
-      }
-
-      conn.close();
-      return services;
-    } catch (e) {
-      return [];
+    } finally {
+      await conn.close();
     }
   }
 }
