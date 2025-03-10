@@ -4,6 +4,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:mental_health_app/animal_backbone/animal_backbone.dart';
 import 'package:mental_health_app/friend_collection/database/database_operation.dart';
 import 'package:mental_health_app/friend_collection/model/friend.dart';
+import 'package:mental_health_app/friend_collection/widgets/formfield_date_picker.dart';
 import 'package:mental_health_app/friend_collection/widgets/formfield_personalinformation_widget.dart';
 import 'package:mental_health_app/software_backbone/constants/animal.dart';
 import 'package:mental_health_app/software_backbone/routing/routing_constants.dart';
@@ -243,8 +244,7 @@ class _FriendCollectionMeState extends State<FriendCollectionMe> {
                                               "name", '', "name"),
                                           FormfieldPersonalinformationWidget(
                                               "nickname", '', "nickname"),
-                                          FormfieldPersonalinformationWidget(
-                                              "birthday", '', "birthday"),
+                                          FormfieldDatePicker("birthday"),
                                           FormfieldPersonalinformationWidget(
                                               "zodiacsign", '', "zodiacSign"),
                                         ],

@@ -53,8 +53,12 @@ class FriendPage extends StatelessWidget {
                                 ),
                                 FriendPersonalinformationWidget(
                                     "nickname", friend.nickname ?? ''),
+
+
                                 FriendPersonalinformationWidget(
                                     "birthday", friend.birthday ?? ''),
+
+
                                 FriendPersonalinformationWidget(
                                     "zodiacsign", friend.zodiacSign ?? ''),
                               ],
