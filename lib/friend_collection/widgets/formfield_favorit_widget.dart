@@ -4,7 +4,7 @@ import 'package:mental_health_app/friend_collection/database/database_operation.
 
 class FormfieldFavoritWidget extends StatefulWidget {
   final String textFieldTitle;
-  final String textFieldValue; 
+  final String textFieldValue;
   final String textFieldHint;
   final String databaseField;
   const FormfieldFavoritWidget(this.textFieldTitle, this.textFieldValue, this.textFieldHint, this.databaseField,{super.key});

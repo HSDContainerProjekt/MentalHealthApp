@@ -15,33 +15,37 @@ class FriendCollectionScaffoldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
       data: friendsPageThemeData,
-      child:
-          Scaffold(body: Navigator(onGenerateRoute: (RouteSettings settings) {
-        WidgetBuilder builder;
-        switch (settings.name) {
-          case '/':
-            builder = (BuildContext context) => FriendCollectionLandingPage();
-          case friendsCollection:
-            builder = (BuildContext context) => FriendCollectionLandingPage();
-            break;
-          case friendsCollectionMe:
-            builder = (BuildContext context) => FriendCollectionMe();
-            break;
-          case friendsCollectionBirthdayCalender:
-            builder =
-                (BuildContext context) => FriendCollectionBirthdayCalender();
-            break;
-          case friendsCollectionFriend:
-            builder = (BuildContext context) => FriendCollectionFriend();
-            break;
-          case friendlist:
-            builder = (BuildContext context) => FriendCollectionFriendlist();
-            break;
-          default:
-            throw Exception('Invalid route: ${settings.name}');
-        }
-        return MaterialPageRoute<void>(builder: builder, settings: settings);
-      })),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Navigator(
+          onGenerateRoute: (RouteSettings settings) {
+            WidgetBuilder builder;
+            switch (settings.name) {
+              case '/':
+                builder = (BuildContext context) => FriendCollectionLandingPage();
+              case friendsCollection:
+                builder = (BuildContext context) => FriendCollectionLandingPage();
+                break;
+              case friendsCollectionMe:
+                builder = (BuildContext context) => FriendCollectionMe();
+                break;
+              case friendsCollectionBirthdayCalender:
+                builder =
+                    (BuildContext context) => FriendCollectionBirthdayCalender();
+                break;
+              case friendsCollectionFriend:
+                builder = (BuildContext context) => FriendCollectionFriend();
+                break;
+              case friendlist:
+                builder = (BuildContext context) => FriendCollectionFriendlist();
+                break;
+              default:
+                throw Exception('Invalid route: ${settings.name}');
+            }
+          return MaterialPageRoute<void>(builder: builder, settings: settings);
+          }
+        )
+      ),
     );
   }
 }

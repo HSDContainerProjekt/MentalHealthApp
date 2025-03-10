@@ -29,6 +29,7 @@ class FriendCollectionBirthdayCalender extends StatelessWidget {
     ];
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.transparent,
         body: GestureDetector(
           onPanUpdate: (details) {
             if (details.delta.dx < -4) {
