@@ -23,10 +23,11 @@ Future<void> main() async {
 
   Bloc.observer = const RoutineObserver();
   final RoutineDAO routineDAO = RoutineDAOSQFLiteImpl();
-  //deleteDatabase(join(await getDatabasesPath(), 'routines_db.db'));
+  deleteDatabase(join(await getDatabasesPath(), 'routines_db.db'));
+
   await routineDAO.init();
   final ImageDAO imageDAO = ImageDAOSQFLiteImpl();
-  //deleteDatabase(join(await getDatabasesPath(), 'images_db.db'));
+  deleteDatabase(join(await getDatabasesPath(), 'images_db.db'));
   await imageDAO.init();
 
   bootstrap(routineDAO: routineDAO, imageDAO: imageDAO);

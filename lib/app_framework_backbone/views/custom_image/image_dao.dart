@@ -1,3 +1,5 @@
+import 'package:path_provider/path_provider.dart';
+
 import '../../database_dao.dart';
 import 'picture.dart';
 import 'dart:async';
@@ -22,7 +24,8 @@ class ImageDAOSQFLiteImpl implements ImageDAO {
 
   @override
   Future<void> init({String? databasePath}) async {
-    databasePath ??= join(await getDatabasesPath(), 'images_db.db');
+    databasePath ??=
+        (await getApplicationDocumentsDirectory()).path + '/images_db.db';
     database = await openDatabase(databasePath, onCreate: onCreate, version: 1);
   }
 
