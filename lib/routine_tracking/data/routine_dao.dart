@@ -1,4 +1,5 @@
 import 'package:mental_health_app/routine_tracking/data/data_model/evaluation_criteria.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'data_model/routine.dart';
 import 'data_model/time_interval.dart';
@@ -34,7 +35,10 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
 
   @override
   Future<void> init({String? databasePath}) async {
-    databasePath ??= join(await getDatabasesPath(), 'routines_db.db');
+    databasePath ??=
+        (await getApplicationDocumentsDirectory()).path + '/routines_db.db';
+
+
     database = await openDatabase(databasePath, onCreate: onCreate, version: 1);
   }
 
@@ -185,14 +189,19 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
 
   @override
   Future<List<EvaluationCriteria>> evaluationCriteriaBy(int routineID) async {
-    final List<Map<String, Object?>> queryResult = await database.rawQuery('SELECT * FROM evaluationcriteria JOIN ((SELECT *, NUll as maximumvalue, NUll as minimumvalue, evaluationcriteriatoggle AS table FROM evaluationcriteriatoggle) UNION ALL (SELECT *, NUll as maximumvalue, NUll as minimumvalue, evaluationcriteriatext AS table FROM evaluationcriteriatext) UNION ALL (SELECT *, "evaluationcriteriavaluerange" AS table FROM evaluationcriteriavaluerange)) t1 On evaluationcriteria.id = t1.evaluationcriteriaid WHERE routineID = $routineID');
+    final List<Map<String, Object?>> queryResult = await database.rawQuery(
+        'SELECT * FROM evaluationcriteria JOIN ((SELECT *, NUll as maximumvalue, NUll as minimumvalue, evaluationcriteriatoggle AS table FROM evaluationcriteriatoggle) UNION ALL (SELECT *, NUll as maximumvalue, NUll as minimumvalue, evaluationcriteriatext AS table FROM evaluationcriteriatext) UNION ALL (SELECT *, "evaluationcriteriavaluerange" AS table FROM evaluationcriteriavaluerange)) t1 On evaluationcriteria.id = t1.evaluationcriteriaid WHERE routineID = $routineID');
     List<EvaluationCriteria> result = [];
     for (Map<String, Object?> x in queryResult) {
       EvaluationCriteria newEvaluationCriteria;
       switch (x["table"] as String) {
         case "evaluationcriteriatoggle":
-          final List<Map<String, Object?>> queryResult2 = await database.rawQuery('SELECT * FROM evaluationcriteriatogglestates WHERE evaluationcriteriatogglestates.evaluationCriteriaid = ${x["evaluationCriteriaid"]}');
-          newEvaluationCriteria = EvaluationCriteriaToggle.fromMap(x,queryResult2);
+          final List<
+              Map<String,
+                  Object?>> queryResult2 = await database.rawQuery(
+              'SELECT * FROM evaluationcriteriatogglestates WHERE evaluationcriteriatogglestates.evaluationCriteriaid = ${x["evaluationCriteriaid"]}');
+          newEvaluationCriteria =
+              EvaluationCriteriaToggle.fromMap(x, queryResult2);
           break;
         case "evaluationcriteriatext":
           newEvaluationCriteria = EvaluationCriteriaText.fromMap(x);
@@ -200,7 +209,8 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
         case "evaluationcriteriavaluerange":
           newEvaluationCriteria = EvaluationCriteriaValueRange.fromMap(x);
           break;
-        default: throw Exception("Failed construct object from loaded data.");
+        default:
+          throw Exception("Failed construct object from loaded data.");
       }
       result.add(newEvaluationCriteria);
     }

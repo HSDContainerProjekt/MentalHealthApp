@@ -97,9 +97,10 @@ class ResourcesState extends State<Resources> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        centerTitle: true,
         title: Text(
           AppLocalizations.of(context)!.resourcesTitle,
-          style: GoogleFonts.patrickHand(fontSize: 24),
         ),
       ),
       body: isLoading
@@ -134,10 +135,8 @@ class ResourcesState extends State<Resources> {
                 return TextField(
                   controller: textEditingController,
                   focusNode: focusNode,
-                  style: GoogleFonts.patrickHand(fontSize: 16),
                   decoration: InputDecoration(
                     hintText: AppLocalizations.of(context)!.selectCity,
-                    hintStyle: GoogleFonts.patrickHand(fontSize: 16),
                     prefixIcon: const Icon(Icons.search),
                     border: const OutlineInputBorder(),
                     filled: true,
@@ -178,7 +177,6 @@ class ResourcesState extends State<Resources> {
                               padding: const EdgeInsets.all(16.0),
                               child: Text(
                                 option,
-                                style: GoogleFonts.patrickHand(fontSize: 16),
                               ),
                             ),
                           );
@@ -193,10 +191,6 @@ class ResourcesState extends State<Resources> {
               const SizedBox(height: 20),
               Text(
                 AppLocalizations.of(context)!.universities,
-                style: GoogleFonts.patrickHand(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
               ),
               const SizedBox(height: 10),
               Expanded(
@@ -209,7 +203,6 @@ class ResourcesState extends State<Resources> {
                       child: ListTile(
                         title: Text(
                           university.name,
-                          style: GoogleFonts.patrickHand(fontSize: 16),
                         ),
                         trailing: IconButton(
                           icon: const Icon(Icons.launch),

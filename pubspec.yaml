@@ -47,13 +47,16 @@ dependencies:
   bloc: ^8.1.4
   flutter_bloc: ^8.1.6
   equatable: ^2.0.3
-  sqflite_common_ffi: ^2.3.1
+
+  sqflite_common_ffi: any
   image_picker: ^0.8.3
   image_cropper: ^9.0.0
   numberpicker: ^2.1.2
   google_fonts: ^6.1.0
   excel: ^2.1.0
   url_launcher: ^6.2.5
+  sqlite3_flutter_libs: ^0.5.31
+  path_provider: ^2.1.5
 
 dev_dependencies:
   flutter_test:
@@ -96,5 +99,7 @@ flutter:
     - family: Italianno
       fonts:
         - asset: lib/fonts/Italianno-Regular.ttf
-
+    - family: PatrickHand
+      fonts:
+        - asset: lib/fonts/PatrickHand-Regular.ttf
 
