@@ -99,5 +99,7 @@ flutter:
     - family: Italianno
       fonts:
         - asset: lib/fonts/Italianno-Regular.ttf
-
+    - family: PatrickHand
+      fonts:
+        - asset: lib/fonts/PatrickHand-Regular.ttf
 

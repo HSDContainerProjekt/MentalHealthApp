@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 //#region Color schemes for background and highlights
 /// example what color is used for what https://api.flutter.dev/flutter/material/ColorScheme-class.html
 
@@ -48,7 +49,7 @@ TextTheme textThemeBase = const TextTheme(
     fontSize: 64,
     decoration: TextDecoration.underline,
     decorationThickness: 5,
-    fontFamily: 'Italianno',
+    fontFamily: 'PatrickHand',
   ),
 
   /// Subpage title used for declaration like edit or the detail name
@@ -56,7 +57,7 @@ TextTheme textThemeBase = const TextTheme(
     fontSize: 32,
     decoration: TextDecoration.underline,
     decorationThickness: 5,
-    fontFamily: 'Italianno',
+    fontFamily: 'PatrickHand',
   ),
 
   /// The title in elements
@@ -64,67 +65,79 @@ TextTheme textThemeBase = const TextTheme(
     fontSize: 23,
     decoration: TextDecoration.underline,
     decorationThickness: 3,
+    fontFamily: 'PatrickHand',
   ),
 
   ///Headlines are normally left aligned and used to describe sections
   /// Unused and not defined yet
   headlineLarge: TextStyle(
     color: Color(0xFFFF00FF),
+    fontFamily: 'PatrickHand',
   ),
 
   headlineMedium: TextStyle(
     fontSize: 32,
-    fontFamily: 'Italianno',
+    fontFamily: 'PatrickHand',
   ),
 
   /// Unused and not defined yet
   headlineSmall: TextStyle(
     color: Color(0xFFFF00FF),
+    fontFamily: 'PatrickHand',
   ),
 
   /// Unused and not defined yet
   labelLarge: TextStyle(
     color: Color(0xFFFF00FF),
+    fontFamily: 'PatrickHand',
   ),
 
   /// Is used to label buttons with text as main information
   labelMedium: TextStyle(
     fontSize: 25,
+    fontFamily: 'PatrickHand',
   ),
 
   /// Is used to label hints
   labelSmall: TextStyle(
     fontSize: 20,
+    fontFamily: 'PatrickHand',
   ),
 
   /// Text, which is the main content of the page
   bodyLarge: TextStyle(
     fontSize: 20,
+    fontFamily: 'PatrickHand',
   ),
 
   /// Text that is in an element on the page
   bodyMedium: TextStyle(
     fontSize: 14,
     height: 1,
+    fontFamily: 'PatrickHand',
   ),
 
   /// Unused and not defined yet
   bodySmall: TextStyle(
     color: Color(0xFFFF00FF),
+    fontFamily: 'PatrickHand',
   ),
 
   /// Unused and not defined yet
   displayLarge: TextStyle(
     color: Color(0xFFFF00FF),
+    fontFamily: 'PatrickHand',
   ),
 
   displayMedium: TextStyle(
     color: Color(0xFFFF00FF),
+    fontFamily: 'PatrickHand',
   ),
 
   /// Unused and not defined yet
   displaySmall: TextStyle(
     color: Color(0xFFFF00FF),
+    fontFamily: 'PatrickHand',
   ),
 );
 
