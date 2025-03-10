@@ -3,15 +3,9 @@ import '../model/university.dart';
 
 class DatabaseService {
   Future<PostgreSQLConnection> _getConnection() async {
-    return PostgreSQLConnection(
-        'jonas-kampshoff.de',
-        5432,
-        'mental_health_app',
-        username: 'postgres',
-        password: 'ImWinteristkeinTischDraußen'
-    );
+    return PostgreSQLConnection('jonas-kampshoff.de', 5432, 'mental_health_app',
+        username: 'frornchen', password: 'Bitte1.0undEnde');
   }
-  //adminpw1234
 
   Future<bool> connected() async {
     try {
@@ -30,7 +24,8 @@ class DatabaseService {
     await conn.open();
 
     try {
-      var result = await conn.query('SELECT DISTINCT city FROM Universities ORDER BY city');
+      var result = await conn
+          .query('SELECT DISTINCT city FROM Universities ORDER BY city');
       return result.map((row) => row[0] as String).toList();
     } finally {
       await conn.close();
@@ -47,12 +42,10 @@ class DatabaseService {
       if (city != null) {
         result = await conn.mappedResultsQuery(
             'SELECT * FROM Universities WHERE city = @city ORDER BY name',
-            substitutionValues: {'city': city}
-        );
+            substitutionValues: {'city': city});
       } else {
-        result = await conn.mappedResultsQuery(
-            'SELECT * FROM Universities ORDER BY name'
-        );
+        result = await conn
+            .mappedResultsQuery('SELECT * FROM Universities ORDER BY name');
       }
 
       List<University> universities = [];
@@ -62,8 +55,7 @@ class DatabaseService {
             universityId: universityData!['id'] as int,
             name: universityData['name'] as String,
             city: universityData['city'] as String,
-            counselingLink: universityData['counseling_link'] as String
-        ));
+            counselingLink: universityData['counseling_link'] as String));
       }
 
       return universities;
