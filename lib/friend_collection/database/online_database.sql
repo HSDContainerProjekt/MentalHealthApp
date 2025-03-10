@@ -2,7 +2,19 @@ DROP TABLE Friends;
 CREATE TABLE Friends (
     FriendID int NOT NULL,
     Name varchar(255),
+    Nickname varchar(255),
     Birthday varchar(255),
+    ZodiacSign varchar(255),
+    Animal varchar(255),
+    HairColor varchar(255),
+    Eyecolor varchar(255),
+    FavoriteColor varchar(255),
+    FavoriteSong varchar(255),
+    FavoriteFood varchar(255),
+    FavoriteBook varchar(255),
+    FavoriteFilm varchar(255),
+    FavoriteAnimal varchar(255),
+    FavoriteNumber NUMBER
     PRIMARY KEY (FriendID)
 );
 
