@@ -1,9 +1,5 @@
-import 'package:mysql_client/mysql_client.dart';
-import '../model/city.dart';
-import '../model/emergency_ambulance.dart';
 import 'package:postgres/postgres.dart';
 import '../model/university.dart';
-import '../model/counseling_service.dart';
 
 class DatabaseService {
   Future<PostgreSQLConnection> _getConnection() async {

@@ -1,14 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mental_health_app/navigation/widgets/navigation_bar.dart';
-import 'package:mental_health_app/software_backbone/routing/router.dart'
-    as App_router;
-import 'package:mental_health_app/software_backbone/routing/routing_constants.dart';
-import 'package:mental_health_app/software_backbone/themes/theme_constraints.dart';
 import '../database/database_service.dart';
-import '../model/city.dart';
-import '../model/emergency_ambulance.dart';
 import '../model/university.dart';
-import '../model/counseling_service.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
