@@ -14,22 +14,17 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import 'app_framework_backbone/views/custom_image/image_dao.dart';
 import 'app_framework_backbone/views/custom_image/image_repository.dart';
+import 'package:flutter/services.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   sqfliteFfiInit();
   databaseFactory = databaseFactoryFfi;
-
   Bloc.observer = const RoutineObserver();
   final RoutineDAO routineDAO = RoutineDAOSQFLiteImpl();
-  deleteDatabase(join(await getDatabasesPath(), 'routines_db.db'));
-
   await routineDAO.init();
   final ImageDAO imageDAO = ImageDAOSQFLiteImpl();
-  deleteDatabase(join(await getDatabasesPath(), 'images_db.db'));
   await imageDAO.init();
-
   bootstrap(routineDAO: routineDAO, imageDAO: imageDAO);
 }
 
@@ -58,6 +53,19 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.transparent,
+        systemNavigationBarDividerColor: Colors.transparent,
+        statusBarColor: Colors.transparent,
+      ),
+    );
+
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider.value(value: imageRepository),

@@ -27,7 +27,6 @@ class _AppFrameworkState extends State<AppFramework> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: Navigator(
           initialRoute: landingPage,
           key: navigatorKey,

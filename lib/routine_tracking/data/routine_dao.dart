@@ -118,8 +118,33 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
   Future<List<Routine>> nextRoutines(int limit) async {
     int lookUpTime = DateTime.now().millisecondsSinceEpoch;
 
-    final List<Map<String, Object?>> queryResult = await database.rawQuery(
-        'SELECT routines.id, routines.title, routines.description, routines.imageID , MIN($lookUpTime + ((timeIntervals.timeInterval - $lookUpTime + timeIntervals.firstDateTime) % timeIntervals.timeInterval)) AS nextTime FROM routines JOIN timeIntervals ON routines.id = timeIntervals.routineID AND timeIntervals.timeInterval < $lookUpTime LEFT JOIN routineResults ON routineResults.timeIntervalID = timeIntervals.id AND routineResults.number = cast(($lookUpTime - timeIntervals.firstDateTime) / timeIntervals.timeInterval as int) WHERE routineResults.timeIntervalID IS NULL GROUP BY routines.id ORDER BY nextTime LIMIT $limit');
+    final List<Map<String, Object?>> queryResult = await database.rawQuery('''
+            SELECT 
+                r.id, 
+                r.title, 
+                r.description, 
+                r.imageID, 
+                MIN(t.nextTime) AS nextTime
+            FROM routines r
+            JOIN (
+                SELECT 
+                    t.routineID, 
+                    CASE 
+                        WHEN $lookUpTime < t.firstDateTime 
+                        THEN t.firstDateTime
+                        ELSE $lookUpTime + ((t.timeInterval - $lookUpTime + t.firstDateTime) % t.timeInterval) 
+                    END AS nextTime
+                FROM timeIntervals t
+                WHERE NOT EXISTS (
+                    SELECT 1 FROM routineResults rr
+                    WHERE rr.timeIntervalID = t.id
+                    AND rr.number = ($lookUpTime - t.firstDateTime) / t.timeInterval
+                )
+            ) t ON r.id = t.routineID
+            GROUP BY r.id
+            ORDER BY t.nextTime
+            LIMIT $limit; 
+            ''');
     List<Routine> result = [];
     print("###");
     print(queryResult);

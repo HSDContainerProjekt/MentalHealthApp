@@ -9,6 +9,7 @@ import 'package:mental_health_app/app_framework_backbone/views/main_page/main_pa
 
 import '../../../routine_tracking/data/data_model/routine.dart';
 import '../../../routine_tracking/domain/routine_repository.dart';
+import '../../../software_backbone/themes/theme_constraints.dart';
 import '../custom_image/custom_image_widget.dart';
 
 final double areaWidth = 1500;
@@ -44,10 +45,10 @@ class HomePage extends StatelessWidget {
   ];
 
   final List<_Line> evaluationLines = [
-    _Line(x1: -150, y1: -157, x2: -169, y2: -142, x3: -168, y3: -116),
-    _Line(x1: 203, y1: -56, x2: 237, y2: -27, x3: 236, y3: 14),
-    _Line(x1: -230, y1: 75, x2: -268, y2: 112, x3: -273, y3: 156),
-    _Line(x1: 201, y1: 235, x2: 156, y2: 278, x3: 163, y3: 337),
+    _Line(x1: -108, y1: -246, x2: -86, y2: -288, x3: -18, y3: -281),
+    _Line(x1: 220, y1: -76, x2: 263, y2: -42, x3: 317, y3: -33),
+    _Line(x1: -228, y1: 16, x2: -251, y2: 2, x3: -285, y3: 0),
+    _Line(x1: 248, y1: 209, x2: 300, y2: 257, x3: 378, y3: 270),
   ];
 
   final List<_Offset> evaluationOffset = [
@@ -61,201 +62,204 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          final xTranslate = (areaWidth - constraints.maxWidth) / 2;
-          final yTranslate = (areaHeight - constraints.maxHeight) / 2;
+    return Theme(
+      data: mainPageThemeData,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            final xTranslate = (areaWidth - constraints.maxWidth) / 2;
+            final yTranslate = (areaHeight - constraints.maxHeight) / 2;
 
-          var transformationController = TransformationController();
-          transformationController.value.setEntry(0, 0, 1);
-          transformationController.value.setEntry(1, 1, 1);
-          transformationController.value.setEntry(2, 2, 1);
-          transformationController.value.setEntry(0, 3, -xTranslate);
-          transformationController.value.setEntry(1, 3, -yTranslate);
+            var transformationController = TransformationController();
+            transformationController.value.setEntry(0, 0, 1);
+            transformationController.value.setEntry(1, 1, 1);
+            transformationController.value.setEntry(2, 2, 1);
+            transformationController.value.setEntry(0, 3, -xTranslate);
+            transformationController.value.setEntry(1, 3, -yTranslate);
 
-          return BlocProvider(
-            create: (_) => MainPageBloc(
-              routineRepository: context.read<RoutineRepository>(),
-            )..add(MainPageEventRefresh()),
-            child: InteractiveViewer(
-              transformationController: transformationController,
-              clipBehavior: Clip.none,
-              constrained: false,
-              minScale: 0.05,
-              maxScale: 3,
-              child: Center(
-                child: GestureDetector(
-                  onTapDown: (details) {
-                    double x = details.localPosition.dx - areaWidth / 2;
-                    double y = details.localPosition.dy - areaWidth / 2;
+            return BlocProvider(
+              create: (_) => MainPageBloc(
+                routineRepository: context.read<RoutineRepository>(),
+              )..add(MainPageEventRefresh()),
+              child: InteractiveViewer(
+                transformationController: transformationController,
+                clipBehavior: Clip.none,
+                constrained: false,
+                minScale: 0.05,
+                maxScale: 3,
+                child: Center(
+                  child: GestureDetector(
+                    onTapDown: (details) {
+                      double x = details.localPosition.dx - areaWidth / 2;
+                      double y = details.localPosition.dy - areaWidth / 2;
 
-                    print(
-                        "###LokalePosition x: ${x.round()}, y: ${-y.round()}");
-                    print(
-                        "###LokalePosition x1: ${x.round()}, y1: ${-y.round()}");
-                    print(
-                        "###LokalePosition x2: ${x.round()}, y2: ${-y.round()}");
-                    print(
-                        "###LokalePosition x3: ${x.round()}, y3: ${-y.round()}");
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        scale: 3,
-                        repeat: ImageRepeat.repeat,
-                        image: AssetImage(
-                            "lib/assets/images/background_paper/paper_basic/dotted_paper_white-pink.jpg"),
+                      print(
+                          "###LokalePosition x: ${x.round()}, y: ${-y.round()}");
+                      print(
+                          "###LokalePosition x1: ${x.round()}, y1: ${-y.round()}");
+                      print(
+                          "###LokalePosition x2: ${x.round()}, y2: ${-y.round()}");
+                      print(
+                          "###LokalePosition x3: ${x.round()}, y3: ${-y.round()}");
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          scale: 3,
+                          repeat: ImageRepeat.repeat,
+                          image: AssetImage(
+                              "lib/assets/images/background_paper/paper_basic/dotted_paper_white-pink.jpg"),
+                        ),
                       ),
-                    ),
-                    height: areaHeight,
-                    width: areaWidth,
-                    child: BlocSelector<MainPageBloc, MainPageState,
-                        List<Routine>>(
-                      selector: (state) {
-                        return state.routines;
-                      },
-                      builder: (context, state) {
-                        List<_Line> lines = [
-                          //Überschrift
-                          _Line(
-                              x1: -10,
-                              y1: 90,
-                              x2: -40,
-                              y2: 120,
-                              x3: -40,
-                              y3: 160),
-                        ];
-                        for (int i = 0; i < state.length; i++) {
-                          lines.add(routineLines[i]);
-                          lines.add(titleLines[i]);
-                          lines.add(evaluationLines[i]);
-                        }
-                        return Stack(
-                          children: [
-                            CustomPaint(
-                              size: Size(areaWidth, areaHeight),
-                              painter: _LinePainter(
-                                lines: lines,
+                      height: areaHeight,
+                      width: areaWidth,
+                      child: BlocSelector<MainPageBloc, MainPageState,
+                          List<Routine>>(
+                        selector: (state) {
+                          return state.routines;
+                        },
+                        builder: (context, state) {
+                          List<_Line> lines = [
+                            //Überschrift
+                            _Line(
+                                x1: -10,
+                                y1: 90,
+                                x2: -40,
+                                y2: 120,
+                                x3: -40,
+                                y3: 160),
+                          ];
+                          for (int i = 0; i < state.length; i++) {
+                            lines.add(routineLines[i]);
+                            lines.add(titleLines[i]);
+                            lines.add(evaluationLines[i]);
+                          }
+                          return Stack(
+                            children: [
+                              CustomPaint(
+                                size: Size(areaWidth, areaHeight),
+                                painter: _LinePainter(
+                                  lines: lines,
+                                ),
                               ),
-                            ),
-                            Center(
-                              child: Transform.translate(
-                                offset: const Offset(0.0, 20.0),
-                                child: DottedBorder(
-                                  borderType: BorderType.RRect,
-                                  radius: Radius.circular(40),
-                                  dashPattern: [7, 7],
-                                  strokeWidth: 3,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(40),
-                                    child: BlocSelector<MainPageBloc,
-                                        MainPageState, MainPageAnimalState?>(
-                                      selector: (state) {
-                                        return state.mainPageAnimalState;
-                                      },
-                                      builder: (context, state) {
-                                        if (state == null) {
-                                          return CircularProgressIndicator();
-                                        }
-                                        return Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            MainPageAnimal(
-                                                mainPageAnimalState: state),
-                                            Text(
-                                              state.animalToString(context),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .labelMedium,
-                                            )
-                                          ],
-                                        );
-                                      },
+                              Center(
+                                child: Transform.translate(
+                                  offset: const Offset(0.0, 20.0),
+                                  child: DottedBorder(
+                                    borderType: BorderType.RRect,
+                                    radius: Radius.circular(40),
+                                    dashPattern: [7, 7],
+                                    strokeWidth: 3,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(40),
+                                      child: BlocSelector<MainPageBloc,
+                                          MainPageState, MainPageAnimalState?>(
+                                        selector: (state) {
+                                          return state.mainPageAnimalState;
+                                        },
+                                        builder: (context, state) {
+                                          if (state == null) {
+                                            return CircularProgressIndicator();
+                                          }
+                                          return Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              MainPageAnimal(
+                                                  mainPageAnimalState: state),
+                                              Text(
+                                                state.animalToString(context),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .labelMedium,
+                                              )
+                                            ],
+                                          );
+                                        },
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Center(
-                              child: Transform.translate(
-                                offset: const Offset(-30.0, -220.0),
-                                child: DottedBorder(
-                                  borderType: BorderType.RRect,
-                                  padding: EdgeInsets.all(10),
-                                  radius: Radius.circular(30),
-                                  dashPattern: [10, 10],
-                                  strokeWidth: 5,
-                                  child: Text(
-                                      AppLocalizations.of(context)!
-                                          .homepageTitle,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleLarge),
-                                ),
-                              ),
-                            ),
-                            //Image
-                            Stack(
-                              children: state
-                                  .asMap()
-                                  .map((int i, Routine x) {
-                                    return MapEntry(
-                                      i,
-                                      _ImageWidget(
-                                        imageID: x.imageID,
-                                        offset: imageOffset[i],
-                                      ),
-                                    );
-                                  })
-                                  .values
-                                  .toList(),
-                            ),
-                            //Title
-                            Stack(
-                              children: state
-                                  .asMap()
-                                  .map((int i, Routine x) {
-                                    return MapEntry(
-                                      i,
-                                      _TextOffsetWidget(
-                                        text: x.title,
-                                        offset: titleOffset[i],
+                              Center(
+                                child: Transform.translate(
+                                  offset: const Offset(-30.0, -220.0),
+                                  child: DottedBorder(
+                                    borderType: BorderType.RRect,
+                                    padding: EdgeInsets.all(10),
+                                    radius: Radius.circular(30),
+                                    dashPattern: [10, 10],
+                                    strokeWidth: 5,
+                                    child: Text(
+                                        AppLocalizations.of(context)!
+                                            .homepageTitle,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .labelMedium,
-                                      ),
-                                    );
-                                  })
-                                  .values
-                                  .toList(),
-                            ),
-                            //Evaluation
-                            Stack(
-                              children: state
-                                  .asMap()
-                                  .map((int i, Routine x) {
-                                    return MapEntry(
-                                      i,
-                                      _EvaluationWidget(
-                                        offset: evaluationOffset[i],
-                                      ),
-                                    );
-                                  })
-                                  .values
-                                  .toList(),
-                            )
-                          ],
-                        );
-                      },
+                                            .titleLarge),
+                                  ),
+                                ),
+                              ),
+                              //Image
+                              Stack(
+                                children: state
+                                    .asMap()
+                                    .map((int i, Routine x) {
+                                      return MapEntry(
+                                        i,
+                                        _ImageWidget(
+                                          imageID: x.imageID,
+                                          offset: imageOffset[i],
+                                        ),
+                                      );
+                                    })
+                                    .values
+                                    .toList(),
+                              ),
+                              //Title
+                              Stack(
+                                children: state
+                                    .asMap()
+                                    .map((int i, Routine x) {
+                                      return MapEntry(
+                                        i,
+                                        _TextOffsetWidget(
+                                          text: x.title,
+                                          offset: titleOffset[i],
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleSmall,
+                                        ),
+                                      );
+                                    })
+                                    .values
+                                    .toList(),
+                              ),
+                              //Evaluation
+                              Stack(
+                                children: state
+                                    .asMap()
+                                    .map((int i, Routine x) {
+                                      return MapEntry(
+                                        i,
+                                        _EvaluationWidget(
+                                          offset: evaluationOffset[i],
+                                        ),
+                                      );
+                                    })
+                                    .values
+                                    .toList(),
+                              )
+                            ],
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
@@ -378,7 +382,9 @@ class _EvaluationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Transform.translate(
+    return
+
+      Transform.translate(
       offset: Offset(offset.x, -offset.y + areaHeight / 2),
       child: Align(
         alignment: Alignment.topCenter,
@@ -388,10 +394,13 @@ class _EvaluationWidget extends StatelessWidget {
           borderPadding: EdgeInsets.all(2),
           dashPattern: [5, 5],
           strokeWidth: 4,
-          child: Container(
-            color: Colors.yellow,
-            height: 200,
-            width: 200,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Container(
+              color: Colors.yellow,
+              height: 75,
+              width: 200,
+            ),
           ),
         ),
       ),

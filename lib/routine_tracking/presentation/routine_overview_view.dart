@@ -96,110 +96,119 @@ class _RoutineWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DottedBorder(
-      strokeWidth: 2,
-      radius: Radius.circular(5),
-      dashPattern: [5],
-      child: Row(
-        children: [
-          Container(
-            width: 100,
-            height: 100,
-            child: CustomImageWidget(imageID: routine.imageID),
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 0),
-              child: Column(
-                children: [
-                  Text(
-                    textAlign: TextAlign.center,
-                    routine.title,
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                  Divider(
-                    endIndent: 5,
-                    indent: 5,
-                    height: 5,
-                  ),
-                  Text(
-                    textAlign: TextAlign.justify,
-                    routine.shortDescription,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ],
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 0),
+      child: DottedBorder(
+        strokeWidth: 2,
+        radius: Radius.circular(5),
+        dashPattern: [5],
+        child: Row(
+          children: [
+            Container(
+              width: 100,
+              height: 100,
+              child: CustomImageWidget(imageID: routine.imageID),
+            ),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 0),
+                child: Column(
+                  children: [
+                    Text(
+                      textAlign: TextAlign.center,
+                      routine.title,
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                    Divider(
+                      endIndent: 5,
+                      indent: 5,
+                      height: 5,
+                    ),
+                    Text(
+                      textAlign: TextAlign.justify,
+                      routine.shortDescription,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            width: 120,
-            height: 100,
-            child: Column(children: [
-              Expanded(
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Status:",
-                      style: Theme.of(context).textTheme.labelMedium),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  color: Color(0x8000FF00),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Erledigt",
-                        style: Theme.of(context).textTheme.labelMedium),
-                  ),
-                ),
-              ),
-              Row(
+            SizedBox(
+              width: 120,
+              height: 100,
+              child: Column(
                 children: [
                   Expanded(
-                    flex: 1,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          shape: CircleBorder(), padding: EdgeInsets.all(0)),
-                      onPressed: () {
-                        Navigator.of(context)
-                            .pushNamed("/statistics", arguments: routine);
-                      },
-                      child: Icon(Icons.bar_chart),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Status:",
+                          style: Theme.of(context).textTheme.labelMedium),
                     ),
                   ),
                   Expanded(
-                    flex: 1,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          shape: CircleBorder(), padding: EdgeInsets.all(0)),
-                      onPressed: () {
-                        context.read<RoutineOverviewBloc>().add(
-                            RoutineOverviewEditRoutine(routineID: routine.id!));
-                      },
-                      child: Icon(Icons.edit_document),
+                    child: Container(
+                      color: Color(0x8000FF00),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text("Erledigt",
+                            style: Theme.of(context).textTheme.labelMedium),
+                      ),
                     ),
                   ),
-                  Expanded(
-                    flex: 1,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          shape: CircleBorder(), padding: EdgeInsets.all(0)),
-                      onPressed: () {
-                        Future<bool?> deleteItem = showDialog<bool>(
-                          context: context,
-                          builder: (context) => _DeletePopUp(routine),
-                        );
-                        context.read<RoutineOverviewBloc>().add(
-                            RoutineOverviewEditRoutineDelete(
-                                routine: routine, delete: deleteItem));
-                      },
-                      child: Icon(Icons.delete),
-                    ),
-                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              shape: CircleBorder(),
+                              padding: EdgeInsets.all(0)),
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushNamed("/statistics", arguments: routine);
+                          },
+                          child: Icon(Icons.bar_chart),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              shape: CircleBorder(),
+                              padding: EdgeInsets.all(0)),
+                          onPressed: () {
+                            context.read<RoutineOverviewBloc>().add(
+                                RoutineOverviewEditRoutine(
+                                    routineID: routine.id!));
+                          },
+                          child: Icon(Icons.edit_document),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              shape: CircleBorder(),
+                              padding: EdgeInsets.all(0)),
+                          onPressed: () {
+                            Future<bool?> deleteItem = showDialog<bool>(
+                              context: context,
+                              builder: (context) => _DeletePopUp(routine),
+                            );
+                            context.read<RoutineOverviewBloc>().add(
+                                RoutineOverviewEditRoutineDelete(
+                                    routine: routine, delete: deleteItem));
+                          },
+                          child: Icon(Icons.delete),
+                        ),
+                      ),
+                    ],
+                  )
                 ],
-              )
-            ]),
-          )
-        ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

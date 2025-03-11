@@ -148,6 +148,12 @@ ThemeData basePageThemeData = ThemeData(
 );
 
 /// Page specific themeData
+
+/// TableOfContents
+ThemeData ableOfContentsPageThemeData = basePageThemeData.copyWith(
+  colorScheme: tableOfContentsPageColorScheme,
+);
+
 /// MainPage
 ThemeData mainPageThemeData = basePageThemeData.copyWith(
   colorScheme: mainPageColorScheme,
