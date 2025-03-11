@@ -32,6 +32,7 @@ class _FriendCollectionFriendlistState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: Column(
         children: [
           Padding(
