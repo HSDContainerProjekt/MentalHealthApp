@@ -27,6 +27,7 @@ class TextInputWidget<B extends StateStreamable<S>, S> extends StatelessWidget {
   final String? label;
 
   final BlocWidgetSelector<S, TextInputState> selector;
+  late int offset;
 
   TextInputWidget(
       {super.key,
@@ -51,14 +52,14 @@ class TextInputWidget<B extends StateStreamable<S>, S> extends StatelessWidget {
         .labelSmall
         ?.copyWith(color: colorScheme.error);
 
+    TextEditingController controller = TextEditingController();
+    TextSelection previousSelection =
+        TextSelection(baseOffset: 0, extentOffset: 0);
     return BlocSelector<B, S, TextInputState>(
       selector: this.selector,
       builder: (BuildContext context, TextInputState state) {
-        TextEditingController controller = TextEditingController();
         controller.text = state.text;
-        controller.selection = TextSelection.fromPosition(
-          TextPosition(offset: controller.text.length),
-        );
+        controller.selection = previousSelection;
         return DottedBorder(
           strokeWidth: 2,
           radius: Radius.circular(5),
@@ -84,7 +85,11 @@ class TextInputWidget<B extends StateStreamable<S>, S> extends StatelessWidget {
             maxLines: this.maxLines,
             inputFormatters: this.inputFormatters,
             controller: controller,
-            onChanged: this.onChanged,
+            onChanged: (value) {
+              previousSelection = controller.selection;
+              controller.text = value;
+              this.onChanged!(value);
+            },
           ),
         );
       },

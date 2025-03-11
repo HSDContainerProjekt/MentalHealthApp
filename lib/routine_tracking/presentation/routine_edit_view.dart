@@ -631,6 +631,7 @@ class _ImageEditField extends StatelessWidget {
             ),
             VerticalDivider(
               color: Colors.black,
+              width: 2,
               thickness: 2,
             ),
             Expanded(

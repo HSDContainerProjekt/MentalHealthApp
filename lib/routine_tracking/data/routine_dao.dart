@@ -36,8 +36,7 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
   @override
   Future<void> init({String? databasePath}) async {
     databasePath ??=
-        (await getApplicationDocumentsDirectory()).path + '/routines_db.db';
-
+        '${(await getApplicationDocumentsDirectory()).path}/routines_db.db';
 
     database = await openDatabase(databasePath, onCreate: onCreate, version: 1);
   }
@@ -120,8 +119,10 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
     int lookUpTime = DateTime.now().millisecondsSinceEpoch;
 
     final List<Map<String, Object?>> queryResult = await database.rawQuery(
-        'SELECT routines.id, routines.title, routines.description, routines.imageID , MIN($lookUpTime + ((timeIntervals.timeInterval - $lookUpTime + timeIntervals.firstDateTime) % timeIntervals.timeInterval)) AS nextTime FROM routines JOIN timeIntervals ON routines.id = timeIntervals.routineID LEFT JOIN routineResults ON routineResults.timeIntervalID = timeIntervals.id AND routineResults.number = cast(($lookUpTime - timeIntervals.firstDateTime) / timeIntervals.timeInterval as int) WHERE routineResults.timeIntervalID IS NULL GROUP BY routines.id ORDER BY nextTime LIMIT $limit');
+        'SELECT routines.id, routines.title, routines.description, routines.imageID , MIN($lookUpTime + ((timeIntervals.timeInterval - $lookUpTime + timeIntervals.firstDateTime) % timeIntervals.timeInterval)) AS nextTime FROM routines JOIN timeIntervals ON routines.id = timeIntervals.routineID AND timeIntervals.timeInterval < $lookUpTime LEFT JOIN routineResults ON routineResults.timeIntervalID = timeIntervals.id AND routineResults.number = cast(($lookUpTime - timeIntervals.firstDateTime) / timeIntervals.timeInterval as int) WHERE routineResults.timeIntervalID IS NULL GROUP BY routines.id ORDER BY nextTime LIMIT $limit');
     List<Routine> result = [];
+    print("###");
+    print(queryResult);
     for (Map<String, Object?> x in queryResult) {
       Routine newRoutine = Routine.fromMap(x);
       result.add(newRoutine);

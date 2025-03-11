@@ -30,8 +30,9 @@ class RoutineMainView extends StatelessWidget {
           child: Column(
             children: [
               Center(
-                  child: Text(AppLocalizations.of(context)!.routineTitle,
-                      style: Theme.of(context).textTheme.titleLarge)),
+                child: Text(AppLocalizations.of(context)!.routineTitle,
+                    style: Theme.of(context).textTheme.titleLarge),
+              ),
               Expanded(child: BlocBuilder<RoutineNavBloc, RoutineNavState>(
                 builder: (context, state) {
                   if (state is RoutineNavOverview) {

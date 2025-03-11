@@ -1,12 +1,14 @@
 part of 'main_page_bloc.dart';
 
-sealed class MainPageState extends Equatable {
-  const MainPageState();
-}
+class MainPageState extends Equatable {
+  final MainPageAnimalState? mainPageAnimalState;
+  final List<Routine> routines;
 
-final class MainPageInitial extends MainPageState {
+  const MainPageState({
+    required this.mainPageAnimalState,
+    required this.routines,
+  });
+
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [mainPageAnimalState, routines];
 }
-
-
