@@ -1,5 +1,5 @@
-DROP TABLE Friends;
-CREATE TABLE Friends (
+DROP TABLE friends;
+CREATE TABLE friends (
     FriendID int NOT NULL,
     Name varchar(255),
     Nickname varchar(255),
