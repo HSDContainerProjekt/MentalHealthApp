@@ -27,7 +27,15 @@ class _AppFrameworkState extends State<AppFramework> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Navigator(
+      body: Container(
+        decoration: BoxDecoration(
+    border: Border(
+      top: BorderSide(color: Colors.brown,width: 8),
+      right: BorderSide(color: Colors.brown,width: 8),
+      bottom: BorderSide(color: Colors.brown, width: 8),
+    ),
+  ),
+        child: Navigator(
           initialRoute: landingPage,
           key: navigatorKey,
           onGenerateRoute: (RouteSettings settings) {
@@ -60,7 +68,7 @@ class _AppFrameworkState extends State<AppFramework> {
             }
             return MaterialPageRoute<void>(
                 builder: builder, settings: settings);
-          }), //aktuelle Seite als body
+          })),//aktuelle Seite als body
       //routeOnTap(selectedPage, context),
       bottomNavigationBar: NavBar(
         selectedPage: selectedPage,
