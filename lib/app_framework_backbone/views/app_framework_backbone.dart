@@ -30,9 +30,9 @@ class _AppFrameworkState extends State<AppFramework> {
       body: Container(
         decoration: BoxDecoration(
     border: Border(
-      top: BorderSide(color: Colors.brown,width: 8),
-      right: BorderSide(color: Colors.brown,width: 8),
-      bottom: BorderSide(color: Colors.brown, width: 8),
+      top: BorderSide(color: Colors.brown, width: 10),
+      right: BorderSide(color: Colors.brown, width: 10),
+      bottom: BorderSide(color: Colors.brown, width: 10),
     ),
   ),
         child: Navigator(
