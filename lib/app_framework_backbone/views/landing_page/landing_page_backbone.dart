@@ -26,8 +26,8 @@ class LandingPage extends StatelessWidget {
         future: AccountInitDb().isEmpty(),
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data == false) {
-                        return Scaffold(
-                body: GestureDetector(
+            return Scaffold(
+              body: GestureDetector(
               onTap: () {
                 Navigator.pushReplacementNamed(context, mainPage);
               },
@@ -46,23 +46,20 @@ class LandingPage extends StatelessWidget {
                   children: [
                     Text(AppLocalizations.of(context)!
                         .appTitle),
-                        SizedBox(width: 200, height: 400,child:  //Bild des Charakters der Person, default = Appmaskottchen
+                        SizedBox(width: 200, height: 400,child:
                     FutureBuilder(
                         future: AnimalBackbone().animation(),
                         builder: (context, snapshot) {
-                          var result;
                           
                           if (snapshot.hasData) {
-                            var animal = snapshot.data!;
-                            log(snapshot.data!);
                             return ModelViewer(
-                src: snapshot.data!, // Use src instead of path
-                );
+                              src: snapshot.data!, 
+                              );
                           } else {
-                            return ModelViewer(src: Maxie.animation);
+                            return Image(image: AssetImage(Froggo.bodyshot));
                             
                           }
-                        })), //Bild des Charakters der Person, default = Appmaskottchen
+                        })), 
                     Text(
                         "Name der Person") //Name der Person aus Datenbank ziehen, default = leer
                   ],
@@ -70,21 +67,21 @@ class LandingPage extends StatelessWidget {
               ]),
             ));} else {
             return Scaffold(
-                body: Stack(children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("lib/assets/images/bookcover.jpg"),
-                      fit: BoxFit.cover,
-                    ),
+              body: Stack(children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("lib/assets/images/bookcover.jpg"),
+                    fit: BoxFit.cover,
                   ),
                 ),
-                Center(
-                    child: Column(
+              ),
+              Center(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(AppLocalizations.of(context)!.appTitle),
-                    animalSelection(), //Bild des Charakters der Person, default = Appmaskottchen
+                      animalSelection(), //Bild des Charakters der Person, default = Appmaskottchen
                     Text(
                         "Name der Person") //Name der Person aus Datenbank ziehen, default = leer
                   ],

@@ -67,7 +67,9 @@ class FriendDB {
   }
 
   Future<Friend> fetchByID(int id) async {
+    log("called");
     final database = await DatabaseFriendCollection().database;
+    log("3: "+ database.toString());
     final friend = await database.query(tableName,
         columns: [
           "id",
@@ -89,6 +91,7 @@ class FriendDB {
         where: 'id = ?',
         whereArgs: [id]);
     var returnFriend = Friend.fromSqfliteDatabase(friend.single);
+    log("4: "+ returnFriend.toString());
     return returnFriend;
   }
 

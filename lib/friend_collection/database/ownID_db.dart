@@ -85,8 +85,12 @@ class ownIdDB {
 
   Future<int> getOwnIdAsInt() async {
     var ownIDList = await getOwnId();
+    if (ownIDList.isEmpty){
+      return -1;
+    } else {
     var ownID = ownIDList.first;
     var id = ownID.id;
     return id;
+    }
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:async/async.dart';
 import 'package:mental_health_app/friend_collection/database/account_init_DB.dart';
 import 'package:mental_health_app/friend_collection/database/friend_db.dart';
@@ -17,11 +19,6 @@ class DatabaseFriendCollection {
     return _database!;
   }
 
-  Future<String> get fullPath async {
-    const name = 'friend.db';
-    final path = await getDatabasesPath();
-    return join(path, name);
-  }
 
   Future<Database> _initialize({String? databasePath}) async {
     databasePath ??= (await getApplicationDocumentsDirectory()).path + '/friends_db.db';
@@ -38,6 +35,6 @@ class DatabaseFriendCollection {
   }
 
   Future<void> delete() async {
-    deleteDatabase(await fullPath);
+    deleteDatabase(await getDatabasesPath() + '/friends_db.db');
   }
 }

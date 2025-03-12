@@ -44,7 +44,6 @@ class AccountInitDb {
 
   Future<bool> isEmpty() async {
     var result = await getOwnAnimal();
-    log(result.toString());
     return result.isEmpty;
   }
 }
