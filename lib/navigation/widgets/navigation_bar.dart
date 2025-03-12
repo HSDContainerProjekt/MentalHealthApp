@@ -27,10 +27,12 @@ class _NavBarState extends State<NavBar> {
     return NavigationBar(
       backgroundColor: Colors.transparent,
       onDestinationSelected: (int index) {
-        setState(() {
-          selectedPage = index;
-        });
-        onDestinationSelected(index);
+        if (selectedPage != index) {
+          setState(() {
+            selectedPage = index;
+          });
+          onDestinationSelected(index);
+        }
       },
       labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
       indicatorColor: const Color.fromARGB(0, 0, 0, 0),
