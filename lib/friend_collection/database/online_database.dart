@@ -144,10 +144,22 @@ class OnlineDatabase {
               "SELECT * FROM friends WHERE FriendID=@friendId",
               substitutionValues: {"friendId": friend2});
           for (var row in result) {
-            var id = row["FriendID"];
-            var name = row["Name"];
-            var birthday = row["Birthday"];
-            var friend = Friend(id: id, name: name, birthday: birthday);
+            var id = row[0];
+            var name = row[1];
+            var nickname = row[2];
+            var birthday = row[3];
+            var zodiacSign = row[4];
+            var animal = row[5];
+            var hairColor = row[6];
+            var eyecolor = row[7];
+            var favoriteColor = row[8];
+            var favoriteSong = row[9];
+            var favoriteFood = row[10];
+            var favoriteBook = row[11];
+            var favoriteFilm = row[12];
+            var favoriteAnimal = row[13];
+            var favoriteNumber = row[14];
+            var friend = Friend(id: id, name: name, nickname: nickname, birthday: birthday, zodiacSign: zodiacSign, animal: animal, hairColor: hairColor, eyecolor: eyecolor, favoriteColor: favoriteColor, favoriteSong: favoriteSong, favoriteFood: favoriteFood, favoriteBook: favoriteBook, favoriteFilm: favoriteFilm, favoriteAnimal: favoriteAnimal, favoriteNumber: favoriteNumber);
             list.add(friend);
           }
         } else {
@@ -155,10 +167,22 @@ class OnlineDatabase {
               "SELECT * FROM friends WHERE FriendID=@friendId",
               substitutionValues: {"friendId": friend1});
           for (var row in result) {
-            var id = row["FriendID"];
-            var name = row["Name"];
-            var birthday = row["Birthday"];
-            var friend = Friend(id: id, name: name, birthday: birthday);
+            var id = row[0];
+            var name = row[1];
+            var nickname = row[2];
+            var birthday = row[3];
+            var zodiacSign = row[4];
+            var animal = row[5];
+            var hairColor = row[6];
+            var eyecolor = row[7];
+            var favoriteColor = row[8];
+            var favoriteSong = row[9];
+            var favoriteFood = row[10];
+            var favoriteBook = row[11];
+            var favoriteFilm = row[12];
+            var favoriteAnimal = row[13];
+            var favoriteNumber = row[14];
+            var friend = Friend(id: id, name: name, nickname: nickname, birthday: birthday, zodiacSign: zodiacSign, animal: animal, hairColor: hairColor, eyecolor: eyecolor, favoriteColor: favoriteColor, favoriteSong: favoriteSong, favoriteFood: favoriteFood, favoriteBook: favoriteBook, favoriteFilm: favoriteFilm, favoriteAnimal: favoriteAnimal, favoriteNumber: favoriteNumber);
             list.add(friend);
           }
         }
