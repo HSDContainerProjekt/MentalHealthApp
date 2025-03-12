@@ -10,6 +10,7 @@ class FriendCollectionFriend extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: FutureBuilder(
           future: FriendDB().getFriends(),
           builder: (context, snapshot) {

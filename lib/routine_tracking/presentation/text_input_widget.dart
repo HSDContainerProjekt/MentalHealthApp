@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,6 +27,7 @@ class TextInputWidget<B extends StateStreamable<S>, S> extends StatelessWidget {
   final String? label;
 
   final BlocWidgetSelector<S, TextInputState> selector;
+  late int offset;
 
   TextInputWidget(
       {super.key,
@@ -50,40 +52,45 @@ class TextInputWidget<B extends StateStreamable<S>, S> extends StatelessWidget {
         .labelSmall
         ?.copyWith(color: colorScheme.error);
 
+    TextEditingController controller = TextEditingController();
+    TextSelection previousSelection =
+        TextSelection(baseOffset: 0, extentOffset: 0);
     return BlocSelector<B, S, TextInputState>(
       selector: this.selector,
       builder: (BuildContext context, TextInputState state) {
-        TextEditingController controller = TextEditingController();
         controller.text = state.text;
-        controller.selection = TextSelection.fromPosition(
-          TextPosition(offset: controller.text.length),
-        );
-        return TextField(
-          cursorColor: colorScheme.primary,
-          cursorErrorColor: colorScheme.error,
-          decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                color: colorScheme.primary,
-                width: 1.0,
+        controller.selection = previousSelection;
+        return DottedBorder(
+          strokeWidth: 2,
+          radius: Radius.circular(5),
+          dashPattern: [5],
+          child: TextField(
+            cursorColor: colorScheme.primary,
+            cursorErrorColor: colorScheme.error,
+            decoration: InputDecoration(
+              focusedBorder: InputBorder.none,
+              counterText: "",
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: colorScheme.error, width: 1.0),
               ),
+              errorText: state.error,
+              errorStyle: this.errorTextStyle,
+              labelText: this.label,
+              labelStyle: this.labelTextStyle,
             ),
-            errorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: colorScheme.error, width: 1.0),
-            ),
-            errorText: state.error,
-            errorStyle: this.errorTextStyle,
-            labelText: this.label,
-            labelStyle: this.labelTextStyle,
+            textAlign: TextAlign.center,
+            style: this.inputTextStyle,
+            maxLength: this.maxLength,
+            minLines: this.minLines,
+            maxLines: this.maxLines,
+            inputFormatters: this.inputFormatters,
+            controller: controller,
+            onChanged: (value) {
+              previousSelection = controller.selection;
+              controller.text = value;
+              this.onChanged!(value);
+            },
           ),
-          textAlign: TextAlign.center,
-          style: this.inputTextStyle,
-          maxLength: this.maxLength,
-          minLines: this.minLines,
-          maxLines: this.maxLines,
-          inputFormatters: this.inputFormatters,
-          controller: controller,
-          onChanged: this.onChanged,
         );
       },
     );

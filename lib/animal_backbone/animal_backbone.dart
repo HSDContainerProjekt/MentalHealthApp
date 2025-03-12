@@ -21,6 +21,7 @@ class AnimalBackbone {
     }
     return animalType;
   }
+
   Future<String> bodyshot() async {
     switch (await animalType()) {
       case "froggo":

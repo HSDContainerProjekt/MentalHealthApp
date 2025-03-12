@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,6 +45,11 @@ class RoutineEditView extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
             child: _EditorSwitchButton(),
           ),
+          Divider(
+            height: 3,
+            thickness: 2,
+            color: Theme.of(context).colorScheme.primary,
+          ),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -54,6 +60,8 @@ class RoutineEditView extends StatelessWidget {
             ),
           ),
           Divider(
+            height: 3,
+            thickness: 2,
             color: Theme.of(context).colorScheme.primary,
           ),
           BlocBuilder<RoutineEditBloc, RoutineEditState>(
@@ -66,18 +74,26 @@ class RoutineEditView extends StatelessWidget {
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                        onPressed: () => context
-                            .read<RoutineEditBloc>()
-                            .add(RoutineEditCancel()),
-                        child: Text("Beenden")),
+                      onPressed: () => context
+                          .read<RoutineEditBloc>()
+                          .add(RoutineEditCancel()),
+                      child: Text(
+                        "Beenden",
+                        style: Theme.of(context).textTheme.labelSmall,
+                      ),
+                    ),
                   ),
                   VerticalDivider(),
                   Expanded(
                     child: ElevatedButton(
-                        onPressed: () => context
-                            .read<RoutineEditBloc>()
-                            .add(RoutineEditSave()),
-                        child: Text("Speichern")),
+                      onPressed: () => context
+                          .read<RoutineEditBloc>()
+                          .add(RoutineEditSave()),
+                      child: Text(
+                        "Speichern",
+                        style: Theme.of(context).textTheme.labelSmall,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -109,7 +125,10 @@ class _EditorSwitchButton extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text("Inhalt"),
+                  Text(
+                    "Inhalt",
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
                   VerticalDivider(
                     width: 2,
                   ),
@@ -126,11 +145,16 @@ class _EditorSwitchButton extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text("Bewertung"),
+                  Text(
+                    "Bewertung",
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
                   VerticalDivider(
                     width: 2,
                   ),
-                  Icon(Icons.add_chart),
+                  Icon(
+                    Icons.add_chart,
+                  ),
                 ],
               ),
             ),
@@ -142,11 +166,16 @@ class _EditorSwitchButton extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text("Zeit"),
+                  Text(
+                    "Zeit",
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
                   VerticalDivider(
                     width: 2,
                   ),
-                  Icon(Icons.timer_sharp),
+                  Icon(
+                    Icons.timer_sharp,
+                  ),
                 ],
               ),
             ),
@@ -189,15 +218,15 @@ class _ContentEditor extends StatelessWidget {
           child: _TitleEditField(),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
+          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
           child: _ImageEditField(),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
           child: _ShortDescriptionEditField(),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
+          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
           child: _DescriptionEditField(),
         ),
       ],
@@ -481,9 +510,10 @@ class _TimeIntervalEntry extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
-      child: Container(
-        decoration: BoxDecoration(
-            border: Border.all(), borderRadius: BorderRadius.circular(5)),
+      child: DottedBorder(
+        strokeWidth: 2,
+        radius: Radius.circular(5),
+        dashPattern: [5],
         child: Row(
           children: [
             Expanded(
@@ -568,11 +598,10 @@ class _TitleEditField extends StatelessWidget {
 class _ImageEditField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        border: Border.all(color: Theme.of(context).colorScheme.primary),
-      ),
+    return DottedBorder(
+      strokeWidth: 2,
+      radius: Radius.circular(5),
+      dashPattern: [5],
       child: IntrinsicHeight(
         child: Row(
           children: [
@@ -601,8 +630,9 @@ class _ImageEditField extends StatelessWidget {
               ),
             ),
             VerticalDivider(
-              color: Theme.of(context).colorScheme.primary,
-              width: 1,
+              color: Colors.black,
+              width: 2,
+              thickness: 2,
             ),
             Expanded(
               child: BlocSelector<RoutineEditBloc, RoutineEditState, int>(

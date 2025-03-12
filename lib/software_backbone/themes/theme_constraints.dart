@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 //#region Color schemes for background and highlights
 /// example what color is used for what https://api.flutter.dev/flutter/material/ColorScheme-class.html
 
@@ -100,7 +99,7 @@ TextTheme textThemeBase = const TextTheme(
 
   /// Is used to label hints
   labelSmall: TextStyle(
-    fontSize: 20,
+    fontSize: 15,
     fontFamily: 'PatrickHand',
   ),
 
@@ -149,6 +148,12 @@ ThemeData basePageThemeData = ThemeData(
 );
 
 /// Page specific themeData
+
+/// TableOfContents
+ThemeData ableOfContentsPageThemeData = basePageThemeData.copyWith(
+  colorScheme: tableOfContentsPageColorScheme,
+);
+
 /// MainPage
 ThemeData mainPageThemeData = basePageThemeData.copyWith(
   colorScheme: mainPageColorScheme,
