@@ -16,7 +16,7 @@ class RoutineOverviewBloc
   final RoutineNavBloc navBloc;
 
   bool loadingNextRoutines = true;
-  List<Routine> nextRoutines = [];
+  List<RoutineWithExtraInfo> nextRoutines = [];
   bool loadingAllRoutines = true;
   List<Routine> allRoutines = [];
 

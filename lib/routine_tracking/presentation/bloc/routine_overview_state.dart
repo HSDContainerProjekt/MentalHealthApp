@@ -1,7 +1,7 @@
 part of 'routine_overview_bloc.dart';
 
 final class RoutineOverviewState extends Equatable {
-  final List<Routine> nextRoutines;
+  final List<RoutineWithExtraInfo> nextRoutines;
   final List<Routine> allRoutines;
 
   final bool loadingAllRoutines;

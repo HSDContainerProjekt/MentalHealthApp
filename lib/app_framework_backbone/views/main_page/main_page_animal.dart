@@ -1,5 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:model_viewer_plus/model_viewer_plus.dart';
+
+import '../../../animal_backbone/animal_backbone.dart';
+import '../../../software_backbone/constants/animal.dart';
 
 enum Animal { froernchen, froggo }
 
@@ -31,10 +36,24 @@ class MainPageAnimal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      "lib/assets/images/appSelectableImages/joggen.png",
-      height: 150.0,
-      width: 150.0,
+    return SizedBox(
+      width: 150,
+      height: 150,
+      child: FutureBuilder(
+        future: AnimalBackbone().animation(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return ModelViewer(
+              src: snapshot.data!,
+            );
+          } else {
+            return Padding(
+              padding: EdgeInsets.all(50),
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
     );
   }
 }

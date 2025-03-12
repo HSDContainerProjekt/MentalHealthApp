@@ -45,7 +45,7 @@ class RoutineOverviewView extends StatelessWidget {
                       itemCount: state.nextRoutines.length,
                       itemBuilder: (context, index) {
                         return _RoutineWidget(
-                          routine: state.nextRoutines[index],
+                          routine: state.nextRoutines[index].routine,
                         );
                       },
                     );

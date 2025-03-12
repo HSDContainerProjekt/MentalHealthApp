@@ -32,7 +32,7 @@ class ImageSelector extends StatelessWidget {
                         onPressed: () => context
                             .read<ImageSelectorBloc>()
                             .add(ImageSelectorAddImage()),
-                        child: Text("+")),
+                        child: Icon(Icons.add)),
                     body: GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           childAspectRatio: 1, crossAxisCount: 2),

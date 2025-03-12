@@ -10,7 +10,7 @@ import 'package:sqflite/sqflite.dart';
 import '../../app_framework_backbone/database_dao.dart';
 
 abstract class RoutineDAO implements DatabaseDAO {
-  Future<List<Routine>> nextRoutines(int limit);
+  Future<List<RoutineWithExtraInfo>> nextRoutines(int limit);
 
   Future<List<Routine>> allRoutines();
 
@@ -115,7 +115,7 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
   }
 
   @override
-  Future<List<Routine>> nextRoutines(int limit) async {
+  Future<List<RoutineWithExtraInfo>> nextRoutines(int limit) async {
     int lookUpTime = DateTime.now().millisecondsSinceEpoch;
 
     final List<Map<String, Object?>> queryResult = await database.rawQuery('''
@@ -145,11 +145,9 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
             ORDER BY t.nextTime
             LIMIT $limit; 
             ''');
-    List<Routine> result = [];
-    print("###");
-    print(queryResult);
+    List<RoutineWithExtraInfo> result = [];
     for (Map<String, Object?> x in queryResult) {
-      Routine newRoutine = Routine.fromMap(x);
+      RoutineWithExtraInfo newRoutine = RoutineWithExtraInfo.fromMap(x);
       result.add(newRoutine);
     }
     return result;

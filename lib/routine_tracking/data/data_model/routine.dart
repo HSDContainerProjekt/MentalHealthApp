@@ -60,3 +60,19 @@ class Routine extends Equatable {
         "imageID": imageID,
       };
 }
+
+class RoutineWithExtraInfo extends Equatable {
+  final Routine routine;
+  final Duration timeLeft;
+
+  RoutineWithExtraInfo({required this.routine, required this.timeLeft});
+
+  factory RoutineWithExtraInfo.fromMap(Map<String, Object?> data) {
+    return RoutineWithExtraInfo(
+        routine: Routine.fromMap(data),
+        timeLeft: Duration(milliseconds: data["nextTime"] as int));
+  }
+
+  @override
+  List<Object?> get props => [timeLeft, routine];
+}

@@ -13,8 +13,9 @@ import 'package:model_viewer_plus/model_viewer_plus.dart';
 
 void main(List<String> args) {
   runApp(MaterialApp(
-    home: ModelViewer(src: "lib/assets/animations/squirrel_animation.glb",)
-  ));
+      home: ModelViewer(
+    src: "lib/assets/animations/squirrel_animation.glb",
+  )));
 }
 
 class LandingPage extends StatelessWidget {
@@ -27,7 +28,7 @@ class LandingPage extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data == false) {
             return Scaffold(
-              body: GestureDetector(
+                body: GestureDetector(
               onTap: () {
                 Navigator.pushReplacementNamed(context, mainPage);
               },
@@ -44,51 +45,53 @@ class LandingPage extends StatelessWidget {
                     child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(AppLocalizations.of(context)!
-                        .appTitle),
-                        SizedBox(width: 200, height: 400,child:
-                    FutureBuilder(
+                    Text(AppLocalizations.of(context)!.appTitle),
+                    SizedBox(
+                      width: 200,
+                      height: 400,
+                      child: FutureBuilder(
                         future: AnimalBackbone().animation(),
                         builder: (context, snapshot) {
-                          
                           if (snapshot.hasData) {
                             return ModelViewer(
-                              src: snapshot.data!, 
-                              );
+                              src: snapshot.data!,
+                            );
                           } else {
                             return Image(image: AssetImage(Froggo.bodyshot));
-                            
                           }
-                        })), 
-                    Text(
-                        "Name der Person") //Name der Person aus Datenbank ziehen, default = leer
+                        },
+                      ),
+                    ),
+                    Text("Name der Person")
+                    //Name der Person aus Datenbank ziehen, default = leer
                   ],
                 ))
               ]),
-            ));} else {
+            ));
+          } else {
             return Scaffold(
               body: Stack(children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("lib/assets/images/bookcover.jpg"),
-                    fit: BoxFit.cover,
+                Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("lib/assets/images/bookcover.jpg"),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-              ),
-              Center(
-                child: Column(
+                Center(
+                    child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(AppLocalizations.of(context)!.appTitle),
-                      animalSelection(), //Bild des Charakters der Person, default = Appmaskottchen
-                    Text(
-                        "Name der Person") //Name der Person aus Datenbank ziehen, default = leer
+                    animalSelection(),
+                    //Bild des Charakters der Person, default = Appmaskottchen
+                    Text("Name der Person")
+                    //Name der Person aus Datenbank ziehen, default = leer
                   ],
                 ))
               ]),
             );
-
           }
         });
   }

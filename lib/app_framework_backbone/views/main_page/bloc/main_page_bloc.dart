@@ -12,7 +12,7 @@ part 'main_page_state.dart';
 
 class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
   final RoutineRepository routineRepository;
-  late List<Routine> nextRoutines = [];
+  late List<RoutineWithExtraInfo> nextRoutines = [];
 
   MainPageBloc({required this.routineRepository})
       : super(
