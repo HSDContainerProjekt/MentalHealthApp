@@ -2,22 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:mental_health_app/routine_tracking/data/routine_dao.dart';
 import 'package:mental_health_app/routine_tracking/domain/routine_repository.dart';
 import 'package:mental_health_app/routine_tracking/routine_observer.dart';
+import 'package:mental_health_app/software_backbone/Notification/Notifiaction.dart';
 import 'package:mental_health_app/software_backbone/routing/router.dart'
     as App_router;
 import 'package:mental_health_app/software_backbone/routing/routing_constants.dart';
 import 'package:mental_health_app/software_backbone/themes/theme_constraints.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import 'app_framework_backbone/views/custom_image/image_dao.dart';
 import 'app_framework_backbone/views/custom_image/image_repository.dart';
 import 'package:flutter/services.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService.init();
+  tz.initializeTimeZones();
+
+  NotificationService.showInstantNotification(
+      "Willkommen", "Ey du hast die App gestartet");
+
+  DateTime scheduledDate = DateTime.now().add(const Duration(minutes: 1));
+  NotificationService.scheduleNotification(
+    0,
+    "1 Minute",
+    "Du hast die App vor einer Minute gestartet. Ist Bald weg brauche ich nur halt für meine Rotinen.",
+    scheduledDate,
+  );
+
   sqfliteFfiInit();
   databaseFactory = databaseFactoryFfi;
   Bloc.observer = const RoutineObserver();

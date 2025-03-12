@@ -115,9 +115,13 @@ class _EditorSwitchButton extends StatelessWidget {
       },
       builder: (context, state) {
         return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Spacer(),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(
+                    vertical: 5, horizontal: 10), // and this
+              ),
               onPressed: state == EditorState.ContentEditor
                   ? null
                   : () => context.read<RoutineEditBloc>().add(
@@ -136,7 +140,14 @@ class _EditorSwitchButton extends StatelessWidget {
                 ],
               ),
             ),
+            VerticalDivider(
+              width: 5,
+            ),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(
+                    vertical: 5, horizontal: 10), // and this
+              ),
               onPressed: state == EditorState.EvaluationEditor
                   ? null
                   : () => context.read<RoutineEditBloc>().add(
@@ -158,7 +169,14 @@ class _EditorSwitchButton extends StatelessWidget {
                 ],
               ),
             ),
+            VerticalDivider(
+              width: 5,
+            ),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(
+                    vertical: 5, horizontal: 10), // and this
+              ),
               onPressed: state == EditorState.IntervalEditor
                   ? null
                   : () => context.read<RoutineEditBloc>().add(
