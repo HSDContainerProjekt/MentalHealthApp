@@ -101,16 +101,16 @@
     "description": "Message displayed when no Friends"
   },
   "resourcesTitle": "Resources",
-   "@resourcesTitle": {
+  "@resourcesTitle": {
     "description": "Title of the application's resources page"
   },
   "selectCity": "Search for a city",
   "@selectCity": {
-   "description": "Prompt to search for a city"
+    "description": "Prompt to search for a city"
   },
   "universities": "Universities",
   "@universities": {
-   "description": "Header for universities section"
+    "description": "Header for universities section"
   },
   "evaluation": "Evaluation",
   "@evaluation": {
@@ -247,5 +247,21 @@
   "select": "select",
   "@select": {
     "description": "the word used if you submit a selection"
+  },
+  "failed": "Failed",
+  "@failed": {
+    "description": "the word used if you submit a selection"
+  },
+  "status": "status",
+  "@status": {
+    "description": "status"
+  },
+  "done": "Done",
+  "@done": {
+    "description": "done"
+  },
+  "timeLeft": "Time left",
+  "@timeLeft": {
+    "description": "Time left to the next routine"
   }
 }

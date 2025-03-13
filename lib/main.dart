@@ -22,9 +22,7 @@ Future<void> main() async {
   await NotificationService.init();
   tz.initializeTimeZones();
 
-  NotificationService.showInstantNotification(
-      "Willkommen", "Ey du hast die App gestartet");
-
+  //TODO Reminder
   DateTime scheduledDate = DateTime.now().add(const Duration(minutes: 1));
   NotificationService.scheduleNotification(
     0,

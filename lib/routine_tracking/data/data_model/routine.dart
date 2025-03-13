@@ -61,18 +61,60 @@ class Routine extends Equatable {
       };
 }
 
-class RoutineWithExtraInfo extends Equatable {
+class RoutineWithExtraInfoTimeLeft extends Equatable {
   final Routine routine;
   final Duration timeLeft;
 
-  RoutineWithExtraInfo({required this.routine, required this.timeLeft});
+  RoutineWithExtraInfoTimeLeft({required this.routine, required this.timeLeft});
 
-  factory RoutineWithExtraInfo.fromMap(Map<String, Object?> data) {
-    return RoutineWithExtraInfo(
+  factory RoutineWithExtraInfoTimeLeft.fromMap(Map<String, Object?> data) {
+    return RoutineWithExtraInfoTimeLeft(
         routine: Routine.fromMap(data),
         timeLeft: Duration(milliseconds: data["nextTime"] as int));
   }
 
   @override
   List<Object?> get props => [timeLeft, routine];
+
+  String intervalAsString() {
+    print("###Time Left ${timeLeft}");
+    print(
+        "###Time Left ${DateTime.fromMillisecondsSinceEpoch(timeLeft.inMilliseconds)}");
+
+    if (timeLeft.inDays == 1) return "1 Tag";
+    if (timeLeft.inDays > 1) return "${timeLeft.inDays} Tage";
+    if (timeLeft.inHours == 1) return "1 Stunde";
+    if (timeLeft.inHours > 1) return "${timeLeft.inHours} Stunden";
+    if (timeLeft.inMinutes == 1) return "1 Minute";
+    if (timeLeft.inMinutes > 1) return "${timeLeft.inMinutes} Minuten";
+    return "Sofort";
+  }
+}
+
+enum RoutineStatus { done, failed, neverDone }
+
+class RoutineWithExtraInfoDoneStatus extends Equatable {
+  final Routine routine;
+  final RoutineStatus status;
+
+  RoutineWithExtraInfoDoneStatus({required this.routine, required this.status});
+
+  factory RoutineWithExtraInfoDoneStatus.fromMap(Map<String, Object?> data) {
+    RoutineStatus status;
+    switch (data["result"]) {
+      case "DONE":
+        status = RoutineStatus.done;
+        break;
+      case "FAILED":
+        status = RoutineStatus.failed;
+        break;
+      default:
+        status = RoutineStatus.neverDone;
+    }
+    return RoutineWithExtraInfoDoneStatus(
+        routine: Routine.fromMap(data), status: status);
+  }
+
+  @override
+  List<Object?> get props => [status, routine];
 }

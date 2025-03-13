@@ -116,7 +116,7 @@ class HomePage extends StatelessWidget {
                       height: areaHeight,
                       width: areaWidth,
                       child: BlocSelector<MainPageBloc, MainPageState,
-                          List<RoutineWithExtraInfo>>(
+                          List<RoutineWithExtraInfoTimeLeft>>(
                         selector: (state) {
                           return state.routines;
                         },
@@ -214,7 +214,7 @@ class HomePage extends StatelessWidget {
                                     Stack(
                                       children: state
                                           .asMap()
-                                          .map((int i, RoutineWithExtraInfo x) {
+                                          .map((int i, RoutineWithExtraInfoTimeLeft x) {
                                             return MapEntry(
                                               i,
                                               _ImageWidget(
@@ -230,7 +230,7 @@ class HomePage extends StatelessWidget {
                                     Stack(
                                       children: state
                                           .asMap()
-                                          .map((int i, RoutineWithExtraInfo x) {
+                                          .map((int i, RoutineWithExtraInfoTimeLeft x) {
                                             return MapEntry(
                                               i,
                                               _TextOffsetWidget(
@@ -249,7 +249,7 @@ class HomePage extends StatelessWidget {
                                     Stack(
                                       children: state
                                           .asMap()
-                                          .map((int i, RoutineWithExtraInfo x) {
+                                          .map((int i, RoutineWithExtraInfoTimeLeft x) {
                                             return MapEntry(
                                               i,
                                               _EvaluationWidget(
