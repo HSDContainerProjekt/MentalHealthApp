@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 
 import 'package:mental_health_app/friend_collection/database/online_database.dart';
@@ -90,6 +91,21 @@ class FriendDB {
         whereArgs: [id]);
     var returnFriend = Friend.fromSqfliteDatabase(friend.single);
     return returnFriend;
+  }
+
+  Future<List<Friend>> getFriendsForMonth(int month) async {
+    List<Friend> allFriends = await getFriends();
+    List<Friend> returnFriends = [];
+    for (var element in allFriends) {
+      if (element.birthday != null) {
+        if (element.birthday!.isNotEmpty) {
+          if (int.parse(element.birthday!.substring(3, 4)) == month) {
+            returnFriends.add(element);
+          }
+        }
+      }
+    }
+    return returnFriends;
   }
 
   //Eigene Id wird nicht in Freundesliste übertragen
