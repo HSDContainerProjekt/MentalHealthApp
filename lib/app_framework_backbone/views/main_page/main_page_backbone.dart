@@ -9,6 +9,7 @@ import 'package:mental_health_app/app_framework_backbone/views/main_page/main_pa
 
 import '../../../routine_tracking/data/data_model/routine.dart';
 import '../../../routine_tracking/domain/routine_repository.dart';
+import '../../../software_backbone/routing/routing_constants.dart';
 import '../../../software_backbone/themes/theme_constraints.dart';
 import '../custom_image/custom_image_widget.dart';
 
@@ -115,7 +116,7 @@ class HomePage extends StatelessWidget {
                       height: areaHeight,
                       width: areaWidth,
                       child: BlocSelector<MainPageBloc, MainPageState,
-                          List<Routine>>(
+                          List<RoutineWithExtraInfoTimeLeft>>(
                         selector: (state) {
                           return state.routines;
                         },
@@ -128,7 +129,7 @@ class HomePage extends StatelessWidget {
                                 x2: -40,
                                 y2: 120,
                                 x3: -40,
-                                y3: 160),
+                                y3: constraints.maxHeight / 2 - 110),
                           ];
                           for (int i = 0; i < state.length; i++) {
                             lines.add(routineLines[i]);
@@ -145,7 +146,7 @@ class HomePage extends StatelessWidget {
                               ),
                               Center(
                                 child: Transform.translate(
-                                  offset: const Offset(0.0, 20.0),
+                                  offset: const Offset(0.0, 20),
                                   child: DottedBorder(
                                     borderType: BorderType.RRect,
                                     radius: Radius.circular(40),
@@ -183,13 +184,14 @@ class HomePage extends StatelessWidget {
                               ),
                               Center(
                                 child: Transform.translate(
-                                  offset: const Offset(-30.0, -220.0),
+                                  offset: Offset(
+                                      -30.0, -constraints.maxHeight / 2 + 50),
                                   child: DottedBorder(
                                     borderType: BorderType.RRect,
                                     padding: EdgeInsets.all(10),
                                     radius: Radius.circular(30),
                                     dashPattern: [10, 10],
-                                    strokeWidth: 5,
+                                    strokeWidth: 3,
                                     child: Text(
                                         AppLocalizations.of(context)!
                                             .homepageTitle,
@@ -199,56 +201,67 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              //Image
-                              Stack(
-                                children: state
-                                    .asMap()
-                                    .map((int i, Routine x) {
-                                      return MapEntry(
-                                        i,
-                                        _ImageWidget(
-                                          imageID: x.imageID,
-                                          offset: imageOffset[i],
-                                        ),
-                                      );
-                                    })
-                                    .values
-                                    .toList(),
-                              ),
-                              //Title
-                              Stack(
-                                children: state
-                                    .asMap()
-                                    .map((int i, Routine x) {
-                                      return MapEntry(
-                                        i,
-                                        _TextOffsetWidget(
-                                          text: x.title,
-                                          offset: titleOffset[i],
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleSmall,
-                                        ),
-                                      );
-                                    })
-                                    .values
-                                    .toList(),
-                              ),
-                              //Evaluation
-                              Stack(
-                                children: state
-                                    .asMap()
-                                    .map((int i, Routine x) {
-                                      return MapEntry(
-                                        i,
-                                        _EvaluationWidget(
-                                          offset: evaluationOffset[i],
-                                        ),
-                                      );
-                                    })
-                                    .values
-                                    .toList(),
-                              )
+                              if (state.length == 0)
+                                _LinkToRoutine(
+                                  offset: _Offset(
+                                      x: 10,
+                                      y: -constraints.maxHeight / 2 + 50),
+                                )
+                              else
+                                Stack(
+                                  children: [
+                                    //Image
+                                    Stack(
+                                      children: state
+                                          .asMap()
+                                          .map((int i, RoutineWithExtraInfoTimeLeft x) {
+                                            return MapEntry(
+                                              i,
+                                              _ImageWidget(
+                                                imageID: x.routine.imageID,
+                                                offset: imageOffset[i],
+                                              ),
+                                            );
+                                          })
+                                          .values
+                                          .toList(),
+                                    ),
+                                    //Title
+                                    Stack(
+                                      children: state
+                                          .asMap()
+                                          .map((int i, RoutineWithExtraInfoTimeLeft x) {
+                                            return MapEntry(
+                                              i,
+                                              _TextOffsetWidget(
+                                                text: x.routine.title,
+                                                offset: titleOffset[i],
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleSmall,
+                                              ),
+                                            );
+                                          })
+                                          .values
+                                          .toList(),
+                                    ),
+                                    //Evaluation
+                                    Stack(
+                                      children: state
+                                          .asMap()
+                                          .map((int i, RoutineWithExtraInfoTimeLeft x) {
+                                            return MapEntry(
+                                              i,
+                                              _EvaluationWidget(
+                                                offset: evaluationOffset[i],
+                                              ),
+                                            );
+                                          })
+                                          .values
+                                          .toList(),
+                                    )
+                                  ],
+                                ),
                             ],
                           );
                         },
@@ -382,9 +395,7 @@ class _EvaluationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-
-      Transform.translate(
+    return Transform.translate(
       offset: Offset(offset.x, -offset.y + areaHeight / 2),
       child: Align(
         alignment: Alignment.topCenter,
@@ -401,6 +412,31 @@ class _EvaluationWidget extends StatelessWidget {
               height: 75,
               width: 200,
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _LinkToRoutine extends StatelessWidget {
+  final _Offset offset;
+
+  const _LinkToRoutine({super.key, required this.offset});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Transform.translate(
+        offset: Offset(offset.x, -offset.y),
+        child: GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, routineTracking);
+          },
+          child: Text(
+            textAlign: TextAlign.center,
+            "Du hast noch keine Routinen.\nKlicke Hier um welche zu erstellen.",
+            style: Theme.of(context).textTheme.labelMedium,
           ),
         ),
       ),

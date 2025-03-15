@@ -16,9 +16,9 @@ class RoutineOverviewBloc
   final RoutineNavBloc navBloc;
 
   bool loadingNextRoutines = true;
-  List<Routine> nextRoutines = [];
+  List<RoutineWithExtraInfoTimeLeft> nextRoutines = [];
   bool loadingAllRoutines = true;
-  List<Routine> allRoutines = [];
+  List<RoutineWithExtraInfoDoneStatus> allRoutines = [];
 
   RoutineOverviewBloc({required this.routineRepository, required this.navBloc})
       : super(RoutineOverviewState()) {

@@ -27,9 +27,16 @@ class PostIt extends StatelessWidget {
             margin: EdgeInsets.symmetric(vertical: 50, horizontal: 30),
             child: Column(
               children: [
-                Text(headline),
+                Text(
+                  headline,
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
                 Expanded(
                   child: mainBuilder(context),
+                ),
+                Divider(
+                  height: 5,
+                  color: Colors.transparent,
                 ),
                 if (buttons != null)
                   SizedBox(
@@ -38,11 +45,18 @@ class PostIt extends StatelessWidget {
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
                       itemCount: buttons!.length,
-                      itemBuilder: (context, index) => TextButton(
-                          onPressed: buttons![index].onClick,
-                          child: Text(buttons![index].headline)),
+                      itemBuilder: (context, index) => Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 5, vertical: 0),
+                        child: ElevatedButton(
+                            onPressed: buttons![index].onClick,
+                            child: Text(
+                              buttons![index].headline,
+                              style: Theme.of(context).textTheme.labelSmall,
+                            )),
+                      ),
                     ),
-                  )
+                  ),
               ],
             ),
           )),

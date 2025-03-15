@@ -1,6 +1,7 @@
 import 'package:mental_health_app/routine_tracking/data/data_model/evaluation_criteria.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../../software_backbone/Notification/Notifiaction.dart';
 import 'data_model/routine.dart';
 import 'data_model/time_interval.dart';
 import 'dart:async';
@@ -10,9 +11,9 @@ import 'package:sqflite/sqflite.dart';
 import '../../app_framework_backbone/database_dao.dart';
 
 abstract class RoutineDAO implements DatabaseDAO {
-  Future<List<Routine>> nextRoutines(int limit);
+  Future<List<RoutineWithExtraInfoTimeLeft>> nextRoutines(int limit);
 
-  Future<List<Routine>> allRoutines();
+  Future<List<RoutineWithExtraInfoDoneStatus>> allRoutines();
 
   Future<Routine> routineBy(int routineId);
 
@@ -64,11 +65,11 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
 
     await db.execute('''
     CREATE TABLE routineResults(
-        timeIntervalID INTEGER,
-        number INTEGER,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        routineID INTEGER,
         result TEXT CHECK(result IN ('DONE', 'FAILED')),
-        PRIMARY KEY (timeIntervalID, number),
-        FOREIGN KEY(timeIntervalID) REFERENCES timeIntervals(id)
+        routineTime INTEGER,
+        FOREIGN KEY(routineID) REFERENCES routines(id)
         )
         ''');
 
@@ -115,15 +116,12 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
   }
 
   @override
-  Future<List<Routine>> nextRoutines(int limit) async {
+  Future<List<RoutineWithExtraInfoTimeLeft>> nextRoutines(int limit) async {
     int lookUpTime = DateTime.now().millisecondsSinceEpoch;
 
     final List<Map<String, Object?>> queryResult = await database.rawQuery('''
             SELECT 
-                r.id, 
-                r.title, 
-                r.description, 
-                r.imageID, 
+                r.*, 
                 MIN(t.nextTime) AS nextTime
             FROM routines r
             JOIN (
@@ -131,26 +129,25 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
                     t.routineID, 
                     CASE 
                         WHEN $lookUpTime < t.firstDateTime 
-                        THEN t.firstDateTime
-                        ELSE $lookUpTime + ((t.timeInterval - $lookUpTime + t.firstDateTime) % t.timeInterval) 
+                        THEN t.firstDateTime - $lookUpTime
+                        ELSE  ((t.timeInterval - $lookUpTime + t.firstDateTime) % t.timeInterval) + t.timeInterval
                     END AS nextTime
                 FROM timeIntervals t
                 WHERE NOT EXISTS (
                     SELECT 1 FROM routineResults rr
-                    WHERE rr.timeIntervalID = t.id
-                    AND rr.number = ($lookUpTime - t.firstDateTime) / t.timeInterval
+                    WHERE rr.routineTime > $lookUpTime + ((t.timeInterval - $lookUpTime + t.firstDateTime) % t.timeInterval) - t.firstDateTime
                 )
             ) t ON r.id = t.routineID
             GROUP BY r.id
             ORDER BY t.nextTime
             LIMIT $limit; 
             ''');
-    List<Routine> result = [];
-    print("###");
-    print(queryResult);
+    List<RoutineWithExtraInfoTimeLeft> result = [];
     for (Map<String, Object?> x in queryResult) {
-      Routine newRoutine = Routine.fromMap(x);
+      RoutineWithExtraInfoTimeLeft newRoutine =
+          RoutineWithExtraInfoTimeLeft.fromMap(x);
       result.add(newRoutine);
+
     }
     return result;
   }
@@ -191,12 +188,22 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
   }
 
   @override
-  Future<List<Routine>> allRoutines() async {
-    final List<Map<String, Object?>> queryResult =
-        await database.query("routines");
-    List<Routine> result = [];
+  Future<List<RoutineWithExtraInfoDoneStatus>> allRoutines() async {
+    final List<Map<String, Object?>> queryResult = await database.rawQuery('''
+        SELECT r.*, rr.result, rr.routineTime
+            FROM routines r
+            LEFT JOIN routineresults rr ON r.id = rr.routineID
+            WHERE rr.routineTime IS NULL
+            OR rr.routineTime = (
+            SELECT MAX(routineTime)
+        FROM routineresults
+        WHERE routineID = r.id
+        );
+        ''');
+    List<RoutineWithExtraInfoDoneStatus> result = [];
     for (Map<String, Object?> x in queryResult) {
-      Routine newRoutine = Routine.fromMap(x);
+      RoutineWithExtraInfoDoneStatus newRoutine =
+          RoutineWithExtraInfoDoneStatus.fromMap(x);
       result.add(newRoutine);
     }
     return result;

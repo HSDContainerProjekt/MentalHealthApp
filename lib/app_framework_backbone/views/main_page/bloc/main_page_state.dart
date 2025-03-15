@@ -2,7 +2,7 @@ part of 'main_page_bloc.dart';
 
 class MainPageState extends Equatable {
   final MainPageAnimalState? mainPageAnimalState;
-  final List<Routine> routines;
+  final List<RoutineWithExtraInfoTimeLeft> routines;
 
   const MainPageState({
     required this.mainPageAnimalState,

@@ -44,8 +44,9 @@ class RoutineOverviewView extends StatelessWidget {
                       shrinkWrap: true,
                       itemCount: state.nextRoutines.length,
                       itemBuilder: (context, index) {
-                        return _RoutineWidget(
-                          routine: state.nextRoutines[index],
+                        return _RoutineWidgetNext(
+                          routineWithExtraInfoTimeLeft:
+                              state.nextRoutines[index],
                         );
                       },
                     );
@@ -67,8 +68,9 @@ class RoutineOverviewView extends StatelessWidget {
                       shrinkWrap: true,
                       itemCount: state.allRoutines.length,
                       itemBuilder: (context, index) {
-                        return _RoutineWidget(
-                          routine: state.allRoutines[index],
+                        return _RoutineWidgetAll(
+                          routineWithExtraInfoDoneStatus:
+                              state.allRoutines[index],
                         );
                       },
                     );
@@ -89,10 +91,82 @@ class RoutineOverviewView extends StatelessWidget {
   }
 }
 
+class _RoutineWidgetNext extends StatelessWidget {
+  final RoutineWithExtraInfoTimeLeft routineWithExtraInfoTimeLeft;
+
+  const _RoutineWidgetNext(
+      {super.key, required this.routineWithExtraInfoTimeLeft});
+
+  @override
+  Widget build(BuildContext context) {
+    return _RoutineWidget(
+      label: AppLocalizations.of(context)!.timeLeft,
+      routine: routineWithExtraInfoTimeLeft.routine,
+      widget: Expanded(
+        child: Container(
+          color: Colors.transparent,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(routineWithExtraInfoTimeLeft.intervalAsString(),
+                style: Theme.of(context).textTheme.labelMedium),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _RoutineWidgetAll extends StatelessWidget {
+  final RoutineWithExtraInfoDoneStatus routineWithExtraInfoDoneStatus;
+
+  const _RoutineWidgetAll(
+      {super.key, required this.routineWithExtraInfoDoneStatus});
+
+  @override
+  Widget build(BuildContext context) {
+    Routine routine = routineWithExtraInfoDoneStatus.routine;
+    String status;
+    Color statusColor;
+    switch (routineWithExtraInfoDoneStatus.status) {
+      case RoutineStatus.done:
+        status = AppLocalizations.of(context)!.done;
+        statusColor = Color(0x8000FF00);
+        break;
+      case RoutineStatus.failed:
+        status = AppLocalizations.of(context)!.failed;
+        statusColor = Color(0x80FF0000);
+        break;
+      case RoutineStatus.neverDone:
+        status = "-";
+        statusColor = Color(0x80FF9900);
+        break;
+    }
+    return _RoutineWidget(
+      label: AppLocalizations.of(context)!.status,
+      routine: routineWithExtraInfoDoneStatus.routine,
+      widget: Expanded(
+        child: Container(
+          color: statusColor,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(status, style: Theme.of(context).textTheme.labelMedium),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _RoutineWidget extends StatelessWidget {
   final Routine routine;
+  final Widget widget;
+  final String label;
 
-  const _RoutineWidget({super.key, required this.routine});
+  const _RoutineWidget(
+      {super.key,
+      required this.routine,
+      required this.widget,
+      required this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +178,7 @@ class _RoutineWidget extends StatelessWidget {
         dashPattern: [5],
         child: Row(
           children: [
-            Container(
+            SizedBox(
               width: 100,
               height: 100,
               child: CustomImageWidget(imageID: routine.imageID),
@@ -141,20 +215,11 @@ class _RoutineWidget extends StatelessWidget {
                   Expanded(
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text("Status:",
+                      child: Text(label,
                           style: Theme.of(context).textTheme.labelMedium),
                     ),
                   ),
-                  Expanded(
-                    child: Container(
-                      color: Color(0x8000FF00),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text("Erledigt",
-                            style: Theme.of(context).textTheme.labelMedium),
-                      ),
-                    ),
-                  ),
+                  widget,
                   Row(
                     children: [
                       Expanded(

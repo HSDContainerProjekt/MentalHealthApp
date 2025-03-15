@@ -59,6 +59,8 @@ dependencies:
   path_provider: ^2.1.5
   dotted_line: ^3.2.3
   arrow_path: ^3.1.0
+  flutter_local_notifications: ^18.0.1
+  flutter_launcher_icons: ^0.14.3
 
 dev_dependencies:
   flutter_test:
@@ -79,7 +81,11 @@ flutter:
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   assets:
+    - lib/assets/icon/
+    - lib/assets/images/bookmarks/
     - lib/assets/images/
+    - lib/assets/images/frog_images/
+    - lib/assets/images/squirrel_images/
     - lib/assets/images/appSelectableImages/
     - lib/assets/images/background_paper/paper_basic/
     - lib/assets/images/background_paper/paper_shadow/

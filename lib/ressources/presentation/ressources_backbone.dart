@@ -3,7 +3,6 @@ import '../../software_backbone/themes/theme_constraints.dart';
 import '../database/database_service.dart';
 import '../model/university.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Resources extends StatefulWidget {

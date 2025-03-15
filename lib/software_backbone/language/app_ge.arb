@@ -64,5 +64,9 @@
   "november": "November",
   "december": "december",
   "name": "Name",
-  "date": "Datum"
+  "date": "Datum",
+  "status": "Status",
+  "done": "Erledigt",
+  "failed": "Gescheitert",
+  "timeLeft": "Verbleibend"
 }

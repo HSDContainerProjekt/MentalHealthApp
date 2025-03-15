@@ -20,11 +20,11 @@ class RoutineRepository {
     }
   }
 
-  Future<List<Routine>> nextRoutines(int limit) {
+  Future<List<RoutineWithExtraInfoTimeLeft>> nextRoutines(int limit) {
     return routineDAO.nextRoutines(limit);
   }
 
-  Future<List<Routine>> allRoutines() {
+  Future<List<RoutineWithExtraInfoDoneStatus>> allRoutines() {
     return routineDAO.allRoutines();
   }
 
