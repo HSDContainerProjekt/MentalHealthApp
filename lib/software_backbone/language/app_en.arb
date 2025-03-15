@@ -100,7 +100,7 @@
   "@noFriends": {
     "description": "Message displayed when no Friends"
   },
-  "resourcesTitle": "Resources",
+  "resourcesTitle": "Where you can find help",
    "@resourcesTitle": {
     "description": "Title of the application's resources page"
   },

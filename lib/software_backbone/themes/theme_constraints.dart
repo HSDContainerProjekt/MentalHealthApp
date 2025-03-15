@@ -47,7 +47,8 @@ TextTheme textThemeBase = const TextTheme(
   titleLarge: TextStyle(
     fontSize: 64,
     decoration: TextDecoration.underline,
-    decorationThickness: 5,
+    decorationThickness: 2,
+    decorationStyle: TextDecorationStyle.solid,
     fontFamily: 'PatrickHand',
   ),
 
@@ -55,7 +56,8 @@ TextTheme textThemeBase = const TextTheme(
   titleMedium: TextStyle(
     fontSize: 32,
     decoration: TextDecoration.underline,
-    decorationThickness: 5,
+    decorationThickness: 2,
+    decorationStyle: TextDecorationStyle.solid,
     fontFamily: 'PatrickHand',
   ),
 
@@ -63,7 +65,8 @@ TextTheme textThemeBase = const TextTheme(
   titleSmall: TextStyle(
     fontSize: 23,
     decoration: TextDecoration.underline,
-    decorationThickness: 3,
+    decorationThickness: 1,
+    decorationStyle: TextDecorationStyle.solid,
     fontFamily: 'PatrickHand',
   ),
 
