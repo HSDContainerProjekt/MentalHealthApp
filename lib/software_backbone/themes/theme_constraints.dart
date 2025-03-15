@@ -12,12 +12,12 @@ ColorScheme baseColorScheme = const ColorScheme.light(
 
 /// MainPage
 ColorScheme tableOfContentsPageColorScheme = baseColorScheme.copyWith(
-  primary: const Color(0xFFb2dfd2),
+  primary: const Color(0xFFcf98c4),
 );
 
 /// MainPage
 ColorScheme mainPageColorScheme = baseColorScheme.copyWith(
-  primary: const Color(0xFFf178ab),
+  primary: const Color(0xFFb2dfd2),
 );
 
 /// Routines
@@ -27,12 +27,12 @@ ColorScheme routinePageColorScheme = baseColorScheme.copyWith(
 
 /// Friends
 ColorScheme friendsPageColorScheme = baseColorScheme.copyWith(
-  primary: const Color(0xFFa0c4e8),
+  primary: const Color(0xFFfcd064),
 );
 
 /// External resources
 ColorScheme resourcesPageColorScheme = baseColorScheme.copyWith(
-  primary: const Color(0xFFcf98c4),
+  primary: const Color(0xFFf08296),
 );
 //#endregion
 
@@ -42,6 +42,7 @@ ColorScheme resourcesPageColorScheme = baseColorScheme.copyWith(
 /// Base TextTheme
 /// The base TextTheme contains the default text description like font, size or default colors.
 TextTheme textThemeBase = const TextTheme(
+
   /// Titles are normally centered
   /// Page headline like Mainpage, Routine...
   titleLarge: TextStyle(
@@ -169,7 +170,7 @@ ThemeData routinesPageThemeData = basePageThemeData.copyWith(
       backgroundColor: routinePageColorScheme.primary,
     ),
     textSelectionTheme:
-        TextSelectionThemeData(selectionColor: routinePageColorScheme.primary));
+    TextSelectionThemeData(selectionColor: routinePageColorScheme.primary));
 
 /// Friends
 ThemeData friendsPageThemeData = basePageThemeData.copyWith(
