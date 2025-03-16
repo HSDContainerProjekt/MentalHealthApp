@@ -2,15 +2,20 @@
 
 // Froggo
 class Froggo {
-  static const String bodyshot = "lib/assets/images/froggo_bodyshot.png";
-  static const String portrait = "lib/assets/images/froggo_portrait.png";
+  static const String bodyshot =
+      "lib/assets/images/frog_images/frog_default.png";
+  static const String portrait =
+      "lib/assets/images/frog_images/frog_default_closeup.png";
   static const String animation = "lib/assets/animations/frog_animation.glb";
+  static const String icon = "@drawable/froggo";
 }
 
 class Maxie {
   static const String bodyshot =
-      "lib/assets/images/maxie_bodyshot.png";
+      "lib/assets/images/squirrel_images/squirrel_default.png";
   static const String portrait =
-      "lib/assets/images/character_placeholder1.jpeg";
-  static const String animation = "lib/assets/animations/squirrel_animation.glb";
+      "lib/assets/images/squirrel_images/squirrel_default_closeup.png";
+  static const String animation =
+      "lib/assets/animations/squirrel_animation.glb";
+  static const String icon = "@drawable/frornchen";
 }

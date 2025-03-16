@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:arrow_path/arrow_path.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -59,6 +61,20 @@ class HomePage extends StatelessWidget {
     _Offset(x: 493, y: 313),
   ];
 
+  final List<_Line> nextTimeLines = [
+    _Line(x1: -166, y1: -209, x2: -210, y2: -281, x3: -210, y3: -281),
+    _Line(x1: 223, y1: -138, x2: 270, y2: -174, x3: 276, y3: -235),
+    _Line(x1: -236, y1: 49, x2: -290, y2: 96, x3: -351, y3: 119),
+    _Line(x1: 251, y1: 173, x2: 292, y2: 151, x3: 313, y3: 117),
+  ];
+
+  final List<_Offset> nextTimeOffset = [
+    _Offset(x: -208, y: -308),
+    _Offset(x: 282, y: -261),
+    _Offset(x: -399, y: 135),
+    _Offset(x: 318, y: 95),
+  ];
+
   HomePage({super.key});
 
   @override
@@ -110,7 +126,7 @@ class HomePage extends StatelessWidget {
                           scale: 3,
                           repeat: ImageRepeat.repeat,
                           image: AssetImage(
-                              "lib/assets/images/background_paper/paper_basic/dotted_paper_white-pink.jpg"),
+                              "lib/assets/images/background_paper/paper_basic/dotted_paper_white-turquois.jpg"),
                         ),
                       ),
                       height: areaHeight,
@@ -135,6 +151,7 @@ class HomePage extends StatelessWidget {
                             lines.add(routineLines[i]);
                             lines.add(titleLines[i]);
                             lines.add(evaluationLines[i]);
+                            lines.add(nextTimeLines[i]);
                           }
                           return Stack(
                             children: [
@@ -214,7 +231,8 @@ class HomePage extends StatelessWidget {
                                     Stack(
                                       children: state
                                           .asMap()
-                                          .map((int i, RoutineWithExtraInfoTimeLeft x) {
+                                          .map((int i,
+                                              RoutineWithExtraInfoTimeLeft x) {
                                             return MapEntry(
                                               i,
                                               _ImageWidget(
@@ -230,7 +248,8 @@ class HomePage extends StatelessWidget {
                                     Stack(
                                       children: state
                                           .asMap()
-                                          .map((int i, RoutineWithExtraInfoTimeLeft x) {
+                                          .map((int i,
+                                              RoutineWithExtraInfoTimeLeft x) {
                                             return MapEntry(
                                               i,
                                               _TextOffsetWidget(
@@ -249,7 +268,8 @@ class HomePage extends StatelessWidget {
                                     Stack(
                                       children: state
                                           .asMap()
-                                          .map((int i, RoutineWithExtraInfoTimeLeft x) {
+                                          .map((int i,
+                                              RoutineWithExtraInfoTimeLeft x) {
                                             return MapEntry(
                                               i,
                                               _EvaluationWidget(
@@ -259,7 +279,44 @@ class HomePage extends StatelessWidget {
                                           })
                                           .values
                                           .toList(),
-                                    )
+                                    ),
+                                    //Evaluation
+                                    Stack(
+                                      children: state
+                                          .asMap()
+                                          .map((int i,
+                                              RoutineWithExtraInfoTimeLeft x) {
+                                            TextStyle? style = Theme.of(context)
+                                                .textTheme
+                                                .labelLarge
+                                                ?.copyWith(
+                                                    fontWeight:
+                                                        x.timeLeft.inMinutes <
+                                                                10
+                                                            ? FontWeight.bold
+                                                            : FontWeight.normal,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary,
+                                                    fontSize: max(
+                                                        2000.0 /
+                                                            (40 +
+                                                                x.timeLeft
+                                                                    .inMinutes),
+                                                        18));
+
+                                            return MapEntry(
+                                              i,
+                                              _TextOffsetWidget(
+                                                offset: nextTimeOffset[i],
+                                                text: x.intervalAsString(),
+                                                style: style,
+                                              ),
+                                            );
+                                          })
+                                          .values
+                                          .toList(),
+                                    ),
                                   ],
                                 ),
                             ],

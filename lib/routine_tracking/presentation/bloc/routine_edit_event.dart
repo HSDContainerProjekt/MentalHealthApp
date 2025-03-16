@@ -54,8 +54,38 @@ class RoutineEditAddTimeInterval extends RoutineEditEvent {
   RoutineEditAddTimeInterval(this.timeIntervalState);
 }
 
+class RoutineEditAddEvaluationCriteria extends RoutineEditEvent {
+  final EvaluationCriteria evaluationCriteria;
+
+  RoutineEditAddEvaluationCriteria(this.evaluationCriteria);
+}
+
 class RoutineDeleteTimeInterval extends RoutineEditEvent {
   final int number;
 
   RoutineDeleteTimeInterval({required this.number});
+}
+
+class RoutineEditChangeEvaluationCriteriaDescription extends RoutineEditEvent {
+  final String description;
+  final int number;
+
+  RoutineEditChangeEvaluationCriteriaDescription(
+      {required this.description, required this.number});
+}
+
+class RoutineEditChangeEvaluationCriteriaMinValue extends RoutineEditEvent {
+  final double value;
+  final int number;
+
+  RoutineEditChangeEvaluationCriteriaMinValue(
+      {required this.value, required this.number});
+}
+
+class RoutineEditChangeEvaluationCriteriaMaxValue extends RoutineEditEvent {
+  final double value;
+  final int number;
+
+  RoutineEditChangeEvaluationCriteriaMaxValue(
+      {required this.value, required this.number});
 }

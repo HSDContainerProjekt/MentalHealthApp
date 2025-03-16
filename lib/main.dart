@@ -22,15 +22,6 @@ Future<void> main() async {
   await NotificationService.init();
   tz.initializeTimeZones();
 
-  //TODO Reminder
-  DateTime scheduledDate = DateTime.now().add(const Duration(minutes: 1));
-  NotificationService.scheduleNotification(
-    0,
-    "1 Minute",
-    "Du hast die App vor einer Minute gestartet. Ist Bald weg brauche ich nur halt für meine Rotinen.",
-    scheduledDate,
-  );
-
   sqfliteFfiInit();
   databaseFactory = databaseFactoryFfi;
   Bloc.observer = const RoutineObserver();
@@ -47,6 +38,7 @@ void bootstrap({required RoutineDAO routineDAO, required ImageDAO imageDAO}) {
   //Domain dependency creation
   final RoutineRepository routineRepository =
       RoutineRepository(routineDAO: routineDAO);
+  routineRepository.scheduleNotifications();
   final ImageRepository imageRepository = ImageRepository(imageDAO: imageDAO);
 
   //App Start

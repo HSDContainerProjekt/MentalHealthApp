@@ -17,6 +17,7 @@ class RoutineEditEditing extends RoutineEditState {
   final int imageID;
   final EditorState editorState;
   final List<TimeInterval> timeIntervals;
+  final List<EvaluationCriteriaState> evaluationCriteria;
 
   RoutineEditEditing(
       {required this.imageID,
@@ -24,7 +25,8 @@ class RoutineEditEditing extends RoutineEditState {
       required this.shortDescriptionInputState,
       required this.descriptionInputState,
       required this.editorState,
-      required this.timeIntervals});
+      required this.timeIntervals,
+      required this.evaluationCriteria});
 
   @override
   List<Object?> get props => [
@@ -33,6 +35,7 @@ class RoutineEditEditing extends RoutineEditState {
         descriptionInputState,
         imageID,
         editorState,
-        timeIntervals
+        timeIntervals,
+        evaluationCriteria
       ];
 }

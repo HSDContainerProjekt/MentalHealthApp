@@ -42,7 +42,6 @@ ColorScheme resourcesPageColorScheme = baseColorScheme.copyWith(
 /// Base TextTheme
 /// The base TextTheme contains the default text description like font, size or default colors.
 TextTheme textThemeBase = const TextTheme(
-
   /// Titles are normally centered
   /// Page headline like Mainpage, Routine...
   titleLarge: TextStyle(
@@ -85,13 +84,12 @@ TextTheme textThemeBase = const TextTheme(
 
   /// Unused and not defined yet
   headlineSmall: TextStyle(
-    color: Color(0xFFFF00FF),
     fontFamily: 'PatrickHand',
   ),
 
   /// Unused and not defined yet
   labelLarge: TextStyle(
-    color: Color(0xFFFF00FF),
+    fontSize: 30,
     fontFamily: 'PatrickHand',
   ),
 
@@ -170,7 +168,7 @@ ThemeData routinesPageThemeData = basePageThemeData.copyWith(
       backgroundColor: routinePageColorScheme.primary,
     ),
     textSelectionTheme:
-    TextSelectionThemeData(selectionColor: routinePageColorScheme.primary));
+        TextSelectionThemeData(selectionColor: routinePageColorScheme.primary));
 
 /// Friends
 ThemeData friendsPageThemeData = basePageThemeData.copyWith(

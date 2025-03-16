@@ -21,6 +21,8 @@ abstract class RoutineDAO implements DatabaseDAO {
 
   Future<int> upsertTimeInterval(TimeInterval timeInterval);
 
+  Future<int> upsertEvaluationCriteria(EvaluationCriteria evaluationCriteria);
+
   Future<List<TimeInterval>> timeIntervalsBy(int routineID);
 
   Future<List<EvaluationCriteria>> evaluationCriteriaBy(int routineID);
@@ -130,7 +132,7 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
                     CASE 
                         WHEN $lookUpTime < t.firstDateTime 
                         THEN t.firstDateTime - $lookUpTime
-                        ELSE  ((t.timeInterval - $lookUpTime + t.firstDateTime) % t.timeInterval) + t.timeInterval
+                        ELSE  (((t.timeInterval - $lookUpTime + t.firstDateTime) % t.timeInterval) + t.timeInterval) % t.timeInterval
                     END AS nextTime
                 FROM timeIntervals t
                 WHERE NOT EXISTS (
@@ -147,7 +149,6 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
       RoutineWithExtraInfoTimeLeft newRoutine =
           RoutineWithExtraInfoTimeLeft.fromMap(x);
       result.add(newRoutine);
-
     }
     return result;
   }
@@ -222,12 +223,26 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
 
   @override
   Future<List<EvaluationCriteria>> evaluationCriteriaBy(int routineID) async {
-    final List<Map<String, Object?>> queryResult = await database.rawQuery(
-        'SELECT * FROM evaluationcriteria JOIN ((SELECT *, NUll as maximumvalue, NUll as minimumvalue, evaluationcriteriatoggle AS table FROM evaluationcriteriatoggle) UNION ALL (SELECT *, NUll as maximumvalue, NUll as minimumvalue, evaluationcriteriatext AS table FROM evaluationcriteriatext) UNION ALL (SELECT *, "evaluationcriteriavaluerange" AS table FROM evaluationcriteriavaluerange)) t1 On evaluationcriteria.id = t1.evaluationcriteriaid WHERE routineID = $routineID');
+    final List<Map<String, Object?>> queryResult = await database.rawQuery('''
+        SELECT * 
+        FROM evaluationcriteria 
+        JOIN (
+            SELECT *, NULL AS maximumvalue, NULL AS minimumvalue, 'evaluationcriteriatoggle' AS table_name
+            FROM evaluationcriteriatoggle
+            UNION ALL
+            SELECT *, NULL AS maximumvalue, NULL AS minimumvalue, 'evaluationcriteriatext' AS table_name
+            FROM evaluationcriteriatext
+            UNION ALL
+            SELECT *, 'evaluationcriteriavaluerange' AS table_name
+            FROM evaluationcriteriavaluerange
+        ) AS t1
+        ON evaluationcriteria.id = t1.evaluationCriteriaID
+        WHERE routineID = $routineID;
+        ''');
     List<EvaluationCriteria> result = [];
     for (Map<String, Object?> x in queryResult) {
       EvaluationCriteria newEvaluationCriteria;
-      switch (x["table"] as String) {
+      switch (x["table_name"] as String) {
         case "evaluationcriteriatoggle":
           final List<
               Map<String,
@@ -248,5 +263,30 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
       result.add(newEvaluationCriteria);
     }
     return result;
+  }
+
+  @override
+  Future<int> upsertEvaluationCriteria(
+      EvaluationCriteria evaluationCriteria) async {
+    int id = await database.insert(
+        "evaluationCriteria", evaluationCriteria.toEvMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+    evaluationCriteria = evaluationCriteria.copyOf(id: id);
+    if (evaluationCriteria is EvaluationCriteriaValueRange) {
+      database.insert(
+          "evaluationCriteriaValueRange", evaluationCriteria.toDetMap(),
+          conflictAlgorithm: ConflictAlgorithm.replace);
+    }
+    if (evaluationCriteria is EvaluationCriteriaText) {
+      int textID = await database.insert(
+          "evaluationCriteriaText", evaluationCriteria.toDetMap(),
+          conflictAlgorithm: ConflictAlgorithm.replace);
+    }
+    if (evaluationCriteria is EvaluationCriteriaToggle) {
+      database.insert("evaluationCriteriaToggle", evaluationCriteria.toDetMap(),
+          conflictAlgorithm: ConflictAlgorithm.replace);
+    }
+
+    return id;
   }
 }

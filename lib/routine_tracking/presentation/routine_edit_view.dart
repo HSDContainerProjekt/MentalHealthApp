@@ -1,8 +1,10 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mental_health_app/app_framework_backbone/views/custom_image/custom_image_widget.dart';
+import 'package:mental_health_app/routine_tracking/data/data_model/evaluation_criteria.dart';
 import 'package:mental_health_app/routine_tracking/data/data_model/time_interval.dart';
 import 'package:mental_health_app/routine_tracking/presentation/bloc/routine_nav_bloc.dart';
 import 'package:mental_health_app/routine_tracking/presentation/bloc/time_interval_pop_up_bloc.dart';
@@ -11,6 +13,7 @@ import 'package:numberpicker/numberpicker.dart';
 
 import '../../app_framework_backbone/views/popup/image_selector/image_selector.dart';
 import '../../app_framework_backbone/views/popup/postit.dart';
+import '../data/data_model/routine.dart';
 import '../domain/routine_repository.dart';
 import 'bloc/routine_edit_bloc.dart';
 
@@ -297,7 +300,143 @@ class _IntervalEditor extends StatelessWidget {
 class _EvaluationEditor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Text("Bewertung");
+    return Column(children: [
+      BlocSelector<RoutineEditBloc, RoutineEditState, int>(
+        selector: (state) {
+          if (state is RoutineEditEditing)
+            return state.evaluationCriteria.length;
+          return 0;
+        },
+        builder: (context, state) {
+          List<Widget> evaluationCriteria = [];
+          for (int i = 0; i < state; i++) {
+            evaluationCriteria.add(_EvaluationCriteriaEntry(
+              number: i,
+            ));
+            evaluationCriteria.add(Divider());
+          }
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Column(children: evaluationCriteria),
+          );
+        },
+      ),
+      ElevatedButton(
+        onPressed: () async {
+          EvaluationCriteria? evaluationCriteria =
+              await showDialog<EvaluationCriteria>(
+                  context: context,
+                  builder: (context) {
+                    return _EvaluationPopup();
+                  });
+          if (evaluationCriteria != null) {
+            context.read<RoutineEditBloc>().add(
+                  RoutineEditAddEvaluationCriteria(evaluationCriteria),
+                );
+          }
+        },
+        child: Icon(Icons.add),
+      ),
+    ]);
+  }
+}
+
+class _EvaluationPopup extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return PostIt(
+      headline: "EvaluationCriteria",
+      mainBuilder: (context) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            /*
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(
+                  context,
+                  EvaluationCriteriaToggle(
+                    routineID: 0,
+                    description: "",
+                    toggleStates: [],
+                  ),
+                );
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.check_box_outlined),
+                  VerticalDivider(
+                    width: 4,
+                  ),
+                  Text(
+                    "Selection",
+                    style: Theme.of(context).textTheme.labelMedium,
+                  ),
+                ],
+              ),
+            ),
+             */
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(
+                  context,
+                  EvaluationCriteriaText(
+                    routineID: 0,
+                    description: "",
+                  ),
+                );
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.auto_stories_outlined),
+                  VerticalDivider(
+                    width: 4,
+                  ),
+                  Text(
+                    "Text",
+                    style: Theme.of(context).textTheme.labelMedium,
+                  ),
+                ],
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(
+                  context,
+                  EvaluationCriteriaValueRange(
+                    routineID: 0,
+                    description: "",
+                    minimumValue: 0,
+                    maximumValue: 1,
+                  ),
+                );
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.pin_outlined),
+                  VerticalDivider(
+                    width: 4,
+                  ),
+                  Text(
+                    "Value",
+                    style: Theme.of(context).textTheme.labelMedium,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+      buttons: [
+        PostItButton(
+          headline: "Abbrechen",
+          onClick: () => Navigator.pop(context),
+        ),
+      ],
+    );
   }
 }
 
@@ -504,6 +643,227 @@ class _IntervalEditPopup extends StatelessWidget {
   }
 }
 
+class EvaluationCriteriaState extends Equatable {
+  final EvaluationCriteria evaluationCriteria;
+  final TextInputState description;
+
+  const EvaluationCriteriaState(
+      {required this.evaluationCriteria, required this.description});
+
+  @override
+  List<Object?> get props => [evaluationCriteria, description];
+}
+
+class _EvaluationCriteriaEntryText extends StatelessWidget {
+  final int number;
+
+  const _EvaluationCriteriaEntryText({super.key, required this.number});
+
+  @override
+  Widget build(BuildContext context) {
+    return _EvaluationCriteriaEntryBase(
+      mainBuilder: (context) {
+        return Container();
+      },
+      headline: "Text",
+      number: number,
+    );
+  }
+}
+
+class _EvaluationCriteriaEntryToggle extends StatelessWidget {
+  final int number;
+
+  const _EvaluationCriteriaEntryToggle({super.key, required this.number});
+
+  @override
+  Widget build(BuildContext context) {
+    return _EvaluationCriteriaEntryBase(
+      mainBuilder: (context) {
+        return Text("data");
+      },
+      headline: "Auswahl",
+      number: number,
+    );
+  }
+}
+
+class _EvaluationCriteriaEntryValueRange extends StatelessWidget {
+  final int number;
+
+  const _EvaluationCriteriaEntryValueRange({super.key, required this.number});
+
+  @override
+  Widget build(BuildContext context) {
+    return _EvaluationCriteriaEntryBase(
+      mainBuilder: (context) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: BlocSelector<RoutineEditBloc, RoutineEditState, double>(
+                selector: (state) {
+                  if (state is RoutineEditEditing) {
+                    EvaluationCriteria evaluationCriteria =
+                        state.evaluationCriteria[number].evaluationCriteria;
+                    if (evaluationCriteria is EvaluationCriteriaValueRange) {
+                      return evaluationCriteria.minimumValue;
+                    }
+                  }
+                  throw Exception("Unexpected Error");
+                },
+                builder: (context, state) {
+                  TextEditingController controller = TextEditingController();
+                  controller.text = "$state";
+                  return TextField(
+                    controller: controller,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(
+                          RegExp(r'^\d+\.?\d{0,5}')),
+                    ],
+                    decoration: InputDecoration(
+                      focusedBorder: InputBorder.none,
+                      labelStyle: Theme.of(context).textTheme.labelMedium,
+                      labelText: "Min",
+                      hintText: "Min",
+                    ),
+                    onChanged: (value) {
+                      double v = 0;
+                      if (value.isNotEmpty) {
+                        v = double.parse(value);
+                      }
+                      context.read<RoutineEditBloc>().add(
+                          RoutineEditChangeEvaluationCriteriaMinValue(
+                              value: v, number: number));
+                    },
+                  );
+                },
+              ),
+            ),
+            VerticalDivider(),
+            Flexible(
+              child: BlocSelector<RoutineEditBloc, RoutineEditState, double>(
+                selector: (state) {
+                  if (state is RoutineEditEditing) {
+                    EvaluationCriteria evaluationCriteria =
+                        state.evaluationCriteria[number].evaluationCriteria;
+                    if (evaluationCriteria is EvaluationCriteriaValueRange) {
+                      return evaluationCriteria.maximumValue;
+                    }
+                  }
+                  throw Exception("Unexpected Error");
+                },
+                builder: (context, state) {
+                  TextEditingController controller = TextEditingController();
+                  controller.text = "$state";
+                  return TextField(
+                    controller: controller,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(
+                          RegExp(r'^\d+\.?\d{0,5}')),
+                    ],
+                    decoration: InputDecoration(
+                      focusedBorder: InputBorder.none,
+                      labelStyle: Theme.of(context).textTheme.labelMedium,
+                      labelText: "Max",
+                      hintText: "Max",
+                    ),
+                    onChanged: (value) {
+                      double v = 0;
+                      if (value.isNotEmpty) {
+                        v = double.parse(value);
+                      }
+                      context.read<RoutineEditBloc>().add(
+                          RoutineEditChangeEvaluationCriteriaMaxValue(
+                              value: v, number: number));
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        );
+      },
+      headline: "Wert",
+      number: number,
+    );
+  }
+}
+
+class _EvaluationCriteriaEntry extends StatelessWidget {
+  final int number;
+
+  const _EvaluationCriteriaEntry({super.key, required this.number});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<RoutineEditBloc, RoutineEditState, Type>(
+      selector: (state) {
+        if (state is RoutineEditEditing) {
+          return state
+              .evaluationCriteria[number].evaluationCriteria.runtimeType;
+        }
+        throw Exception("Unexpected Error");
+      },
+      builder: (context, state) {
+        if (state == EvaluationCriteriaText) {
+          return _EvaluationCriteriaEntryText(number: number);
+        }
+        if (state == EvaluationCriteriaToggle) {
+          return _EvaluationCriteriaEntryToggle(number: number);
+        }
+        if (state == EvaluationCriteriaValueRange) {
+          return _EvaluationCriteriaEntryValueRange(number: number);
+        }
+        return Text("$state");
+      },
+    );
+  }
+}
+
+class _EvaluationCriteriaEntryBase extends StatelessWidget {
+  final int number;
+  final String headline;
+  final WidgetBuilder mainBuilder;
+
+  const _EvaluationCriteriaEntryBase(
+      {super.key,
+      required this.number,
+      required this.headline,
+      required this.mainBuilder});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Padding(
+        padding: EdgeInsets.all(5),
+        child: Column(
+          children: [
+            Text(headline, style: Theme.of(context).textTheme.headlineSmall),
+            TextInputWidget<RoutineEditBloc, RoutineEditState>(
+              label: "Beschreibung",
+              inputTextStyle: Theme.of(context).textTheme.bodyMedium,
+              selector: (state) {
+                if (state is RoutineEditEditing)
+                  return state.evaluationCriteria[number].description;
+                throw Exception("Something went wrong");
+              },
+              onChanged: (value) {
+                context.read<RoutineEditBloc>().add(
+                    RoutineEditChangeEvaluationCriteriaDescription(
+                        description: value, number: number));
+              },
+            ),
+            mainBuilder(context),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class TimeIntervalState extends Equatable {
   final TimeInterval timeInterval;
   final int? number;
@@ -658,7 +1018,7 @@ class _ImageEditField extends StatelessWidget {
                   if (state is RoutineEditEditing) {
                     return state.imageID;
                   }
-                  return 1;
+                  return 0;
                 },
                 builder: (context, state) {
                   return GestureDetector(

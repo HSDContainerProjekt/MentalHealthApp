@@ -77,10 +77,6 @@ class RoutineWithExtraInfoTimeLeft extends Equatable {
   List<Object?> get props => [timeLeft, routine];
 
   String intervalAsString() {
-    print("###Time Left ${timeLeft}");
-    print(
-        "###Time Left ${DateTime.fromMillisecondsSinceEpoch(timeLeft.inMilliseconds)}");
-
     if (timeLeft.inDays == 1) return "1 Tag";
     if (timeLeft.inDays > 1) return "${timeLeft.inDays} Tage";
     if (timeLeft.inHours == 1) return "1 Stunde";

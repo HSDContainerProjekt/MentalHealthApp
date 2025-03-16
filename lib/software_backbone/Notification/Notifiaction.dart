@@ -1,4 +1,6 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:mental_health_app/animal_backbone/animal_backbone.dart';
+import 'package:mental_health_app/routine_tracking/data/data_model/routine.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 class NotificationService {
@@ -52,16 +54,26 @@ class NotificationService {
     );
   }
 
-  static Future<void> scheduleNotification(
-      int id, String title, String body, DateTime scheduledTime) async {
+  static Future<void> cancelAllRoutineNotification() async {
+    await flutterLocalNotificationsPlugin.cancelAll();
+  }
+
+  static Future<void> cancelRoutineNotification(Routine routine) async {
+    await flutterLocalNotificationsPlugin.cancel(routine.id!);
+  }
+
+  static Future<void> scheduleRoutineNotification(
+      Routine routine, DateTime scheduledTime) async {
+    print(scheduledTime);
     await flutterLocalNotificationsPlugin.zonedSchedule(
-      id,
-      title,
-      body,
+      routine.id!,
+      routine.title,
+      routine.shortDescription,
       tz.TZDateTime.from(scheduledTime, tz.local),
-      const NotificationDetails(
-        iOS: DarwinNotificationDetails(),
+      NotificationDetails(
+        iOS: const DarwinNotificationDetails(),
         android: AndroidNotificationDetails(
+          icon: await AnimalBackbone().icon(),
           'reminder_channel',
           'Reminder Channel',
           importance: Importance.high,

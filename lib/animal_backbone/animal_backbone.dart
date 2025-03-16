@@ -22,6 +22,17 @@ class AnimalBackbone {
     return animalType;
   }
 
+  Future<String> icon() async{
+    switch (await animalType()) {
+      case "froggo":
+        return Froggo.icon;
+      case "maxie":
+        return Maxie.icon;
+      default:
+        return Froggo.icon;
+    }
+  }
+
   Future<String> bodyshot() async {
     switch (await animalType()) {
       case "froggo":

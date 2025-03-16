@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:mental_health_app/routine_tracking/data/data_model/evaluation_criteria.dart';
 import 'package:mental_health_app/routine_tracking/data/data_model/time_interval.dart';
 import 'package:mental_health_app/routine_tracking/domain/routine_repository.dart';
 import 'package:mental_health_app/routine_tracking/presentation/bloc/routine_nav_bloc.dart';
@@ -21,6 +22,7 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
   late String? shortDescriptionError;
   late Routine routine;
   late List<TimeInterval> timeIntervals = [];
+  late List<EvaluationCriteria> evaluationCriteria = [];
 
   late EditorState editorState = EditorState.ContentEditor;
 
@@ -38,7 +40,12 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
     on<RoutineEditCancel>(_cancel);
     on<RoutineEditSwitchEditorState>(_changeEditorState);
     on<RoutineEditAddTimeInterval>(_editAddTimeInterval);
+    on<RoutineEditAddEvaluationCriteria>(_addEvaluationCriteriaInterval);
     on<RoutineDeleteTimeInterval>(_deleteTimeInterval);
+    on<RoutineEditChangeEvaluationCriteriaDescription>(
+        _changeEvaluationDescription);
+    on<RoutineEditChangeEvaluationCriteriaMinValue>(_changeEvaluationMinValue);
+    on<RoutineEditChangeEvaluationCriteriaMaxValue>(_changeEvaluationMaxValue);
   }
 
   void emitEditState(Emitter<RoutineEditState> emit) {
@@ -53,6 +60,13 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
         descriptionInputState: TextInputState(text: routine.description),
         editorState: editorState,
         timeIntervals: timeIntervals,
+        evaluationCriteria: evaluationCriteria.map(
+          (e) {
+            return EvaluationCriteriaState(
+                evaluationCriteria: e,
+                description: TextInputState(text: e.description));
+          },
+        ).toList(),
       ),
     );
   }
@@ -86,12 +100,24 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
     emitEditState(emit);
   }
 
+  void _addEvaluationCriteriaInterval(
+    RoutineEditAddEvaluationCriteria event,
+    Emitter<RoutineEditState> emit,
+  ) {
+    List<EvaluationCriteria> newEvaluationCriteria = [];
+    newEvaluationCriteria.addAll(evaluationCriteria);
+    newEvaluationCriteria.add(event.evaluationCriteria);
+    evaluationCriteria = newEvaluationCriteria;
+    emitEditState(emit);
+  }
+
   Future<void> _fetch(
     RoutineEditFetch event,
     Emitter<RoutineEditState> emit,
   ) async {
     routine = await routineRepository.routineBy(event.routineID);
     timeIntervals = await routineRepository.timeIntervalBy(routine);
+    evaluationCriteria = await routineRepository.evaluationCriteriaBy(routine);
     emitEditState(emit);
   }
 
@@ -126,6 +152,41 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
     Emitter<RoutineEditState> emit,
   ) {
     routine = routine.copyWith(description: event.description);
+    emitEditState(emit);
+  }
+
+  void _changeEvaluationDescription(
+    RoutineEditChangeEvaluationCriteriaDescription event,
+    Emitter<RoutineEditState> emit,
+  ) {
+    evaluationCriteria[event.number] =
+        evaluationCriteria[event.number].copyOf(description: event.description);
+    emitEditState(emit);
+  }
+
+  void _changeEvaluationMinValue(
+    RoutineEditChangeEvaluationCriteriaMinValue event,
+    Emitter<RoutineEditState> emit,
+  ) {
+    EvaluationCriteria changingEvaluationCriteria =
+        evaluationCriteria[event.number];
+    if (changingEvaluationCriteria is EvaluationCriteriaValueRange) {
+      evaluationCriteria[event.number] =
+          changingEvaluationCriteria.copyOf(minimumValue: event.value);
+    }
+    emitEditState(emit);
+  }
+
+  void _changeEvaluationMaxValue(
+    RoutineEditChangeEvaluationCriteriaMaxValue event,
+    Emitter<RoutineEditState> emit,
+  ) {
+    EvaluationCriteria changingEvaluationCriteria =
+        evaluationCriteria[event.number];
+    if (changingEvaluationCriteria is EvaluationCriteriaValueRange) {
+      evaluationCriteria[event.number] =
+          changingEvaluationCriteria.copyOf(maximumValue: event.value);
+    }
     emitEditState(emit);
   }
 
@@ -173,7 +234,7 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
       shortDescriptionError = null;
     }
     if (save) {
-      await routineRepository.save(routine, timeIntervals);
+      await routineRepository.save(routine, timeIntervals, evaluationCriteria);
       navBloc.add(RoutineNavToOverview());
     } else {
       emitEditState(emit);
