@@ -13,9 +13,6 @@ abstract class EvaluationCriteria extends Equatable {
     required this.description,
   });
 
-  @override
-  List<Object> get props => [routineID, description];
-
   EvaluationCriteria copyOf({
     int? id,
     String? description,
@@ -56,6 +53,9 @@ class EvaluationCriteriaText extends EvaluationCriteria {
   Map<String, dynamic> toDetMap() => {
         "evaluationCriteriaID": id,
       };
+
+  @override
+  List<Object> get props => [routineID, description];
 }
 
 class EvaluationCriteriaValueRange extends EvaluationCriteria {
@@ -72,10 +72,11 @@ class EvaluationCriteriaValueRange extends EvaluationCriteria {
 
   factory EvaluationCriteriaValueRange.fromMap(Map<String, Object?> data) {
     return EvaluationCriteriaValueRange(
-        routineID: data["routineid"] as int,
+        id: data["id"] as int,
+        routineID: data["routineID"] as int,
         description: data["description"] as String,
-        maximumValue: data["minimumValue"] as double,
-        minimumValue: data["maximumValue"] as double);
+        minimumValue: data["minimumValue"] as double,
+        maximumValue: data["maximumValue"] as double);
   }
 
   @override
@@ -98,8 +99,13 @@ class EvaluationCriteriaValueRange extends EvaluationCriteria {
   Map<String, dynamic> toDetMap() => {
         "evaluationCriteriaID": id,
         "maximumValue": maximumValue,
-        "minimalValue": minimumValue,
+        "minimumValue": minimumValue,
       };
+
+  @override
+  @override
+  List<Object> get props =>
+      [routineID, description, minimumValue, maximumValue];
 }
 
 class EvaluationCriteriaToggle extends EvaluationCriteria {
@@ -119,7 +125,8 @@ class EvaluationCriteriaToggle extends EvaluationCriteria {
       toggleStates.add(x["state"] as String);
     }
     return EvaluationCriteriaToggle(
-        routineID: data["routineid"] as int,
+        id: data["id"] as int,
+        routineID: data["routineID"] as int,
         description: data["description"] as String,
         toggleStates: toggleStates);
   }
@@ -140,4 +147,7 @@ class EvaluationCriteriaToggle extends EvaluationCriteria {
   Map<String, dynamic> toDetMap() => {
         "evaluationCriteriaID": id,
       };
+
+  @override
+  List<Object> get props => [routineID, description, toggleStates];
 }

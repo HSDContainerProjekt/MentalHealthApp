@@ -11,6 +11,7 @@ import 'package:mental_health_app/app_framework_backbone/views/main_page/main_pa
 
 import '../../../routine_tracking/data/data_model/routine.dart';
 import '../../../routine_tracking/domain/routine_repository.dart';
+import '../../../routine_tracking/presentation/evaluation_widget.dart';
 import '../../../software_backbone/routing/routing_constants.dart';
 import '../../../software_backbone/themes/theme_constraints.dart';
 import '../custom_image/custom_image_widget.dart';
@@ -273,6 +274,7 @@ class HomePage extends StatelessWidget {
                                             return MapEntry(
                                               i,
                                               _EvaluationWidget(
+                                                routine: x.routine,
                                                 offset: evaluationOffset[i],
                                               ),
                                             );
@@ -446,9 +448,11 @@ class _LinePainter extends CustomPainter {
 }
 
 class _EvaluationWidget extends StatelessWidget {
+  final Routine routine;
   final _Offset offset;
 
-  const _EvaluationWidget({super.key, required this.offset});
+  const _EvaluationWidget(
+      {super.key, required this.offset, required this.routine});
 
   @override
   Widget build(BuildContext context) {
@@ -464,10 +468,14 @@ class _EvaluationWidget extends StatelessWidget {
           strokeWidth: 4,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Container(
-              color: Colors.yellow,
-              height: 75,
+            child: SizedBox(
+              height: 150,
               width: 200,
+              child: SingleChildScrollView(
+                child: EvaluationWidget(
+                  routine: routine,
+                ),
+              ),
             ),
           ),
         ),

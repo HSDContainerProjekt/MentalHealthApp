@@ -1,4 +1,5 @@
 import 'package:mental_health_app/routine_tracking/data/data_model/evaluation_criteria.dart';
+import 'package:mental_health_app/routine_tracking/data/data_model/routine_result.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../software_backbone/Notification/Notifiaction.dart';
@@ -30,6 +31,9 @@ abstract class RoutineDAO implements DatabaseDAO {
   Future<void> delete(Routine routine);
 
   Future<void> deleteTimeIntervals(Routine routine);
+
+  Future<int> insertEvaluationResults(
+      Routine routine, List<EvaluationResult> evaluationResults);
 }
 
 class RoutineDAOSQFLiteImpl implements RoutineDAO {
@@ -110,9 +114,31 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
     await db.execute('''
     CREATE TABLE evaluationCriteriaValueRange(
         evaluationCriteriaID INTEGER PRIMARY KEY,
-        minimalValue REAL,
+        minimumValue REAL,
         maximumValue REAL,
         FOREIGN KEY(evaluationCriteriaID) REFERENCES evaluationCriteria(id)
+        )
+        ''');
+
+    await db.execute('''
+    CREATE TABLE evaluationResultText(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        routineResultID INTEGER,
+        evaluationCriteriaID INTEGER,
+        textValue TEXT,
+        FOREIGN KEY(evaluationCriteriaID) REFERENCES evaluationCriteria(id),
+        FOREIGN KEY(routineResultID) REFERENCES routineResults(id)
+        )
+        ''');
+
+    await db.execute('''
+    CREATE TABLE evaluationResultValueRange(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        routineResultID INTEGER,
+        evaluationCriteriaID INTEGER,
+        doubleValue REAL,
+        FOREIGN KEY(evaluationCriteriaID) REFERENCES evaluationCriteria(id),
+        FOREIGN KEY(routineResultID) REFERENCES routineResults(id)
         )
         ''');
   }
@@ -137,13 +163,15 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
                 FROM timeIntervals t
                 WHERE NOT EXISTS (
                     SELECT 1 FROM routineResults rr
-                    WHERE rr.routineTime > $lookUpTime + ((t.timeInterval - $lookUpTime + t.firstDateTime) % t.timeInterval) - t.firstDateTime
+                    WHERE rr.routineTime > $lookUpTime + ((t.timeInterval - $lookUpTime + t.firstDateTime) % t.timeInterval) - t.firstDateTime 
+                    AND rr.routineID = t.routineID
                 )
             ) t ON r.id = t.routineID
             GROUP BY r.id
             ORDER BY t.nextTime
             LIMIT $limit; 
             ''');
+    print("#### next $queryResult");
     List<RoutineWithExtraInfoTimeLeft> result = [];
     for (Map<String, Object?> x in queryResult) {
       RoutineWithExtraInfoTimeLeft newRoutine =
@@ -201,6 +229,7 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
         WHERE routineID = r.id
         );
         ''');
+    print("#### all $queryResult");
     List<RoutineWithExtraInfoDoneStatus> result = [];
     for (Map<String, Object?> x in queryResult) {
       RoutineWithExtraInfoDoneStatus newRoutine =
@@ -227,18 +256,19 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
         SELECT * 
         FROM evaluationcriteria 
         JOIN (
-            SELECT *, NULL AS maximumvalue, NULL AS minimumvalue, 'evaluationcriteriatoggle' AS table_name
+            SELECT *, NULL AS minimumValue, NULL AS maximumValue, 'evaluationcriteriatoggle' AS table_name
             FROM evaluationcriteriatoggle
-            UNION ALL
-            SELECT *, NULL AS maximumvalue, NULL AS minimumvalue, 'evaluationcriteriatext' AS table_name
+            UNION
+            SELECT *, NULL AS minimumValue, NULL AS maximumValue, 'evaluationcriteriatext' AS table_name
             FROM evaluationcriteriatext
-            UNION ALL
+            UNION
             SELECT *, 'evaluationcriteriavaluerange' AS table_name
             FROM evaluationcriteriavaluerange
         ) AS t1
         ON evaluationcriteria.id = t1.evaluationCriteriaID
         WHERE routineID = $routineID;
         ''');
+    print("#### evalu $queryResult");
     List<EvaluationCriteria> result = [];
     for (Map<String, Object?> x in queryResult) {
       EvaluationCriteria newEvaluationCriteria;
@@ -278,8 +308,7 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
           conflictAlgorithm: ConflictAlgorithm.replace);
     }
     if (evaluationCriteria is EvaluationCriteriaText) {
-      int textID = await database.insert(
-          "evaluationCriteriaText", evaluationCriteria.toDetMap(),
+      database.insert("evaluationCriteriaText", evaluationCriteria.toDetMap(),
           conflictAlgorithm: ConflictAlgorithm.replace);
     }
     if (evaluationCriteria is EvaluationCriteriaToggle) {
@@ -288,5 +317,36 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
     }
 
     return id;
+  }
+
+  @override
+  Future<int> insertEvaluationResults(
+      Routine routine, List<EvaluationResult> evaluationResults) async {
+    int lookUpTime = DateTime.now().millisecondsSinceEpoch;
+
+    int time = (await database.rawQuery(
+            '''SELECT MIN($lookUpTime + (((timeInterval - $lookUpTime + firstDateTime) % timeInterval) + timeInterval) % timeInterval) AS t FROM timeintervals WHERE routineID = ${routine.id};'''))[
+        0]["t"] as int;
+
+    int resultID = await database.insert("routineResults",
+        {"routineID": routine.id, "result": "DONE", "routineTime": time});
+
+    for (EvaluationResult x in evaluationResults) {
+      if (x is EvaluationResultText) {
+        database.insert("evaluationResultText", {
+          "routineResultID": resultID,
+          "evaluationCriteriaID": x.evaluationCriteriaID,
+          "textValue": x.text
+        });
+      } else if (x is EvaluationResultValue) {
+        database.insert("evaluationResultValueRange", {
+          "routineResultID": resultID,
+          "evaluationCriteriaID": x.evaluationCriteriaID,
+          "doubleValue": x.result
+        });
+      }
+    }
+
+    return resultID;
   }
 }

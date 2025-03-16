@@ -1,4 +1,5 @@
 import 'package:mental_health_app/routine_tracking/data/data_model/evaluation_criteria.dart';
+import 'package:mental_health_app/routine_tracking/data/data_model/routine_result.dart';
 import 'package:mental_health_app/routine_tracking/data/routine_dao.dart';
 import '../../software_backbone/Notification/Notifiaction.dart';
 import '../data/data_model/routine.dart';
@@ -23,6 +24,11 @@ class RoutineRepository {
     for (EvaluationCriteria x in evaluationCriteria) {
       routineDAO.upsertEvaluationCriteria(x.copyOf(routineID: routineID));
     }
+  }
+
+  Future<void> saveResult(
+      Routine routine, List<EvaluationResult> results) async {
+    routineDAO.insertEvaluationResults(routine, results);
   }
 
   Future<List<RoutineWithExtraInfoTimeLeft>> nextRoutines(int limit) {
