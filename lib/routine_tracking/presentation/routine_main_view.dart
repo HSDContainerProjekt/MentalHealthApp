@@ -6,6 +6,7 @@ import 'package:mental_health_app/routine_tracking/presentation/bloc/routine_nav
 import 'package:mental_health_app/routine_tracking/presentation/routine_edit_view.dart';
 import 'package:mental_health_app/routine_tracking/presentation/routine_overview_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mental_health_app/routine_tracking/presentation/routine_statistics_view.dart';
 
 import '../../software_backbone/themes/theme_constraints.dart';
 
@@ -38,8 +39,8 @@ class RoutineMainView extends StatelessWidget {
                   if (state is RoutineNavOverview) {
                     return RoutineOverviewView();
                   }
-                  if (state is RoutineNavDetail) {
-                    return Text("Detail");
+                  if (state is RoutineNavStatistics) {
+                    return RoutineStatisticsView(state: state);
                   }
                   if (state is RoutineNavEdit) {
                     return RoutineEditView(state: state);

@@ -11,8 +11,8 @@ final class RoutineNavToEdit extends RoutineNavEvent {
   RoutineNavToEdit({this.routineId});
 }
 
-final class RoutineNavToDetail extends RoutineNavEvent {
+final class RoutineNavToStatistics extends RoutineNavEvent {
   final int routineId;
 
-  RoutineNavToDetail(this.routineId);
+  RoutineNavToStatistics({required this.routineId});
 }

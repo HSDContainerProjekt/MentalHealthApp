@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:mental_health_app/app_framework_backbone/views/main_page/main_page_animal.dart';
 import 'package:mental_health_app/routine_tracking/data/data_model/routine.dart';
 
 class RoutineResult extends Equatable {
@@ -8,7 +7,7 @@ class RoutineResult extends Equatable {
   final RoutineStatus status;
   final DateTime routineTime;
 
-  RoutineResult(
+  const RoutineResult(
       {required this.routineID,
       required this.status,
       required this.id,

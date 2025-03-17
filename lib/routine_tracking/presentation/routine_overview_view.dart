@@ -229,8 +229,9 @@ class _RoutineWidget extends StatelessWidget {
                               shape: CircleBorder(),
                               padding: EdgeInsets.all(0)),
                           onPressed: () {
-                            Navigator.of(context)
-                                .pushNamed("/statistics", arguments: routine);
+                            context.read<RoutineOverviewBloc>().add(
+                                RoutineOverviewStatisticsRoutine(
+                                    routineID: routine.id!));
                           },
                           child: Icon(Icons.bar_chart),
                         ),

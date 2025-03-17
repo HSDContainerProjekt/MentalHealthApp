@@ -74,4 +74,9 @@ class RoutineRepository {
           x.routine, DateTime.now().add(x.timeLeft).subtract(timeBefore));
     }
   }
+
+  Future<List<RoutineResult>> getRoutineResultsLastXDays(
+      int routineID, int days) async {
+    return routineDAO.getRoutineResultsLastXDays(routineID, days);
+  }
 }

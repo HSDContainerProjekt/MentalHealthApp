@@ -17,8 +17,8 @@ class RoutineNavBloc extends Bloc<RoutineNavEvent, RoutineNavState> {
         emit(RoutineNavEditExisting(routineID: event.routineId!));
       }
     });
-    on<RoutineNavToDetail>((event, emit) {
-      emit(RoutineNavOverview());
+    on<RoutineNavToStatistics>((event, emit) {
+      emit(RoutineNavStatistics(routineID: event.routineId));
     });
   }
 }
