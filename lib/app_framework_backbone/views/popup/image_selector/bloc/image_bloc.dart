@@ -1,7 +1,8 @@
 import 'package:flutter/widgets.dart';
 
 import 'package:bloc/bloc.dart';
-import 'package:mental_health_app/app_framework_backbone/views/popup/image_selector/image_repository.dart';
+import 'package:mental_health_app/app_framework_backbone/views/custom_image/image_repository.dart';
+import 'package:mental_health_app/app_framework_backbone/views/custom_image/picture.dart';
 
 part 'image_event.dart';
 
@@ -21,6 +22,6 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
     Emitter<ImageState> emit,
   ) async {
     emit(ImageLoading());
-    emit(ImageLoaded(image: await imageRepository.imageBy(event.id)));
+    emit(ImageLoaded(picture: await imageRepository.imageBy(event.id)));
   }
 }

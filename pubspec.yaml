@@ -42,12 +42,25 @@ dependencies:
   sqflite: ^2.4.1
   path: ^1.9.0
   mysql_client: ^0.0.27
+  postgres: ^2.6.1
   http: ^1.2.2
   bloc: ^8.1.4
   flutter_bloc: ^8.1.6
   equatable: ^2.0.3
+  model_viewer_plus: ^1.9.1
   sqflite_common_ffi: any
   image_picker: ^0.8.3
+  image_cropper: ^9.0.0
+  numberpicker: ^2.1.2
+  google_fonts: ^6.1.0
+  excel: ^2.1.0
+  url_launcher: ^6.2.5
+  sqlite3_flutter_libs: ^0.5.31
+  path_provider: ^2.1.5
+  dotted_line: ^3.2.3
+  arrow_path: ^3.1.0
+  flutter_local_notifications: ^18.0.1
+  flutter_launcher_icons: ^0.14.3
 
 dev_dependencies:
   flutter_test:
@@ -62,22 +75,25 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
 
+  generate: true
+  uses-material-design: true
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
-  # the material Icons class.
-  uses-material-design: true
-  generate: true
   assets:
-    - lib/assets/images/bookcover.jpg
-    - lib/assets/images/loading.png
-    - lib/assets/images/nodata.png
-    - lib/assets/images/character_placeholder1.jpeg
-    - lib/assets/images/maxie_bodyshot.png
-    - lib/assets/images/froggo_bodyshot.png
-    - lib/assets/images/froggo_portrait.png
-  
+    - lib/assets/icon/
+    - lib/assets/images/bookmarks/
     - lib/assets/images/
+    - lib/assets/images/frog_images/
+    - lib/assets/images/squirrel_images/
     - lib/assets/images/appSelectableImages/
+    - lib/assets/images/background_paper/paper_basic/
+    - lib/assets/images/background_paper/paper_shadow/
+    - lib/assets/animations/
+    - lib/assets/animations/frog_animation.glb
+    - lib/assets/animations/squirrel_animation.glb
+
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -94,5 +110,7 @@ flutter:
     - family: Italianno
       fonts:
         - asset: lib/fonts/Italianno-Regular.ttf
-
+    - family: PatrickHand
+      fonts:
+        - asset: lib/fonts/PatrickHand-Regular.ttf
 

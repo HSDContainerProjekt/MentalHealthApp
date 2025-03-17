@@ -2,24 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:mental_health_app/routine_tracking/data/routine_dao.dart';
 import 'package:mental_health_app/routine_tracking/domain/routine_repository.dart';
 import 'package:mental_health_app/routine_tracking/routine_observer.dart';
+import 'package:mental_health_app/software_backbone/Notification/Notifiaction.dart';
 import 'package:mental_health_app/software_backbone/routing/router.dart'
     as App_router;
 import 'package:mental_health_app/software_backbone/routing/routing_constants.dart';
 import 'package:mental_health_app/software_backbone/themes/theme_constraints.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-import 'app_framework_backbone/views/popup/image_selector/image_dao.dart';
-import 'app_framework_backbone/views/popup/image_selector/image_repository.dart';
+import 'app_framework_backbone/views/custom_image/image_dao.dart';
+import 'app_framework_backbone/views/custom_image/image_repository.dart';
+import 'package:flutter/services.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService.init();
+  tz.initializeTimeZones();
+
+  sqfliteFfiInit();
+  databaseFactory = databaseFactoryFfi;
   Bloc.observer = const RoutineObserver();
   final RoutineDAO routineDAO = RoutineDAOSQFLiteImpl();
   await routineDAO.init();
   final ImageDAO imageDAO = ImageDAOSQFLiteImpl();
   await imageDAO.init();
-
   bootstrap(routineDAO: routineDAO, imageDAO: imageDAO);
 }
 
@@ -29,6 +38,7 @@ void bootstrap({required RoutineDAO routineDAO, required ImageDAO imageDAO}) {
   //Domain dependency creation
   final RoutineRepository routineRepository =
       RoutineRepository(routineDAO: routineDAO);
+  routineRepository.scheduleNotifications();
   final ImageRepository imageRepository = ImageRepository(imageDAO: imageDAO);
 
   //App Start
@@ -48,6 +58,19 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.transparent,
+        systemNavigationBarDividerColor: Colors.transparent,
+        statusBarColor: Colors.transparent,
+      ),
+    );
+
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider.value(value: imageRepository),
@@ -61,8 +84,7 @@ class App extends StatelessWidget {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         locale: const Locale('de'),
-        theme: lightMainPageThemeData,
-        darkTheme: darkMainPageThemeData,
+        theme: mainPageThemeData,
       ),
     );
   }

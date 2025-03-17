@@ -36,9 +36,10 @@ class DatabaseOperation {
   }
 
   Future<void> clearAllDatabases() async {
+    await DatabaseFriendCollection().delete();
     try {
       await OnlineDatabase().clearAllOnlineDatabases();
-      await DatabaseFriendCollection().delete();
+      
     } catch (e) {}
   }
 

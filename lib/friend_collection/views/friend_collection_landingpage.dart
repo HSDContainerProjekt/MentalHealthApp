@@ -10,6 +10,7 @@ class FriendCollectionLandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: FutureBuilder<int>(
         future: ownIdDB().getOrCreateOwnID(),
         builder: (context, snapshot) {

@@ -4,7 +4,7 @@ import 'package:mental_health_app/app_framework_backbone/views/popup/image_selec
 import 'package:mental_health_app/app_framework_backbone/views/popup/postit.dart';
 
 import 'bloc/image_selector_bloc.dart';
-import 'image_repository.dart';
+import '../../custom_image/image_repository.dart';
 
 class ImageSelector extends StatelessWidget {
   final int lastSelectedID;
@@ -32,7 +32,7 @@ class ImageSelector extends StatelessWidget {
                         onPressed: () => context
                             .read<ImageSelectorBloc>()
                             .add(ImageSelectorAddImage()),
-                        child: Text("+")),
+                        child: Icon(Icons.add)),
                     body: GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           childAspectRatio: 1, crossAxisCount: 2),
@@ -93,7 +93,7 @@ class _Image extends StatelessWidget {
           child: BlocBuilder<ImageBloc, ImageState>(
             builder: (BuildContext context, ImageState state) {
               if (state is ImageLoaded) {
-                return Center(child: state.image);
+                return Center(child: Image.memory(state.picture.data));
               }
               if (state is ImageLoading) {
                 return CircularProgressIndicator();

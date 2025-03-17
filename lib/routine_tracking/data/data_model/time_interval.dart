@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 
 class TimeInterval extends Equatable {
   const TimeInterval({
@@ -17,8 +18,16 @@ class TimeInterval extends Equatable {
 
   final Duration timeInterval;
 
+  static TimeInterval empty() {
+    return TimeInterval(
+      routineID: 0,
+      firstDateTime: DateTime.now(),
+      timeInterval: Duration(),
+    );
+  }
+
   @override
-  List<Object> get props => [id!, routineID, firstDateTime, timeInterval];
+  List<Object> get props => [routineID, firstDateTime, timeInterval];
 
   factory TimeInterval.fromMap(Map<String, Object?> data) {
     return TimeInterval(
@@ -36,4 +45,31 @@ class TimeInterval extends Equatable {
         "firstDateTime": firstDateTime.millisecondsSinceEpoch,
         "timeInterval": timeInterval.inMilliseconds,
       };
+
+  TimeInterval copyWith({
+    int? id,
+    int? routineID,
+    DateTime? firstDateTime,
+    Duration? timeInterval,
+  }) {
+    return TimeInterval(
+        id: id,
+        routineID: routineID ?? this.routineID,
+        firstDateTime: firstDateTime ?? this.firstDateTime,
+        timeInterval: timeInterval ?? this.timeInterval);
+  }
+
+  String dateAsString() {
+    final f = DateFormat('dd.MM.yyyy');
+    return f.format(firstDateTime);
+  }
+
+  String timeAsString() {
+    final f = DateFormat('HH:mm');
+    return f.format(firstDateTime);
+  }
+
+  String intervalAsString() {
+    return "Alle ${timeInterval.inDays} Tage, ${timeInterval.inHours % 24} Stunden und ${timeInterval.inMinutes % 60} Minuten.";
+  }
 }
