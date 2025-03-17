@@ -12,7 +12,8 @@ import 'package:sqflite/sqflite.dart';
 
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
-  DatabaseOperation().clearAllDatabases();
+  var result = await OnlineDatabase().connected();
+  log(result.toString());
 }
 
 class DatabaseOperation {
