@@ -1,26 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:mental_health_app/friend_collection/database/database_operation.dart';
-import 'dart:math';
+import 'dart:developer';
 
 import 'package:mental_health_app/friend_collection/database/friend_db.dart';
 
 class CustomColorWidget extends StatefulWidget {
   final IconData passedIcon;
   final String iconText;
-  const CustomColorWidget(this.passedIcon, this.iconText, {super.key});
+  final Color? initialColor;
+  const CustomColorWidget(this.passedIcon, this.iconText, this.initialColor,
+      {super.key});
 
   @override
   State<CustomColorWidget> createState() => _CustomColorPicker();
 }
 
 class _CustomColorPicker extends State<CustomColorWidget> {
-  Color pickedColor = Color.fromARGB(
-      255, Random().nextInt(255), Random().nextInt(255), Random().nextInt(255));
+  late Color pickedColor;
 
-  void changeColor(newColor) {
+
+  @override
+  void initState(){
+    super.initState();
+    if (widget.initialColor == null) {
+      pickedColor = Color.fromARGB(255, 21, 21, 200);
+    } else {
+      pickedColor = widget.initialColor!;
+    }
+  }
+
+  void changeColor(Color color) {
     setState(() {
-      pickedColor = newColor;
+      pickedColor = color;
     });
   }
 
@@ -41,11 +53,12 @@ class _CustomColorPicker extends State<CustomColorWidget> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       BlockPicker(
-                        pickerColor: pickedColor, //default color
+                        pickerColor: widget.initialColor, //default color
                         onColorChanged: (Color color) {
                           //on the color picked
                           changeColor(color);
-                          DatabaseOperation().saveAndTryToUpdateColor(widget.passedIcon, color.value);
+                          DatabaseOperation().saveAndTryToUpdateColor(
+                              widget.passedIcon, color.value);
                           Navigator.pop(context);
                         },
                       )

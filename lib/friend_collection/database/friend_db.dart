@@ -69,8 +69,8 @@ class FriendDB {
 
   Future<Friend> fetchByID(int id) async {
     log("called");
+    log("given id: $id");
     final database = await DatabaseFriendCollection().database;
-    log("3: "+ database.toString());
     final friend = await database.query(tableName,
         columns: [
           "id",
@@ -91,8 +91,11 @@ class FriendDB {
         ],
         where: 'id = ?',
         whereArgs: [id]);
-    var returnFriend = Friend.fromSqfliteDatabase(friend.single);
-    log("4: "+ returnFriend.toString());
+    log("queryfriend: $friend");
+    log(friend.first.toString());
+    var returnFriend = Friend.fromSqfliteDatabase(friend.first);
+    log(returnFriend.toString());
+
     return returnFriend;
   }
 
@@ -120,7 +123,13 @@ class FriendDB {
     if (await OnlineDatabase().connected()) {
       friendlist = await OnlineDatabase().getFriends();
       await FriendDB().saveOnlineFriendsOffline(friendlist);
-      return friendlist;
+      List<Friend> returnFriends = <Friend>[];
+      for (var element in friendlist) {
+        if (element.id != ownId) {
+          returnFriends.add(element);
+        }
+      }
+      return returnFriends;
     } else {
       List<Friend> friends = await FriendDB().fetchAll();
       for (var element in friends) {

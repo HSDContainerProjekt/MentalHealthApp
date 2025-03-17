@@ -5,18 +5,17 @@ import 'package:mental_health_app/friend_collection/database/database_operation.
 
 class FormfieldDatePicker extends StatefulWidget {
   final String textFieldTitle;
-  const FormfieldDatePicker(this.textFieldTitle, {super.key});
+  final String textFieldValue;
+  const FormfieldDatePicker(this.textFieldTitle, this.textFieldValue, {super.key});
 
   @override
   State<FormfieldDatePicker> createState() => _FormfieldDatePickerState();
 }
 
 class _FormfieldDatePickerState extends State<FormfieldDatePicker> {
-  DateTime pickedDate = DateTime.now(); 
-  void changeDate(newDate){
-    setState((){
-
-    });
+  DateTime pickedDate = DateTime.now();
+  void changeDate(newDate) {
+    setState(() {});
   }
 
   @override
@@ -27,21 +26,24 @@ class _FormfieldDatePickerState extends State<FormfieldDatePicker> {
         FormBuilderDateTimePicker(
           name: widget.textFieldTitle,
           initialDate: DateTime.now(),
-          initialValue: null,
+          initialValue: DateTime.tryParse(widget.textFieldValue),
           inputType: InputType.date,
           format: DateFormat("dd.MM.yyyy"),
-          decoration:
-              InputDecoration(
-                constraints: BoxConstraints(maxWidth: 200.0),             
-              ),
-          initialEntryMode: DatePickerEntryMode.calendar,          
+          onChanged: (date) {
+            changeDate(date);
+            DatabaseOperation()
+                .saveAndTryToUpdateString("birthday", date.toString() ?? "");
+          },
+          decoration: InputDecoration(
+            constraints: BoxConstraints(maxWidth: 200.0),
           ),
+          initialEntryMode: DatePickerEntryMode.calendar,
+        ),
         Align(
-          alignment: Alignment.topLeft,
-          child: Text(
-            widget.textFieldTitle,
-          )
-        )
+            alignment: Alignment.topLeft,
+            child: Text(
+              widget.textFieldTitle,
+            ))
       ],
     );
   }

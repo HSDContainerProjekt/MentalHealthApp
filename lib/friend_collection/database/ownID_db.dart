@@ -42,7 +42,6 @@ class ownIdDB {
   Future<int> createAvailableID() async {
     int id = 1;
     final result = await OnlineDatabase().fetchAllIds();
-    log(result.toString());
     bool idExists = true;
     while (idExists) {
       id = Math.Random().nextInt(1000000);

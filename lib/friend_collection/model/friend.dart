@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 class Friend {
   final int id;
   final String? name;
@@ -41,34 +43,39 @@ class Friend {
   ///   map (Map<String, dynamic>): The `map` parameter is a `Map` object that contains key-value pairs
   /// where the keys are `String` and the values are `dynamic`. This method is using the values from
   /// this map to create a `Friend` object.
-  factory Friend.fromSqfliteDatabase(Map<String, dynamic> map) => Friend(
-        id: map['id'],
-        name: map['name'] ?? '',
-        nickname: map['nickname'] ?? '',
-        birthday: map['birthday'] ?? '',
-        zodiacSign: map['zodiacSign'] ?? '',
-        animal: map['animal'] ?? '',
-        hairColor: map['hairColor'] != null
-            ? int.tryParse(map['hairColor'].toString()) ?? 0
-            : 0,
-        eyecolor: map['eyecolor'] != null
-            ? int.tryParse(map['eyecolor'].toString()) ?? 0
-            : 0,
-        favoriteColor: map['favoriteColor'] != null
-            ? int.tryParse(map['favoriteColor'].toString()) ?? 0
-            : 0,
-        favoriteSong: map['favoriteSong'] ?? '',
-        favoriteFood: map['favoriteFood'] ?? '',
-        favoriteBook: map['favoriteBook'] ?? '',
-        favoriteFilm: map['favoriteFilm'] ?? '',
-        favoriteAnimal: map['favoriteAnimal'] ?? '',
-        favoriteNumber: map['favoriteNumber'] != null
-            ? map['favoriteNumber']?.toInt() ?? 0
-            : 0,
-      );
+  factory Friend.fromSqfliteDatabase(Map<String, dynamic> map) {
+    log("Map from Database: $map");
 
+    Friend friend = Friend(
+      id: map['id'],
+      name: map['name'] ?? '',
+      nickname: map['nickname'] ?? '',
+      birthday: map['birthday'] ?? '',
+      zodiacSign: map['zodiacSign'] ?? '',
+      animal: map['animal'] ?? '',
+      hairColor: map['hairColor'] != null
+          ? int.tryParse(map['hairColor'].toString()) ?? 0
+          : 0,
+      eyecolor: map['eyecolor'] != null
+          ? int.tryParse(map['eyecolor'].toString()) ?? 0
+          : 0,
+      favoriteColor: map['favoriteColor'] != null
+          ? int.tryParse(map['favoriteColor'].toString()) ?? 0
+          : 0,
+      favoriteSong: map['favoriteSong'] ?? '',
+      favoriteFood: map['favoriteFood'] ?? '',
+      favoriteBook: map['favoriteBook'] ?? '',
+      favoriteFilm: map['favoriteFilm'] ?? '',
+      favoriteAnimal: map['favoriteAnimal'] ?? '',
+       favoriteNumber: map['favoriteNumber'] != null
+          ? int.tryParse(map['favoriteNumber'].toString()) ?? 0
+          : 0,
+    );
+    log(friend.toString());
+    return friend;
+  }
   @override
   String toString() {
-    return 'Friend{id: $id, name: $name, nickname: $name, birthday: $birthday, zodiacSign: $zodiacSign, animal: $animal, hairColor: $hairColor, eyecolor: $eyecolor, favoriteColor: $favoriteColor}';
+    return 'Friend{id: $id, name: $name, nickname: $nickname, birthday: $birthday, zodiacSign: $zodiacSign, animal: $animal, hairColor: $hairColor, eyecolor: $eyecolor, favoriteColor: $favoriteColor}';
   }
 }

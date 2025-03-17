@@ -25,13 +25,32 @@ class TableOfContent extends StatelessWidget {
               child: DataTable(
                 showBottomBorder: false,
                 columns: [
+                  DataColumn(label: 
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("lib/assets/images/bookmarks/table_of_contents.png"),
+                          )
+                        )
+                      )
+                    )
+                  ),
+                  DataColumn(label: Expanded(child: Text("Kapitel"))),
                   DataColumn(label: Expanded(child: Text(""))),
-                  DataColumn(label: Expanded(child: Text("Kapitel")))
                 ],
                 rows: [
                   DataRow(
                     cells: [
-                      DataCell(Text("1")),
+                      DataCell(
+                        Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage("lib/assets/images/bookmarks/main_page.png"),
+                            )
+                          )
+                        )
+                      ),
                       DataCell(
                         TextButton(
                           onPressed: () {
@@ -42,11 +61,20 @@ class TableOfContent extends StatelessWidget {
                           ),
                         ),
                       ),
+                      DataCell(Text("1")),
                     ],
                   ),
                   DataRow(
                     cells: [
-                      DataCell(Text("2")),
+                      DataCell(
+                        Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage("lib/assets/images/bookmarks/routine.png"),
+                            )
+                          )
+                        )
+                      ),
                       DataCell(
                         TextButton(
                           onPressed: () {
@@ -57,12 +85,21 @@ class TableOfContent extends StatelessWidget {
                             AppLocalizations.of(context)!.routineTitle,
                           ),
                         ),
-                      )
+                      ),
+                      DataCell(Text("2")),
                     ],
                   ),
                   DataRow(
                     cells: [
-                      DataCell(Text("3")),
+                      DataCell(
+                        Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage("lib/assets/images/bookmarks/friends.png"),
+                            )
+                          )
+                        )
+                      ),
                       DataCell(
                         TextButton(
                           onPressed: () {
@@ -73,7 +110,8 @@ class TableOfContent extends StatelessWidget {
                             AppLocalizations.of(context)!.friendCollectionTitle,
                           ),
                         ),
-                      )
+                      ),
+                      DataCell(Text("3")),
                     ],
                   ),
                   DataRow(
@@ -88,7 +126,8 @@ class TableOfContent extends StatelessWidget {
                             AppLocalizations.of(context)!.resourcesTitle,
                           ),
                         ),
-                      )
+                      ),
+                      DataCell(Text("4")),
                     ],
                   )
                 ],
@@ -100,53 +139,3 @@ class TableOfContent extends StatelessWidget {
     );
   }
 }
-
-/**
- * ListView(
-    padding: const EdgeInsets.all(8),
-    children: [
-    Align(
-    alignment: Alignment.topLeft,
-    child: Text(
-    AppLocalizations.of(context)!.tableOfContentTitle,
-    style: Theme.of(context).textTheme.headlineLarge,
-    )),
-    TextButton(
-    onPressed: () {
-    Navigator.pushReplacementNamed(context, mainPage);
-    },
-    child: Text(
-    AppLocalizations.of(context)!.homepageTitle,
-    style: Theme.of(context).textTheme.displayLarge
-    )
-    ),
-    TextButton(
-    onPressed: () {
-    Navigator.pushReplacementNamed(context, routineTracking);
-    },
-    child: Text(
-    AppLocalizations.of(context)!.routineTitle,
-    style: Theme.of(context).textTheme.displayLarge
-    )
-    ),
-    TextButton(
-    onPressed: () {
-    Navigator.pushReplacementNamed(context, friendsCollection);
-    },
-    child: Text(
-    AppLocalizations.of(context)!.friendCollectionTitle,
-    style: Theme.of(context).textTheme.displayLarge
-    )
-    ),
-    TextButton(
-    onPressed: () {
-    Navigator.pushReplacementNamed(context, resources);
-    },
-    child: Text(
-    AppLocalizations.of(context)!.resourcesTitle,
-    style: Theme.of(context).textTheme.displayLarge
-    )
-    )
-    ],
-    ),
- */

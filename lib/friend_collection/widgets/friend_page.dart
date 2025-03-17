@@ -19,8 +19,10 @@ class FriendPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-            backgroundColor: Colors.white70,
+        child: Padding(
+          padding: EdgeInsets.all(6),
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
             body: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -29,10 +31,11 @@ class FriendPage extends StatelessWidget {
                     child: Row(
                       children: [
                         Row(children: [
+                          Padding(padding: EdgeInsets.all(20), child: 
                           Container(
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.black)),
-                            child: FutureBuilder(
+                            child: SizedBox(width: 100, height: 100, child:  FutureBuilder(
                                 future: AnimalBackbone().portrait(),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
@@ -43,7 +46,7 @@ class FriendPage extends StatelessWidget {
                                         image: AssetImage(Froggo.portrait));
                                   }
                                 }),
-                          ),
+                          ))),
                           FormBuilder(
                             child: Column(
                               children: <Widget>[
@@ -139,6 +142,6 @@ class FriendPage extends StatelessWidget {
                   ],
                 ))
               ],
-            )));
+            ))));
   }
 }

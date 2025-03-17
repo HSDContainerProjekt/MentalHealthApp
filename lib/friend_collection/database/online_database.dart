@@ -13,10 +13,8 @@ import 'package:postgres/postgres.dart';
 
 class OnlineDatabase {
   Future<void> connect() async {
-    var dbConnection = PostgreSQLConnection(
-        DatabaseDetails().host,
-        DatabaseDetails().port,
-        DatabaseDetails().databasename,
+    var dbConnection = PostgreSQLConnection(DatabaseDetails().host,
+        DatabaseDetails().port, DatabaseDetails().databasename,
         username: DatabaseDetails().username,
         password: DatabaseDetails().password);
     await dbConnection.open();
@@ -25,10 +23,8 @@ class OnlineDatabase {
 
   Future<bool> connected() async {
     try {
-      var dbConnection = PostgreSQLConnection(
-          DatabaseDetails().host,
-          DatabaseDetails().port,
-          DatabaseDetails().databasename,
+      var dbConnection = PostgreSQLConnection(DatabaseDetails().host,
+          DatabaseDetails().port, DatabaseDetails().databasename,
           username: DatabaseDetails().username,
           password: DatabaseDetails().password);
       await dbConnection.open();
@@ -39,36 +35,32 @@ class OnlineDatabase {
       return false;
     }
   }
-  
+
   Future<void> createTables() async {
-    var dbConnection = PostgreSQLConnection(
-        DatabaseDetails().host,
-        DatabaseDetails().port,
-        DatabaseDetails().databasename,
+    var dbConnection = PostgreSQLConnection(DatabaseDetails().host,
+        DatabaseDetails().port, DatabaseDetails().databasename,
         username: DatabaseDetails().username,
         password: DatabaseDetails().password);
     dbConnection.open();
-    dbConnection.execute("CREATE TABLE Friends (FriendID int NOT NULL, Name varchar(255), Nickname varchar(255), Birthday varchar(255), ZodiacSign varchar(255), Animal varchar(255), HairColor varchar(255), Eyecolor varchar(255), FavoriteColor varchar(255), FavoriteSong varchar(255), FavoriteFood varchar(255), FavoriteBook varchar(255), FavoriteFilm varchar(255), FavoriteAnimal varchar(255), FavoriteNumber NUMBER    PRIMARY KEY (FriendID));");
+    dbConnection.execute(
+        "CREATE TABLE Friends (FriendID int NOT NULL, Name varchar(255), Nickname varchar(255), Birthday varchar(255), ZodiacSign varchar(255), Animal varchar(255), HairColor varchar(255), Eyecolor varchar(255), FavoriteColor varchar(255), FavoriteSong varchar(255), FavoriteFood varchar(255), FavoriteBook varchar(255), FavoriteFilm varchar(255), FavoriteAnimal varchar(255), FavoriteNumber NUMBER    PRIMARY KEY (FriendID));");
     dbConnection.close();
   }
 
   Future<void> createFriend(int id) async {
-    var dbConnection = PostgreSQLConnection(
-        DatabaseDetails().host,
-        DatabaseDetails().port,
-        DatabaseDetails().databasename,
+    var dbConnection = PostgreSQLConnection(DatabaseDetails().host,
+        DatabaseDetails().port, DatabaseDetails().databasename,
         username: DatabaseDetails().username,
         password: DatabaseDetails().password);
     await dbConnection.open();
-    await dbConnection.query("INSERT INTO friends (FriendID) VALUES (@id)", substitutionValues: {"id": id});
+    await dbConnection.query("INSERT INTO friends (FriendID) VALUES (@id)",
+        substitutionValues: {"id": id});
     dbConnection.close();
   }
 
   Future<List<List<dynamic>>> fetchAllIds() async {
-    var dbConnection = PostgreSQLConnection(
-        DatabaseDetails().host,
-        DatabaseDetails().port,
-        DatabaseDetails().databasename,
+    var dbConnection = PostgreSQLConnection(DatabaseDetails().host,
+        DatabaseDetails().port, DatabaseDetails().databasename,
         username: DatabaseDetails().username,
         password: DatabaseDetails().password);
     await dbConnection.open();
@@ -79,10 +71,8 @@ class OnlineDatabase {
 
   Future<void> createFriendRequest(int ownId, int friendId) async {
     try {
-      var dbConnection = PostgreSQLConnection(
-          DatabaseDetails().host,
-          DatabaseDetails().port,
-          DatabaseDetails().databasename,
+      var dbConnection = PostgreSQLConnection(DatabaseDetails().host,
+          DatabaseDetails().port, DatabaseDetails().databasename,
           username: DatabaseDetails().username,
           password: DatabaseDetails().password);
       await dbConnection.open();
@@ -95,10 +85,8 @@ class OnlineDatabase {
 
   Future<List<FriendRequest>> getOwnFriendRequests() async {
     try {
-      var dbConnection = PostgreSQLConnection(
-          DatabaseDetails().host,
-          DatabaseDetails().port,
-          DatabaseDetails().databasename,
+      var dbConnection = PostgreSQLConnection(DatabaseDetails().host,
+          DatabaseDetails().port, DatabaseDetails().databasename,
           username: DatabaseDetails().username,
           password: DatabaseDetails().password);
       await dbConnection.open();
@@ -111,8 +99,8 @@ class OnlineDatabase {
         var friend1 = row[0];
         var friend2 = row[1];
         var status = row[2];
-        var friendrequest = FriendRequest(
-            friend1: friend1, friend2: friend2, status: status);
+        var friendrequest =
+            FriendRequest(friend1: friend1, friend2: friend2, status: status);
         list.insert(0, friendrequest);
       }
       return list;
@@ -123,10 +111,8 @@ class OnlineDatabase {
 
   Future<void> acceptFriendRequest(int friendId) async {
     try {
-      var dbConnection = PostgreSQLConnection(
-          DatabaseDetails().host,
-          DatabaseDetails().port,
-          DatabaseDetails().databasename,
+      var dbConnection = PostgreSQLConnection(DatabaseDetails().host,
+          DatabaseDetails().port, DatabaseDetails().databasename,
           username: DatabaseDetails().username,
           password: DatabaseDetails().password);
       await dbConnection.open();
@@ -140,10 +126,8 @@ class OnlineDatabase {
 
   Future<List<Friend>> getFriends() async {
     try {
-      var dbConnection = PostgreSQLConnection(
-          DatabaseDetails().host,
-          DatabaseDetails().port,
-          DatabaseDetails().databasename,
+      var dbConnection = PostgreSQLConnection(DatabaseDetails().host,
+          DatabaseDetails().port, DatabaseDetails().databasename,
           username: DatabaseDetails().username,
           password: DatabaseDetails().password);
       await dbConnection.open();
@@ -175,7 +159,22 @@ class OnlineDatabase {
             var favoriteFilm = row[12];
             var favoriteAnimal = row[13];
             var favoriteNumber = row[14];
-            var friend = Friend(id: id, name: name, nickname: nickname, birthday: birthday, zodiacSign: zodiacSign, animal: animal, hairColor: hairColor, eyecolor: eyecolor, favoriteColor: favoriteColor, favoriteSong: favoriteSong, favoriteFood: favoriteFood, favoriteBook: favoriteBook, favoriteFilm: favoriteFilm, favoriteAnimal: favoriteAnimal, favoriteNumber: favoriteNumber);
+            var friend = Friend(
+                id: id,
+                name: name,
+                nickname: nickname,
+                birthday: birthday,
+                zodiacSign: zodiacSign,
+                animal: animal,
+                hairColor: hairColor,
+                eyecolor: eyecolor,
+                favoriteColor: favoriteColor,
+                favoriteSong: favoriteSong,
+                favoriteFood: favoriteFood,
+                favoriteBook: favoriteBook,
+                favoriteFilm: favoriteFilm,
+                favoriteAnimal: favoriteAnimal,
+                favoriteNumber: favoriteNumber);
             list.add(friend);
           }
         } else {
@@ -198,7 +197,22 @@ class OnlineDatabase {
             var favoriteFilm = row[12];
             var favoriteAnimal = row[13];
             var favoriteNumber = row[14];
-            var friend = Friend(id: id, name: name, nickname: nickname, birthday: birthday, zodiacSign: zodiacSign, animal: animal, hairColor: hairColor, eyecolor: eyecolor, favoriteColor: favoriteColor, favoriteSong: favoriteSong, favoriteFood: favoriteFood, favoriteBook: favoriteBook, favoriteFilm: favoriteFilm, favoriteAnimal: favoriteAnimal, favoriteNumber: favoriteNumber);
+            var friend = Friend(
+                id: id,
+                name: name,
+                nickname: nickname,
+                birthday: birthday,
+                zodiacSign: zodiacSign,
+                animal: animal,
+                hairColor: hairColor,
+                eyecolor: eyecolor,
+                favoriteColor: favoriteColor,
+                favoriteSong: favoriteSong,
+                favoriteFood: favoriteFood,
+                favoriteBook: favoriteBook,
+                favoriteFilm: favoriteFilm,
+                favoriteAnimal: favoriteAnimal,
+                favoriteNumber: favoriteNumber);
             list.add(friend);
           }
         }
@@ -212,10 +226,8 @@ class OnlineDatabase {
 
   Future<void> updateFriend(Friend friend) async {
     try {
-      var dbConnection = PostgreSQLConnection(
-          DatabaseDetails().host,
-          DatabaseDetails().port,
-          DatabaseDetails().databasename,
+      var dbConnection = PostgreSQLConnection(DatabaseDetails().host,
+          DatabaseDetails().port, DatabaseDetails().databasename,
           username: DatabaseDetails().username,
           password: DatabaseDetails().password);
       await dbConnection.open();
@@ -245,10 +257,8 @@ class OnlineDatabase {
 
   Future<void> updateAnimal(int id, String animal) async {
     try {
-      var dbConnection = PostgreSQLConnection(
-          DatabaseDetails().host,
-          DatabaseDetails().port,
-          DatabaseDetails().databasename,
+      var dbConnection = PostgreSQLConnection(DatabaseDetails().host,
+          DatabaseDetails().port, DatabaseDetails().databasename,
           username: DatabaseDetails().username,
           password: DatabaseDetails().password);
       await dbConnection.open();
@@ -260,10 +270,8 @@ class OnlineDatabase {
 
   Future<void> deleteFriendRequest(int friendId) async {
     try {
-      var dbConnection = PostgreSQLConnection(
-          DatabaseDetails().host,
-          DatabaseDetails().port,
-          DatabaseDetails().databasename,
+      var dbConnection = PostgreSQLConnection(DatabaseDetails().host,
+          DatabaseDetails().port, DatabaseDetails().databasename,
           username: DatabaseDetails().username,
           password: DatabaseDetails().password);
       await dbConnection.open();
@@ -277,10 +285,8 @@ class OnlineDatabase {
 
   Future<void> clearAllOnlineDatabases() async {
     try {
-      var dbConnection = PostgreSQLConnection(
-          DatabaseDetails().host,
-          DatabaseDetails().port,
-          DatabaseDetails().databasename,
+      var dbConnection = PostgreSQLConnection(DatabaseDetails().host,
+          DatabaseDetails().port, DatabaseDetails().databasename,
           username: DatabaseDetails().username,
           password: DatabaseDetails().password);
       await dbConnection.open();
@@ -295,10 +301,8 @@ class OnlineDatabase {
 
   Future<void> saveStringValue(int ownId, String field, String value) async {
     try {
-      var dbConnection = PostgreSQLConnection(
-          DatabaseDetails().host,
-          DatabaseDetails().port,
-          DatabaseDetails().databasename,
+      var dbConnection = PostgreSQLConnection(DatabaseDetails().host,
+          DatabaseDetails().port, DatabaseDetails().databasename,
           username: DatabaseDetails().username,
           password: DatabaseDetails().password);
       await dbConnection.open();
@@ -312,12 +316,11 @@ class OnlineDatabase {
   }
 
   Future<void> saveColorValue(IconData icon, int color) async {
+    log("saving: " + color.toString());
     var ownId = await ownIdDB().getOwnIdAsInt();
     try {
-      var dbConnection = PostgreSQLConnection(
-          DatabaseDetails().host,
-          DatabaseDetails().port,
-          DatabaseDetails().databasename,
+      var dbConnection = PostgreSQLConnection(DatabaseDetails().host,
+          DatabaseDetails().port, DatabaseDetails().databasename,
           username: DatabaseDetails().username,
           password: DatabaseDetails().password);
       await dbConnection.open();

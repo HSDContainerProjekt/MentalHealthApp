@@ -41,7 +41,7 @@ class _FriendCollectionFriendlistState
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(AppLocalizations.of(context)!.friendListTitle,
-                      style: Theme.of(context).textTheme.titleLarge),
+                      style: Theme.of(context).textTheme.titleMedium),
                   IconButton(
                       onPressed: (() {
                         Navigator.pop(context);
@@ -59,9 +59,9 @@ class _FriendCollectionFriendlistState
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(AppLocalizations.of(context)!.myFriendID,
-                            style: Theme.of(context).textTheme.displayLarge),
+                            style: Theme.of(context).textTheme.titleSmall),
                         Text(snapshot.data.toString(),
-                            style: Theme.of(context).textTheme.displayLarge)
+                            style: Theme.of(context).textTheme.titleSmall)
                       ],
                     ),
                   );
@@ -72,7 +72,7 @@ class _FriendCollectionFriendlistState
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(AppLocalizations.of(context)!.myFriendID,
-                            style: Theme.of(context).textTheme.displayLarge)
+                            style: Theme.of(context).textTheme.titleSmall)
                       ],
                     ),
                   );
@@ -85,7 +85,7 @@ class _FriendCollectionFriendlistState
                   children: [
                     Text(
                       AppLocalizations.of(context)!.addFriend,
-                      style: Theme.of(context).textTheme.displayLarge,
+                      style: Theme.of(context).textTheme.titleSmall,
                     ),
                     Expanded(
                         child: Form(
@@ -113,13 +113,13 @@ class _FriendCollectionFriendlistState
                         icon: Icon(Icons.check))
                   ])),
           Text(AppLocalizations.of(context)!.friendCollectionFriendRequests,
-              style: Theme.of(context).textTheme.titleLarge),
+              style: Theme.of(context).textTheme.titleMedium),
           FutureBuilder<List<FriendRequest>>(
             future: OnlineDatabase().getOwnFriendRequests(),
             builder: (context, snapshot) {
               List<FriendRequest>? list;
               if (!snapshot.hasData || (list = snapshot.data)!.isEmpty) {
-                return Text(AppLocalizations.of(context)!.noFriendRequests);
+                return Text(AppLocalizations.of(context)!.noFriendRequests, style: Theme.of(context).textTheme.titleSmall);
               } else {
                 return ListView.builder(
                   primary: false,
@@ -135,13 +135,13 @@ class _FriendCollectionFriendlistState
             },
           ),
           Text(AppLocalizations.of(context)!.friendCollectionFriendTitle,
-              style: Theme.of(context).textTheme.titleLarge),
+              style: Theme.of(context).textTheme.titleMedium),
           FutureBuilder<List<Friend>>(
             future: FriendDB().getFriends(),
             builder: (context, snapshot) {
               List<Friend>? list;
               if (!snapshot.hasData || (list = snapshot.data)!.isEmpty) {
-                return Text(AppLocalizations.of(context)!.noFriends);
+                return Text(AppLocalizations.of(context)!.noFriends, style: Theme.of(context).textTheme.titleSmall);
               } else {
                 return ListView.builder(
                   primary: false,
@@ -177,7 +177,7 @@ class FriendRequestWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Text(friendRequest.friend1.toString(),
-              style: Theme.of(context).textTheme.displayLarge),
+              style: Theme.of(context).textTheme.titleSmall),
           IconButton(
             onPressed: () {
               OnlineDatabase().acceptFriendRequest(friendRequest.friend1);
@@ -211,9 +211,9 @@ class FriendWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Text(friend.id.toString(),
-              style: Theme.of(context).textTheme.displayLarge),
+              style: Theme.of(context).textTheme.titleSmall),
           Text(friend.name.toString(),
-              style: Theme.of(context).textTheme.displayLarge),
+              style: Theme.of(context).textTheme.titleSmall),
           IconButton(
             onPressed: () {},
             icon: Icon(Icons.delete),

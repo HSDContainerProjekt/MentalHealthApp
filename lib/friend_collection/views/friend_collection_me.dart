@@ -28,7 +28,6 @@ class _FriendCollectionMeState extends State<FriendCollectionMe> {
     friendDataFuture = DatabaseOperation().getOwnFriendDataAndTryToUpdate();
   }
 
-
   @override
   Widget build(BuildContext context) {
     final myFavoriteformKey = GlobalKey<FormState>();
@@ -44,6 +43,9 @@ class _FriendCollectionMeState extends State<FriendCollectionMe> {
         if (snapshot.hasData) {
           var ownData = snapshot.data;
           return SafeArea(
+              child: 
+              Padding(
+              padding: EdgeInsets.all(6),
               child: Scaffold(
                   backgroundColor: Colors.transparent,
                   body: GestureDetector(
@@ -61,25 +63,22 @@ class _FriendCollectionMeState extends State<FriendCollectionMe> {
                               child: Row(
                                 children: [
                                   Row(children: [
-                                    Container(
-                                      
-                                      decoration: BoxDecoration(
-                                        border:
-                                          Border.all(color: Colors.black)),
-                                      child: FutureBuilder(
-                                          future: AnimalBackbone().portrait(),
-                                          builder: (context, snapshot) {
-                                            if (snapshot.hasData) {
-                                              return Image(
-                                                  image: AssetImage(
-                                                      snapshot.data!));
-                                            } else {
-                                              return Image(
-                                                  image: AssetImage(
-                                                      Froggo.portrait));
-                                            }
-                                          }),
-                                    ),
+                                    Padding(padding: EdgeInsets.all(20), child: 
+                          Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black)),
+                            child: SizedBox(width: 100, height: 100, child:  FutureBuilder(
+                                future: AnimalBackbone().portrait(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Image(
+                                        image: AssetImage(snapshot.data!));
+                                  } else {
+                                    return Image(
+                                        image: AssetImage(Froggo.portrait));
+                                  }
+                                }),
+                          ))),
                                     FormBuilder(
                                       key:
                                           myInformationformKey, // GlobalKey<FormState>
@@ -95,10 +94,7 @@ class _FriendCollectionMeState extends State<FriendCollectionMe> {
                                               "nickname",
                                               ownData?.nickname ?? '',
                                               "nickname"),
-                                          FormfieldPersonalinformationWidget(
-                                              "birthday",
-                                              ownData?.birthday ?? '',
-                                              "birthday"),
+                                          FormfieldDatePicker("birthday", ownData?.birthday ?? ''),
                                           FormfieldPersonalinformationWidget(
                                               "zodiacsign",
                                               ownData?.zodiacSign ?? '',
@@ -183,23 +179,30 @@ class _FriendCollectionMeState extends State<FriendCollectionMe> {
                                           CustomColorWidget(
                                               Icons.remove_red_eye_outlined,
                                               AppLocalizations.of(context)!
-                                                  .eyeColor), // Augenfarbe,
+                                                  .eyeColor, Color(ownData?.eyecolor ?? 0)), // Augenfarbe,
                                           CustomColorWidget(
                                               Icons.favorite,
                                               AppLocalizations.of(context)!
-                                                  .hairColor),
+                                                  .hairColor, Color(ownData?.hairColor ?? 0)),
                                           CustomColorWidget(
                                               Icons.color_lens,
                                               AppLocalizations.of(context)!
-                                                  .favoriteColor)
+                                                  .favoriteColor, Color(ownData?.favoriteColor ?? 0))
                                         ],
                                       ))),
                             ],
                           ))
                         ],
-                      ))));
+                      )
+                    )
+                  )
+                )
+    );
         } else {
           return SafeArea(
+            child: 
+              Padding(
+              padding: EdgeInsets.all(6),
               child: Scaffold(
                 backgroundColor: Colors.transparent,
                 body: GestureDetector(
@@ -217,23 +220,22 @@ class _FriendCollectionMeState extends State<FriendCollectionMe> {
                             child: Row(
                               children: [
                                 Row(children: [
-                                  Container(
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black)),
-                                      child: FutureBuilder(
-                                          future: AnimalBackbone().portrait(),
-                                          builder: (context, snapshot) {
-                                            if (snapshot.hasData) {
-                                              return Image(
-                                                  image: AssetImage(
-                                                      snapshot.data!));
-                                            } else {
-                                              return Image(
-                                                  image: AssetImage(
-                                                      Froggo.portrait));
-                                            }
-                                          })),
+                                  Padding(padding: EdgeInsets.all(20), child: 
+                          Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black)),
+                            child: SizedBox(width: 100, height: 100, child:  FutureBuilder(
+                                future: AnimalBackbone().portrait(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Image(
+                                        image: AssetImage(snapshot.data!));
+                                  } else {
+                                    return Image(
+                                        image: AssetImage(Froggo.portrait));
+                                  }
+                                }),
+                          ))),
                                   FormBuilder(
                                     key:
                                         myInformationformKey, // GlobalKey<FormState>
@@ -245,8 +247,7 @@ class _FriendCollectionMeState extends State<FriendCollectionMe> {
                                             "name", '', "name"),
                                         FormfieldPersonalinformationWidget(
                                             "nickname", '', "nickname"),
-                                        FormfieldPersonalinformationWidget(
-                                            "birthday", '', "birthday"),
+                                        FormfieldDatePicker("birthday", ''),
                                         FormfieldPersonalinformationWidget(
                                             "zodiacsign", '', "zodiacSign"),
                                       ],
@@ -327,21 +328,21 @@ class _FriendCollectionMeState extends State<FriendCollectionMe> {
                                         CustomColorWidget(
                                             Icons.remove_red_eye_outlined,
                                             AppLocalizations.of(context)!
-                                                .eyeColor), // Augenfarbe,
+                                                .eyeColor, Color.fromARGB(255, 255, 255, 255)), // Augenfarbe,
                                         CustomColorWidget(
                                             Icons.favorite,
                                             AppLocalizations.of(context)!
-                                                .hairColor),
+                                                .hairColor,Color.fromARGB(255, 255, 255, 255)),
                                         CustomColorWidget(
                                             Icons.color_lens,
                                             AppLocalizations.of(context)!
-                                                .favoriteColor)
+                                                .favoriteColor, Color.fromARGB(255, 255, 255, 255))
                                       ],
                                     ))),
                           ],
                         ))
                       ],
-                    ))));
+                    )))));
         }
       },
     );

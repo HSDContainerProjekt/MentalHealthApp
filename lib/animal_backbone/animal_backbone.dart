@@ -57,13 +57,10 @@ class AnimalBackbone {
   Future<String> animation() async {
     switch (await animalType()) {
       case "froggo":
-      log("called1");
         return Froggo.animation;
       case "maxie":
-      log("called2");
         return Maxie.animation;
       default:
-      log("called3");
         return Froggo.animation;
     }
   }
