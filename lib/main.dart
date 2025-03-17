@@ -57,7 +57,7 @@ class App extends StatelessWidget {
         title: 'Frörnchen: Pocket Pen Pal',
         debugShowCheckedModeBanner: false,
         onGenerateRoute: App_router.generalRouter.generateRoute,
-        initialRoute: friendsCollectionMe,
+        initialRoute: appFrameworkPage,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         locale: const Locale('de'),
