@@ -40,12 +40,15 @@ class ownIdDB {
   }
 
   Future<int> createAvailableID() async {
-    IResultSet ids = (await OnlineDatabase().fetchAllIds()) as IResultSet;
     int id = 1;
-    while (resultSetContainsID(ids, id)) {
-      id = Math.Random().nextInt(10);
+    final result = await OnlineDatabase().fetchAllIds();
+    log(result.toString());
+    bool idExists = true;
+    while (idExists) {
+      id = Math.Random().nextInt(1000000);
+      idExists = result.any((row) => row[0] == id);
     }
-    OnlineDatabase().createFriend(id);
+    await OnlineDatabase().createFriend(id);
     create(id);
     return id;
   }
@@ -68,14 +71,15 @@ class ownIdDB {
     if (ownIDIsEmpty(await getOwnId())) {
       if (await OnlineDatabase().connected()) {
         var id = await createAvailableID();
-        await FriendDB().create(id, await AccountInitDb().getOwnAnimalAsString());
-        await OnlineDatabase().updateAnimal(id, await AccountInitDb().getOwnAnimalAsString());
+        await FriendDB()
+            .create(id, await AccountInitDb().getOwnAnimalAsString());
+        await OnlineDatabase()
+            .updateAnimal(id, await AccountInitDb().getOwnAnimalAsString());
         return id;
       } else {
         return -1;
       }
     } else {
-
       var ownIDList = await getOwnId();
       var OwnID = ownIDList.first;
       var id = OwnID.id;
@@ -85,12 +89,12 @@ class ownIdDB {
 
   Future<int> getOwnIdAsInt() async {
     var ownIDList = await getOwnId();
-    if (ownIDList.isEmpty){
+    if (ownIDList.isEmpty) {
       return -1;
     } else {
-    var ownID = ownIDList.first;
-    var id = ownID.id;
-    return id;
+      var ownID = ownIDList.first;
+      var id = ownID.id;
+      return id;
     }
   }
 }

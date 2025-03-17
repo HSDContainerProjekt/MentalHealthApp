@@ -1,9 +1,9 @@
 import 'dart:core';
 
 class DatabaseDetails {
-  String host = "192.168.178.35";
-  int port = 3306;
-  String username = "ADMIN";
-  String password = "adminpw1234";
+  String host = "jonas-kampshoff.de";
+  int port = 5432;
+  String username = "frornchen";
+  String password = "Bitte1.0undEnde";
   String databasename = "friendsonlinedatabase";
 }

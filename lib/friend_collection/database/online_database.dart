@@ -66,8 +66,11 @@ class OnlineDatabase {
 
   Future<List<List<dynamic>>> fetchAllIds() async {
     var dbConnection = PostgreSQLConnection(
-        "192.168.178.35", 3306, "friendsonlinedatabase",
-        username: "ADMIN", password: "adminpw1234");
+        DatabaseDetails().host,
+        DatabaseDetails().port,
+        DatabaseDetails().databasename,
+        username: DatabaseDetails().username,
+        password: DatabaseDetails().password);
     await dbConnection.open();
     var result = await dbConnection.query("SELECT FriendID from friends");
     dbConnection.close();
