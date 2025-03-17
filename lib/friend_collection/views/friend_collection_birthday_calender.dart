@@ -66,38 +66,6 @@ class FriendCollectionBirthdayCalender extends StatelessWidget {
                   if (snapshot.hasData || (friends = snapshot.data!).isEmpty) {
                     return MonthView(months.elementAt(index), friends);
                   } else {
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: GestureDetector(
-          onPanUpdate: (details) {
-            if (details.delta.dx < -4) {
-              Navigator.pushNamed(context, friendsCollectionFriend);
-            }
-            if (details.delta.dx > 4) {
-              Navigator.pushNamed(context, friendsCollectionMe);
-            }
-          },
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!.friendCollectionCalenderTitle,
-                    style: Theme.of(context).textTheme.titleLarge),
-                  IconButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, friendlist);
-                      },
-                      icon: Icon(Icons.person_add_alt_1))
-                ],
-              ),
-              Flexible(child: 
-                ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: months.length,
-                  itemBuilder: (context, index){
                     return MonthView(months.elementAt(index), friends);
                   }
                 },
