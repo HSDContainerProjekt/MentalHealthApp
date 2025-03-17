@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:mental_health_app/friend_collection/database/database_operation.dart';
 import 'dart:math';
 
 import 'package:mental_health_app/friend_collection/database/friend_db.dart';
@@ -44,7 +45,7 @@ class _CustomColorPicker extends State<CustomColorWidget> {
                         onColorChanged: (Color color) {
                           //on the color picked
                           changeColor(color);
-                          FriendDB().saveColor(widget.passedIcon, color.value);
+                          DatabaseOperation().saveAndTryToUpdateColor(widget.passedIcon, color.value);
                           Navigator.pop(context);
                         },
                       )
