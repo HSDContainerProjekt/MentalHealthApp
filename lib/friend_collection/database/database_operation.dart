@@ -8,20 +8,20 @@ import 'package:mental_health_app/friend_collection/database/friend_db.dart';
 import 'package:mental_health_app/friend_collection/database/online_database.dart';
 import 'package:mental_health_app/friend_collection/database/ownID_db.dart';
 import 'package:mental_health_app/friend_collection/model/friend.dart';
+import 'package:mental_health_app/software_backbone/constants/database_connection_details.dart';
+import 'package:postgres/postgres.dart';
 import 'package:sqflite/sqflite.dart';
 
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
-  var result = await OnlineDatabase().connected();
+  var result = await DatabaseOperation().getOwnFriendlistAndTryToUpdate(); 
   log(result.toString());
 }
 
 class DatabaseOperation {
   Future<Friend> getOwnFriendDataAndTryToUpdate() async {
     int ownId = await ownIdDB().getOwnIdAsInt();
-    log("id: $ownId");
     Friend ownFriend = await FriendDB().fetchByID(ownId);
-    log("ownFriend: $ownFriend");
     try {
       OnlineDatabase().updateFriend(ownFriend);
     } catch (e) {

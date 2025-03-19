@@ -1,7 +1,12 @@
+import 'dart:developer';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mental_health_app/friend_collection/model/friend.dart';
+
+
+
 class MonthView extends StatefulWidget {
   final String currentMonth;
   final List<Friend> friends;
@@ -14,13 +19,14 @@ class MonthView extends StatefulWidget {
 class _MonthViewState extends State<MonthView> {
   @override
   Widget build(BuildContext context) {
+    log(widget.currentMonth + " " + widget.friends.toString());
     return DottedBorder(
       padding: EdgeInsets.all(10),
       child: Column(
         children: [
           Align(
             alignment: Alignment.centerLeft,
-            child: Text(widget.currentMonth)
+            child: Text(widget.currentMonth, style: Theme.of(context).textTheme.titleSmall,)
           ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -28,7 +34,8 @@ class _MonthViewState extends State<MonthView> {
                 Text(AppLocalizations.of(context)!.date),
                 Text(AppLocalizations.of(context)!.name),          
               ],
-            ),          
+            ),
+          if(widget.friends.isNotEmpty)          
           ListView.builder(
             shrinkWrap: true,
             itemCount: widget.friends.length,

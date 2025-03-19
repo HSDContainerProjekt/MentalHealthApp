@@ -44,8 +44,6 @@ class Friend {
   /// where the keys are `String` and the values are `dynamic`. This method is using the values from
   /// this map to create a `Friend` object.
   factory Friend.fromSqfliteDatabase(Map<String, dynamic> map) {
-    log("Map from Database: $map");
-
     Friend friend = Friend(
       id: map['id'],
       name: map['name'] ?? '',
@@ -67,11 +65,10 @@ class Friend {
       favoriteBook: map['favoriteBook'] ?? '',
       favoriteFilm: map['favoriteFilm'] ?? '',
       favoriteAnimal: map['favoriteAnimal'] ?? '',
-       favoriteNumber: map['favoriteNumber'] != null
+      favoriteNumber: map['favoriteNumber'] != null
           ? int.tryParse(map['favoriteNumber'].toString()) ?? 0
           : 0,
     );
-    log(friend.toString());
     return friend;
   }
   @override

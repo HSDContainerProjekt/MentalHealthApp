@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mental_health_app/friend_collection/database/friend_db.dart';
@@ -60,13 +62,14 @@ class FriendCollectionBirthdayCalender extends StatelessWidget {
             shrinkWrap: true,
             itemCount: months.length,
             itemBuilder: (context, index) {
-              FutureBuilder(
+                FutureBuilder(
                 future: FriendDB().getFriendsForMonth(index),
                 builder: (context, snapshot) {
-                  if (snapshot.hasData || (friends = snapshot.data!).isEmpty) {
+                  if (snapshot.hasData || (snapshot.data!).isEmpty) {
+                    friends = snapshot.data!;
                     return MonthView(months.elementAt(index), friends);
                   } else {
-                    return MonthView(months.elementAt(index), friends);
+                    return Text("waiting");
                   }
                 },
               );

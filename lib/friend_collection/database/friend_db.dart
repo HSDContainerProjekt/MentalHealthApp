@@ -68,8 +68,6 @@ class FriendDB {
   }
 
   Future<Friend> fetchByID(int id) async {
-    log("called");
-    log("given id: $id");
     final database = await DatabaseFriendCollection().database;
     final friend = await database.query(tableName,
         columns: [
@@ -91,26 +89,24 @@ class FriendDB {
         ],
         where: 'id = ?',
         whereArgs: [id]);
-    log("queryfriend: $friend");
-    log(friend.first.toString());
     var returnFriend = Friend.fromSqfliteDatabase(friend.first);
-    log(returnFriend.toString());
-
     return returnFriend;
   }
 
   Future<List<Friend>> getFriendsForMonth(int month) async {
+    log("month: " + month.toString());
     List<Friend> allFriends = await getFriends();
     List<Friend> returnFriends = [];
     for (var element in allFriends) {
       if (element.birthday != null) {
         if (element.birthday!.isNotEmpty) {
-          if (int.parse(element.birthday!.substring(3, 4)) == month) {
+          if (DateTime.parse(element.birthday!).month == month) {
             returnFriends.add(element);
           }
         }
       }
     }
+    log(month.toString() + returnFriends.toString());
     return returnFriends;
   }
 
@@ -119,7 +115,6 @@ class FriendDB {
     var ownId = await ownIdDB().getOwnIdAsInt();
     final database = await DatabaseFriendCollection().database;
     List<Friend> friendlist = <Friend>[];
-    //bessere Lösung finden
     if (await OnlineDatabase().connected()) {
       friendlist = await OnlineDatabase().getFriends();
       await FriendDB().saveOnlineFriendsOffline(friendlist);
@@ -151,7 +146,7 @@ class FriendDB {
             {
               'id': element.id,
               if (element.name != null) 'name': element.name,
-              if (element.nickname != null) 'nicknname': element.nickname,
+              if (element.nickname != null) 'nickname': element.nickname,
               if (element.birthday != null) 'birthday': element.birthday,
               if (element.zodiacSign != null) 'zodiacSign': element.zodiacSign,
               if (element.animal != null) 'animal': element.animal,

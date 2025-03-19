@@ -144,21 +144,21 @@ class OnlineDatabase {
               "SELECT * FROM friends WHERE FriendID=@friendId",
               substitutionValues: {"friendId": friend2});
           for (var row in result) {
-            var id = row[0];
-            var name = row[1];
-            var nickname = row[2];
-            var birthday = row[3];
-            var zodiacSign = row[4];
-            var animal = row[5];
-            var hairColor = row[6];
-            var eyecolor = row[7];
-            var favoriteColor = row[8];
-            var favoriteSong = row[9];
-            var favoriteFood = row[10];
-            var favoriteBook = row[11];
-            var favoriteFilm = row[12];
-            var favoriteAnimal = row[13];
-            var favoriteNumber = row[14];
+            int id = row[0];
+            String name = row[1];
+            String nickname = row[2];
+            String birthday = row[3];
+            String zodiacSign = row[4];
+            String animal = row[5];
+            int hairColor = int.parse(row[6]);
+            int eyecolor = int.parse(row[7]);
+            int favoriteColor = int.parse(row[8]);
+            String favoriteSong = row[9];
+            String favoriteFood = row[10];
+            String favoriteBook = row[11];
+            String favoriteFilm = row[12];
+            String favoriteAnimal = row[13];
+            int favoriteNumber = row[14];
             var friend = Friend(
                 id: id,
                 name: name,
@@ -182,22 +182,22 @@ class OnlineDatabase {
               "SELECT * FROM friends WHERE FriendID=@friendId",
               substitutionValues: {"friendId": friend1});
           for (var row in result) {
-            var id = row[0];
-            var name = row[1];
-            var nickname = row[2];
-            var birthday = row[3];
-            var zodiacSign = row[4];
-            var animal = row[5];
-            var hairColor = row[6];
-            var eyecolor = row[7];
-            var favoriteColor = row[8];
-            var favoriteSong = row[9];
-            var favoriteFood = row[10];
-            var favoriteBook = row[11];
-            var favoriteFilm = row[12];
-            var favoriteAnimal = row[13];
-            var favoriteNumber = row[14];
-            var friend = Friend(
+            int id = row[0];
+            String name = row[1];
+            String nickname = row[2];
+            String birthday = row[3];
+            String zodiacSign = row[4];
+            String animal = row[5];
+            int hairColor = int.parse(row[6]);
+            int eyecolor = int.parse(row[7]);
+            int favoriteColor = int.parse(row[8]);
+            String favoriteSong = row[9];
+            String favoriteFood = row[10];
+            String favoriteBook = row[11];
+            String favoriteFilm = row[12];
+            String favoriteAnimal = row[13];
+            int favoriteNumber = row[14];
+            Friend friend = Friend(
                 id: id,
                 name: name,
                 nickname: nickname,
@@ -220,6 +220,7 @@ class OnlineDatabase {
       dbConnection.close();
       return list;
     } catch (e) {
+      log(e.toString());
       return List.empty();
     }
   }
@@ -316,7 +317,6 @@ class OnlineDatabase {
   }
 
   Future<void> saveColorValue(IconData icon, int color) async {
-    log("saving: " + color.toString());
     var ownId = await ownIdDB().getOwnIdAsInt();
     try {
       var dbConnection = PostgreSQLConnection(DatabaseDetails().host,
