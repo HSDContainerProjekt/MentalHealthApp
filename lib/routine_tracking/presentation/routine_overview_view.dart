@@ -107,7 +107,11 @@ class _RoutineWidgetNext extends StatelessWidget {
           color: Colors.transparent,
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Text(routineWithExtraInfoTimeLeft.intervalAsString(),
+            child: Text(
+                AppLocalizations.of(context)!.nextTime(
+                    routineWithExtraInfoTimeLeft.timeLeft.inDays,
+                    routineWithExtraInfoTimeLeft.timeLeft.inHours % 24,
+                    routineWithExtraInfoTimeLeft.timeLeft.inMinutes % 60),
                 style: Theme.of(context).textTheme.labelMedium),
           ),
         ),

@@ -112,10 +112,6 @@
   "@universities": {
     "description": "Header for universities section"
   },
-  "evaluation": "Evaluation",
-  "@evaluation": {
-    "description": "Evaluation"
-  },
   "save": "Save",
   "@save": {
     "description": "Save"
@@ -252,7 +248,7 @@
   "@failed": {
     "description": "the word used if you submit a selection"
   },
-  "status": "status",
+  "status": "Status",
   "@status": {
     "description": "status"
   },
@@ -263,5 +259,178 @@
   "timeLeft": "Time left",
   "@timeLeft": {
     "description": "Time left to the next routine"
+  },
+  "chapter": "Chapter",
+  "@chapter": {
+    "description": "Chapter"
+  },
+  "noRoutine": "You currently have no routines.\nClick here to create one.",
+  "@noRoutine": {
+    "description": "If no routines are displayed on the main page."
+  },
+  "content": "Contetn",
+  "@content": {
+    "description": "Routines Editor Label. Content"
+  },
+  "evaluation": "Evaluation",
+  "@evaluation": {
+    "description": "Routines Editor Label. Evaluation"
+  },
+  "time": "Time",
+  "@time": {
+    "description": "Routines Editor Label. Time"
+  },
+  "title": "Title",
+  "@title": {
+    "description": "Routine Editor. Title"
+  },
+  "thumbnail": "Thumbnail",
+  "@thumbnail": {
+    "description": "Routine Editor. Thumbnail"
+  },
+  "thumbnailDescription": "The thumbnail represents the routine as an image.",
+  "@thumbnailDescription": {
+    "description": "Routine Editor. Thumbnail description"
+  },
+  "shortdescription": "Short description",
+  "@shortdescription": {
+    "description": "Routine Editor. Short description"
+  },
+  "description": "Description",
+  "@description": {
+    "description": "Routine Editor. Description"
+  },
+  "exit": "Exit",
+  "@cancel": {
+    "description": "Routine Editor. Exit"
+  },
+  "evText": "Text",
+  "@evText": {
+    "description": "EvaluationCriteria Text"
+  },
+  "evValue": "Indicator Slider",
+  "@evValue": {
+    "description": "EvaluationCriteria Value"
+  },
+  "evaluationCriteria": "Evaluation criteria",
+  "@evaluationCriteria": {
+    "description": "EvaluationCriteria"
+  },
+  "min": "Min",
+  "@min": {
+    "description": "Min"
+  },
+  "max": "Max",
+  "@max": {
+    "description": "Max"
+  },
+  "intervalStartTime": "From {Date} at {Time}",
+  "@intervalStartTime": {
+    "description": "The time the interval starts",
+    "placeholders": {
+      "Date": {
+        "type": "DateTime",
+        "isCustomDateFormat": "true",
+        "format": "d MMMM yyyy"
+      },
+      "Time": {
+        "type": "DateTime",
+        "isCustomDateFormat": "true",
+        "format": "HH:mm"
+      }
+    }
+  },
+  "everyTime": "Every {days, plural, =0{} =1{1 day} other{{days} day}}  {hours, plural, =0{} =1{1 hour} other{{hours} hours}}  {minutes, plural, =0{} =1{1 minute} other{{minutes} minutes}}",
+  "@everyTime": {
+    "description": "The time the interval starts",
+    "placeholders": {
+      "days": {
+        "type": "num",
+        "format": "compact"
+      },
+      "hours": {
+        "type": "num",
+        "format": "compact"
+      },
+      "minutes": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
+  "repeatEvery": "Repeat every:",
+  "@repeatEvery": {
+    "description": "Repeat every:"
+  },
+  "from": "From: ",
+  "@from": {
+    "description": "from"
+  },
+  "interval": "Interval",
+  "@interval": {
+    "description": "Interval"
+  },
+  "days": "Days",
+  "@days": {
+    "description": "Days"
+  },
+  "hours": "Hours",
+  "@hours": {
+    "description": "Hours"
+  },
+  "minutes": "Minutes",
+  "@minutes": {
+    "description": "Minutes"
+  },
+  "dateTime": "{Date}",
+  "@dateTime": {
+    "description": "Date Converter",
+    "placeholders": {
+      "Date": {
+        "type": "DateTime",
+        "isCustomDateFormat": "true",
+        "format": "dd.MM.yyyy"
+      }
+    }
+  },
+  "timeFromDateTime": "{time}",
+  "@timeFromDateTime": {
+    "description": "Date to time Converter",
+    "placeholders": {
+      "time": {
+        "type": "DateTime",
+        "isCustomDateFormat": "true",
+        "format": "HH:mm"
+      }
+    }
+  },
+  "nextTime": "{days, plural, =0{{hours, plural, =0{{minutes, plural, =0{Now} =1{1 minute} other{{minutes} minutes}}} =1{1 hour} other{{hours} hours}}} =1{1 day} other{{days} day}}",
+  "@nextTime": {
+    "description": "Duration for the routine",
+    "placeholders": {
+      "days": {
+        "type": "num",
+        "format": "compact"
+      },
+      "hours": {
+        "type": "num",
+        "format": "compact"
+      },
+      "minutes": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
+  "dateFromDateTime": "{time}",
+  "@dateFromDateTime": {
+    "description": "Date to date Converter",
+    "placeholders": {
+      "time": {
+        "type": "DateTime",
+        "isCustomDateFormat": "true",
+        "format": "dd.MM"
+      }
+    }
   }
 }

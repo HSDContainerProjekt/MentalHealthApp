@@ -75,16 +75,6 @@ class RoutineWithExtraInfoTimeLeft extends Equatable {
 
   @override
   List<Object?> get props => [timeLeft, routine];
-
-  String intervalAsString() {
-    if (timeLeft.inDays == 1) return "1 Tag";
-    if (timeLeft.inDays > 1) return "${timeLeft.inDays} Tage";
-    if (timeLeft.inHours == 1) return "1 Stunde";
-    if (timeLeft.inHours > 1) return "${timeLeft.inHours} Stunden";
-    if (timeLeft.inMinutes == 1) return "1 Minute";
-    if (timeLeft.inMinutes > 1) return "${timeLeft.inMinutes} Minuten";
-    return "Sofort";
-  }
 }
 
 enum RoutineStatus { done, failed, neverDone }

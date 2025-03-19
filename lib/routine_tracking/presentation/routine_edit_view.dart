@@ -10,10 +10,10 @@ import 'package:mental_health_app/routine_tracking/presentation/bloc/routine_nav
 import 'package:mental_health_app/routine_tracking/presentation/bloc/time_interval_pop_up_bloc.dart';
 import 'package:mental_health_app/routine_tracking/presentation/text_input_widget.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../app_framework_backbone/views/popup/image_selector/image_selector.dart';
 import '../../app_framework_backbone/views/popup/postit.dart';
-import '../data/data_model/routine.dart';
 import '../domain/routine_repository.dart';
 import 'bloc/routine_edit_bloc.dart';
 
@@ -36,10 +36,12 @@ class RoutineEditView extends StatelessWidget {
       providers: [
         BlocProvider(
           lazy: false,
-          create: (_) => RoutineEditBloc(
+          create: (_) =>
+          RoutineEditBloc(
             navBloc: context.read<RoutineNavBloc>(),
             routineRepository: context.read<RoutineRepository>(),
-          )..add(initEvent!),
+          )
+            ..add(initEvent!),
         ),
       ],
       child: Column(
@@ -51,7 +53,10 @@ class RoutineEditView extends StatelessWidget {
           Divider(
             height: 3,
             thickness: 2,
-            color: Theme.of(context).colorScheme.primary,
+            color: Theme
+                .of(context)
+                .colorScheme
+                .primary,
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -65,42 +70,54 @@ class RoutineEditView extends StatelessWidget {
           Divider(
             height: 3,
             thickness: 2,
-            color: Theme.of(context).colorScheme.primary,
+            color: Theme
+                .of(context)
+                .colorScheme
+                .primary,
           ),
           BlocBuilder<RoutineEditBloc, RoutineEditState>(
             buildWhen: (oldState, newState) {
               return oldState is RoutineEditInitial;
             },
-            builder: (context, state) => Padding(
-              padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () => context
-                          .read<RoutineEditBloc>()
-                          .add(RoutineEditCancel()),
-                      child: Text(
-                        "Beenden",
-                        style: Theme.of(context).textTheme.labelSmall,
+            builder: (context, state) =>
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () =>
+                              context
+                                  .read<RoutineEditBloc>()
+                                  .add(RoutineEditCancel()),
+                          child: Text(
+                            AppLocalizations.of(context)!.exit,
+                            style: Theme
+                                .of(context)
+                                .textTheme
+                                .labelSmall,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  VerticalDivider(),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () => context
-                          .read<RoutineEditBloc>()
-                          .add(RoutineEditSave()),
-                      child: Text(
-                        "Speichern",
-                        style: Theme.of(context).textTheme.labelSmall,
+                      VerticalDivider(),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () =>
+                              context
+                                  .read<RoutineEditBloc>()
+                                  .add(RoutineEditSave()),
+                          child: Text(
+                            AppLocalizations.of(context)!.save,
+                            style: Theme
+                                .of(context)
+                                .textTheme
+                                .labelSmall,
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-            ),
+                ),
           ),
         ],
       ),
@@ -127,14 +144,18 @@ class _EditorSwitchButton extends StatelessWidget {
               ),
               onPressed: state == EditorState.ContentEditor
                   ? null
-                  : () => context.read<RoutineEditBloc>().add(
+                  : () =>
+                  context.read<RoutineEditBloc>().add(
                       RoutineEditSwitchEditorState(EditorState.ContentEditor)),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "Inhalt",
-                    style: Theme.of(context).textTheme.labelSmall,
+                    AppLocalizations.of(context)!.content,
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .labelSmall,
                   ),
                   VerticalDivider(
                     width: 2,
@@ -153,15 +174,19 @@ class _EditorSwitchButton extends StatelessWidget {
               ),
               onPressed: state == EditorState.EvaluationEditor
                   ? null
-                  : () => context.read<RoutineEditBloc>().add(
+                  : () =>
+                  context.read<RoutineEditBloc>().add(
                       RoutineEditSwitchEditorState(
                           EditorState.EvaluationEditor)),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "Bewertung",
-                    style: Theme.of(context).textTheme.labelSmall,
+                    AppLocalizations.of(context)!.evaluation,
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .labelSmall,
                   ),
                   VerticalDivider(
                     width: 2,
@@ -182,14 +207,18 @@ class _EditorSwitchButton extends StatelessWidget {
               ),
               onPressed: state == EditorState.IntervalEditor
                   ? null
-                  : () => context.read<RoutineEditBloc>().add(
+                  : () =>
+                  context.read<RoutineEditBloc>().add(
                       RoutineEditSwitchEditorState(EditorState.IntervalEditor)),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "Zeit",
-                    style: Theme.of(context).textTheme.labelSmall,
+                    AppLocalizations.of(context)!.time,
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .labelSmall,
                   ),
                   VerticalDivider(
                     width: 2,
@@ -269,7 +298,7 @@ class _IntervalEditor extends StatelessWidget {
           return Column(
             children: state.map((item) {
               TimeIntervalState timeIntervalState =
-                  TimeIntervalState(timeInterval: item, number: index++);
+              TimeIntervalState(timeInterval: item, number: index++);
               return _TimeIntervalEntry(timeIntervalState: timeIntervalState);
             }).toList(),
           );
@@ -278,13 +307,13 @@ class _IntervalEditor extends StatelessWidget {
       ElevatedButton(
         onPressed: () async {
           TimeIntervalState? timeIntervalState =
-              await showDialog<TimeIntervalState>(
-                  context: context,
-                  builder: (context) {
-                    return _IntervalEditPopup(
-                        timeIntervalState: TimeIntervalState(
-                            timeInterval: TimeInterval.empty()));
-                  });
+          await showDialog<TimeIntervalState>(
+              context: context,
+              builder: (context) {
+                return _IntervalEditPopup(
+                    timeIntervalState: TimeIntervalState(
+                        timeInterval: TimeInterval.empty()));
+              });
           if (timeIntervalState != null) {
             context
                 .read<RoutineEditBloc>()
@@ -324,15 +353,15 @@ class _EvaluationEditor extends StatelessWidget {
       ElevatedButton(
         onPressed: () async {
           EvaluationCriteria? evaluationCriteria =
-              await showDialog<EvaluationCriteria>(
-                  context: context,
-                  builder: (context) {
-                    return _EvaluationPopup();
-                  });
+          await showDialog<EvaluationCriteria>(
+              context: context,
+              builder: (context) {
+                return _EvaluationPopup();
+              });
           if (evaluationCriteria != null) {
             context.read<RoutineEditBloc>().add(
-                  RoutineEditAddEvaluationCriteria(evaluationCriteria),
-                );
+              RoutineEditAddEvaluationCriteria(evaluationCriteria),
+            );
           }
         },
         child: Icon(Icons.add),
@@ -345,7 +374,7 @@ class _EvaluationPopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PostIt(
-      headline: "EvaluationCriteria",
+      headline: AppLocalizations.of(context)!.evaluationCriteria,
       mainBuilder: (context) {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -395,8 +424,11 @@ class _EvaluationPopup extends StatelessWidget {
                     width: 4,
                   ),
                   Text(
-                    "Text",
-                    style: Theme.of(context).textTheme.labelMedium,
+                    AppLocalizations.of(context)!.evText,
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .labelMedium,
                   ),
                 ],
               ),
@@ -421,8 +453,11 @@ class _EvaluationPopup extends StatelessWidget {
                     width: 4,
                   ),
                   Text(
-                    "Value",
-                    style: Theme.of(context).textTheme.labelMedium,
+                    AppLocalizations.of(context)!.evValue,
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .labelMedium,
                   ),
                 ],
               ),
@@ -432,7 +467,7 @@ class _EvaluationPopup extends StatelessWidget {
       },
       buttons: [
         PostItButton(
-          headline: "Abbrechen",
+          headline: AppLocalizations.of(context)!.cancel,
           onClick: () => Navigator.pop(context),
         ),
       ],
@@ -448,14 +483,15 @@ class _IntervalEditPopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<TimeIntervalPopUpBloc>(
-      create: (_) => TimeIntervalPopUpBloc()
+      create: (_) =>
+      TimeIntervalPopUpBloc()
         ..add(TimeIntervalPopUpShowInterval(
             timeInterval: timeIntervalState.timeInterval,
             number: timeIntervalState.number)),
       child: BlocBuilder<TimeIntervalPopUpBloc, TimeIntervalPopUpState>(
         builder: (context, state) {
           return PostIt(
-            headline: 'Interval',
+            headline: AppLocalizations.of(context)!.interval,
             mainBuilder: (context) {
               if (state is TimeIntervalPopUpShow) {
                 return Center(
@@ -465,13 +501,13 @@ class _IntervalEditPopup extends StatelessWidget {
                       Row(
                         children: [
                           Spacer(),
-                          Text("Ab:"),
+                          Text(AppLocalizations.of(context)!.from),
                           Spacer(),
                           TextButton(
                             onPressed: () async {
                               DateTime? dateTime = await showDatePicker(
                                 initialEntryMode:
-                                    DatePickerEntryMode.calendarOnly,
+                                DatePickerEntryMode.calendarOnly,
                                 context: context,
                                 initialDate: state.timeIntervalState
                                     .timeInterval.firstDateTime,
@@ -489,8 +525,9 @@ class _IntervalEditPopup extends StatelessWidget {
                                     .add(TimeIntervalPopUpChangeDate(dateTime));
                               }
                             },
-                            child: Text(state.timeIntervalState.timeInterval
-                                .dateAsString()),
+                            child: Text(AppLocalizations.of(context)!.dateTime(
+                                state.timeIntervalState.timeInterval
+                                    .firstDateTime)),
                           ),
                           TextButton(
                             onPressed: () async {
@@ -507,8 +544,10 @@ class _IntervalEditPopup extends StatelessWidget {
                                     TimeIntervalPopUpChangeTime(timeOfDay));
                               }
                             },
-                            child: Text(state.timeIntervalState.timeInterval
-                                .timeAsString()),
+                            //state.timeIntervalState.timeInterval.timeAsString()
+                            child: Text(AppLocalizations.of(context)!
+                                .timeFromDateTime(state.timeIntervalState
+                                .timeInterval.firstDateTime)),
                           ),
                           Spacer(),
                         ],
@@ -517,21 +556,26 @@ class _IntervalEditPopup extends StatelessWidget {
                       Row(
                         children: [
                           Spacer(),
-                          Text("Wiederholen alle:"),
+                          Text(AppLocalizations.of(context)!.repeatEvery),
                           Spacer(),
                           Column(
                             children: [
-                              Text("Tage"),
+                              Text(AppLocalizations.of(context)!.days),
                               NumberPicker(
                                 textStyle:
-                                    Theme.of(context).textTheme.labelSmall,
-                                selectedTextStyle: Theme.of(context)
+                                Theme
+                                    .of(context)
+                                    .textTheme
+                                    .labelSmall,
+                                selectedTextStyle: Theme
+                                    .of(context)
                                     .textTheme
                                     .labelSmall
                                     ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary),
+                                    color: Theme
+                                        .of(context)
+                                        .colorScheme
+                                        .primary),
                                 itemHeight: 25,
                                 itemWidth: 30,
                                 itemCount: 3,
@@ -549,17 +593,22 @@ class _IntervalEditPopup extends StatelessWidget {
                           ),
                           Column(
                             children: [
-                              Text("Stunden"),
+                              Text(AppLocalizations.of(context)!.hours),
                               NumberPicker(
                                 textStyle:
-                                    Theme.of(context).textTheme.labelSmall,
-                                selectedTextStyle: Theme.of(context)
+                                Theme
+                                    .of(context)
+                                    .textTheme
+                                    .labelSmall,
+                                selectedTextStyle: Theme
+                                    .of(context)
                                     .textTheme
                                     .labelSmall
                                     ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary),
+                                    color: Theme
+                                        .of(context)
+                                        .colorScheme
+                                        .primary),
                                 zeroPad: true,
                                 itemHeight: 25,
                                 itemWidth: 30,
@@ -567,7 +616,7 @@ class _IntervalEditPopup extends StatelessWidget {
                                 minValue: 0,
                                 maxValue: 23,
                                 value: state.timeIntervalState.timeInterval
-                                        .timeInterval.inHours %
+                                    .timeInterval.inHours %
                                     24,
                                 onChanged: (value) {
                                   context.read<TimeIntervalPopUpBloc>().add(
@@ -579,17 +628,22 @@ class _IntervalEditPopup extends StatelessWidget {
                           ),
                           Column(
                             children: [
-                              Text("Minuten"),
+                              Text(AppLocalizations.of(context)!.minutes),
                               NumberPicker(
                                 textStyle:
-                                    Theme.of(context).textTheme.labelSmall,
-                                selectedTextStyle: Theme.of(context)
+                                Theme
+                                    .of(context)
+                                    .textTheme
+                                    .labelSmall,
+                                selectedTextStyle: Theme
+                                    .of(context)
                                     .textTheme
                                     .labelSmall
                                     ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary),
+                                    color: Theme
+                                        .of(context)
+                                        .colorScheme
+                                        .primary),
                                 zeroPad: true,
                                 itemHeight: 25,
                                 itemWidth: 30,
@@ -597,7 +651,7 @@ class _IntervalEditPopup extends StatelessWidget {
                                 minValue: 0,
                                 maxValue: 59,
                                 value: state.timeIntervalState.timeInterval
-                                        .timeInterval.inMinutes %
+                                    .timeInterval.inMinutes %
                                     60,
                                 onChanged: (value) {
                                   context.read<TimeIntervalPopUpBloc>().add(
@@ -620,14 +674,16 @@ class _IntervalEditPopup extends StatelessWidget {
             },
             buttons: [
               PostItButton(
-                headline: "Abbrechen",
+                headline: AppLocalizations.of(context)!.cancel,
                 onClick: () => Navigator.pop(context),
               ),
               PostItButton(
-                headline: "Speichern",
+                headline: AppLocalizations.of(context)!.save,
                 onClick: () {
                   TimeIntervalPopUpState state =
-                      context.read<TimeIntervalPopUpBloc>().state;
+                      context
+                          .read<TimeIntervalPopUpBloc>()
+                          .state;
                   if (state is TimeIntervalPopUpShow) {
                     Navigator.pop(context, state.timeIntervalState);
                   } else {
@@ -665,7 +721,7 @@ class _EvaluationCriteriaEntryText extends StatelessWidget {
       mainBuilder: (context) {
         return Container();
       },
-      headline: "Text",
+      headline: AppLocalizations.of(context)!.evText,
       number: number,
     );
   }
@@ -724,9 +780,12 @@ class _EvaluationCriteriaEntryValueRange extends StatelessWidget {
                     ],
                     decoration: InputDecoration(
                       focusedBorder: InputBorder.none,
-                      labelStyle: Theme.of(context).textTheme.labelMedium,
-                      labelText: "Min",
-                      hintText: "Min",
+                      labelStyle: Theme
+                          .of(context)
+                          .textTheme
+                          .labelMedium,
+                      labelText: AppLocalizations.of(context)!.min,
+                      hintText: AppLocalizations.of(context)!.min,
                     ),
                     onChanged: (value) {
                       double v = 0;
@@ -766,9 +825,12 @@ class _EvaluationCriteriaEntryValueRange extends StatelessWidget {
                     ],
                     decoration: InputDecoration(
                       focusedBorder: InputBorder.none,
-                      labelStyle: Theme.of(context).textTheme.labelMedium,
-                      labelText: "Max",
-                      hintText: "Max",
+                      labelStyle: Theme
+                          .of(context)
+                          .textTheme
+                          .labelMedium,
+                      labelText: AppLocalizations.of(context)!.max,
+                      hintText: AppLocalizations.of(context)!.max,
                     ),
                     onChanged: (value) {
                       double v = 0;
@@ -786,7 +848,7 @@ class _EvaluationCriteriaEntryValueRange extends StatelessWidget {
           ],
         );
       },
-      headline: "Wert",
+      headline: AppLocalizations.of(context)!.evValue,
       number: number,
     );
   }
@@ -828,11 +890,10 @@ class _EvaluationCriteriaEntryBase extends StatelessWidget {
   final String headline;
   final WidgetBuilder mainBuilder;
 
-  const _EvaluationCriteriaEntryBase(
-      {super.key,
-      required this.number,
-      required this.headline,
-      required this.mainBuilder});
+  const _EvaluationCriteriaEntryBase({super.key,
+    required this.number,
+    required this.headline,
+    required this.mainBuilder});
 
   @override
   Widget build(BuildContext context) {
@@ -841,10 +902,16 @@ class _EvaluationCriteriaEntryBase extends StatelessWidget {
         padding: EdgeInsets.all(5),
         child: Column(
           children: [
-            Text(headline, style: Theme.of(context).textTheme.headlineSmall),
+            Text(headline, style: Theme
+                .of(context)
+                .textTheme
+                .headlineSmall),
             TextInputWidget<RoutineEditBloc, RoutineEditState>(
-              label: "Beschreibung",
-              inputTextStyle: Theme.of(context).textTheme.bodyMedium,
+              label: AppLocalizations.of(context)!.description,
+              inputTextStyle: Theme
+                  .of(context)
+                  .textTheme
+                  .bodyMedium,
               selector: (state) {
                 if (state is RoutineEditEditing)
                   return state.evaluationCriteria[number].description;
@@ -898,8 +965,17 @@ class _TimeIntervalEntry extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                      "Ab dem ${timeInterval.dateAsString()} um ${timeInterval.timeAsString()} "),
-                  Text(timeInterval.intervalAsString()),
+                    AppLocalizations.of(context)!.intervalStartTime(
+                      timeInterval.firstDateTime,
+                      timeInterval.firstDateTime,
+                    ),
+                  ),
+                  Text(
+                    AppLocalizations.of(context)!.everyTime(
+                        timeInterval.timeInterval.inDays,
+                        timeInterval.timeInterval.inHours % 24,
+                        timeInterval.timeInterval.inMinutes % 60),
+                  ),
                 ],
               ),
             ),
@@ -915,11 +991,12 @@ class _TimeIntervalEntry extends StatelessWidget {
                           shape: CircleBorder(), padding: EdgeInsets.all(0)),
                       onPressed: () async {
                         TimeIntervalState? editTimeIntervalState =
-                            await showDialog<TimeIntervalState>(
+                        await showDialog<TimeIntervalState>(
                           context: context,
-                          builder: (context) => _IntervalEditPopup(
-                            timeIntervalState: timeIntervalState,
-                          ),
+                          builder: (context) =>
+                              _IntervalEditPopup(
+                                timeIntervalState: timeIntervalState,
+                              ),
                         );
                         if (editTimeIntervalState != null) {
                           context.read<RoutineEditBloc>().add(
@@ -959,7 +1036,7 @@ class _TitleEditField extends StatelessWidget {
     return TextInputWidget<RoutineEditBloc, RoutineEditState>(
       maxLines: 1,
       maxLength: 12,
-      label: "Titel",
+      label: AppLocalizations.of(context)!.title,
       selector: (RoutineEditState state) {
         if (state is RoutineEditEditing) {
           return state.titleInputState;
@@ -991,8 +1068,11 @@ class _ImageEditField extends StatelessWidget {
                     Align(
                       alignment: Alignment.topCenter,
                       child: Text(
-                        "Vorschaubild",
-                        style: Theme.of(context).textTheme.labelMedium,
+                        AppLocalizations.of(context)!.thumbnail,
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .labelMedium,
                       ),
                     ),
                     Expanded(
@@ -1000,7 +1080,7 @@ class _ImageEditField extends StatelessWidget {
                         alignment: Alignment.center,
                         child: Text(
                             textAlign: TextAlign.justify,
-                            "Das Vorschaubild wird an vielen Orten angezeigt. Hier kann noch anderer Sinnvoller Text hin."),
+                            AppLocalizations.of(context)!.thumbnailDescription),
                       ),
                     ),
                   ],
@@ -1065,10 +1145,13 @@ class _ShortDescriptionEditField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextInputWidget<RoutineEditBloc, RoutineEditState>(
-      inputTextStyle: Theme.of(context).textTheme.bodyMedium,
+      inputTextStyle: Theme
+          .of(context)
+          .textTheme
+          .bodyMedium,
       maxLines: 2,
       maxLength: 60,
-      label: "Kurzbeschreibung",
+      label: AppLocalizations.of(context)!.shortDescription,
       selector: (RoutineEditState state) {
         if (state is RoutineEditEditing) {
           return state.shortDescriptionInputState;
@@ -1088,8 +1171,11 @@ class _DescriptionEditField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextInputWidget<RoutineEditBloc, RoutineEditState>(
-      inputTextStyle: Theme.of(context).textTheme.bodyMedium,
-      label: "Beschreibung",
+      inputTextStyle: Theme
+          .of(context)
+          .textTheme
+          .bodyMedium,
+      label: AppLocalizations.of(context)!.description,
       minLines: 5,
       selector: (RoutineEditState state) {
         if (state is RoutineEditEditing) {

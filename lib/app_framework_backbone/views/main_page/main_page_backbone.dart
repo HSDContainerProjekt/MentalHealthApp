@@ -311,7 +311,13 @@ class HomePage extends StatelessWidget {
                                               i,
                                               _TextOffsetWidget(
                                                 offset: nextTimeOffset[i],
-                                                text: x.intervalAsString(),
+                                                text: AppLocalizations.of(
+                                                        context)!
+                                                    .nextTime(
+                                                        x.timeLeft.inDays,
+                                                        x.timeLeft.inHours % 24,
+                                                        x.timeLeft.inMinutes %
+                                                            60),
                                                 style: style,
                                               ),
                                             );
@@ -500,7 +506,7 @@ class _LinkToRoutine extends StatelessWidget {
           },
           child: Text(
             textAlign: TextAlign.center,
-            "Du hast noch keine Routinen.\nKlicke Hier um welche zu erstellen.",
+            AppLocalizations.of(context)!.noRoutine,
             style: Theme.of(context).textTheme.labelMedium,
           ),
         ),
