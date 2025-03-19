@@ -1,10 +1,7 @@
 // this page contains the blueprint for every page consisting of the nav bar and the individual content of each page
 
 import 'package:flutter/material.dart';
-import 'package:mental_health_app/friend_collection/views/friend_collection_friendlist.dart';
 import 'package:mental_health_app/navigation/views/table_of_contents/table_of_contents_backbone.dart';
-import 'package:mental_health_app/software_backbone/routing/router.dart'
-    as app_router;
 import 'package:mental_health_app/friend_collection/views/friend_collection_backbone.dart';
 import 'package:mental_health_app/app_framework_backbone/views/landing_page/landing_page_backbone.dart';
 import 'package:mental_health_app/app_framework_backbone/views/main_page/main_page_backbone.dart';

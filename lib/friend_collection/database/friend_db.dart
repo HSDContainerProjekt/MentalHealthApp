@@ -1,12 +1,7 @@
 import 'dart:developer';
-
-import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
-
 import 'package:mental_health_app/friend_collection/database/online_database.dart';
-import 'package:mental_health_app/friend_collection/database/ownID_db.dart';
-import 'package:mental_health_app/friend_collection/model/own_id.dart';
-import 'package:mental_health_app/software_backbone/routing/routing_constants.dart';
+import 'package:mental_health_app/friend_collection/database/own_id_db.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:mental_health_app/friend_collection/database/database_friend_collection.dart';
 import 'package:mental_health_app/friend_collection/model/friend.dart';
@@ -51,8 +46,8 @@ class FriendDB {
     return await database.update(
       tableName,
       {
-        if (name != null) 'name': name,
-        if (birthday != null) 'birthday': birthday,
+        'name': name,
+        'birthday': birthday,
       },
       where: 'id = ?',
       conflictAlgorithm: ConflictAlgorithm.rollback,
@@ -113,7 +108,6 @@ class FriendDB {
   //Eigene Id wird nicht in Freundesliste übertragen
   Future<List<Friend>> getFriends() async {
     var ownId = await ownIdDB().getOwnIdAsInt();
-    final database = await DatabaseFriendCollection().database;
     List<Friend> friendlist = <Friend>[];
     if (await OnlineDatabase().connected()) {
       friendlist = await OnlineDatabase().getFriends();
@@ -137,7 +131,6 @@ class FriendDB {
   }
 
   Future<void> saveOnlineFriendsOffline(List<Friend>? friendlist) async {
-    var ownId = await ownIdDB().getOwnIdAsInt();
     final database = await DatabaseFriendCollection().database;
     if (friendlist != null) {
       for (var element in friendlist) {

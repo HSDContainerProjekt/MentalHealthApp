@@ -1,10 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mental_health_app/friend_collection/database/friend_db.dart';
 import 'package:mental_health_app/friend_collection/database/online_database.dart';
-import 'package:mental_health_app/friend_collection/database/ownID_db.dart';
+import 'package:mental_health_app/friend_collection/database/own_id_db.dart';
 import 'package:mental_health_app/friend_collection/model/friend.dart';
 
 import '../model/friendRequest.dart';
@@ -100,6 +98,7 @@ class _FriendCollectionFriendlistState
                                   return AppLocalizations.of(context)!
                                       .missingValueError;
                                 }
+                                return null;
                               },
                             ))),
                     IconButton(

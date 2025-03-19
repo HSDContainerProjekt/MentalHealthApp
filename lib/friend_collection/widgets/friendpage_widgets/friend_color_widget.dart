@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'dart:math';
-
-import 'package:mental_health_app/friend_collection/database/friend_db.dart';
 
 class FriendColorWidget extends StatelessWidget {
   final IconData passedIcon;

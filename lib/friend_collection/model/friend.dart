@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 class Friend {
   final int id;
   final String? name;

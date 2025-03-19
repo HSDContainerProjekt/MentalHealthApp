@@ -1,8 +1,6 @@
-import 'dart:developer';
-
-import 'package:mental_health_app/friend_collection/database/account_init_DB.dart';
+import 'package:mental_health_app/friend_collection/database/account_init_db.dart';
 import 'package:mental_health_app/friend_collection/database/friend_db.dart';
-import 'package:mental_health_app/friend_collection/database/ownID_db.dart';
+import 'package:mental_health_app/friend_collection/database/own_id_db.dart';
 import 'package:mental_health_app/software_backbone/constants/animal.dart';
 class AnimalBackbone {
   Future<String> animalType() async {

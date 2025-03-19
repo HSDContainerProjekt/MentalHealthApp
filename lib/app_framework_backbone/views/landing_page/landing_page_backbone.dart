@@ -1,13 +1,10 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:mental_health_app/animal_backbone/animal_backbone.dart';
 import 'package:mental_health_app/app_framework_backbone/views/landing_page/widgets/animal_selection.dart';
-import 'package:mental_health_app/friend_collection/database/account_init_DB.dart';
+import 'package:mental_health_app/friend_collection/database/account_init_db.dart';
 import 'package:mental_health_app/software_backbone/constants/animal.dart';
 import 'package:mental_health_app/software_backbone/routing/routing_constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'dart:convert';
 
 import 'package:model_viewer_plus/model_viewer_plus.dart';
 

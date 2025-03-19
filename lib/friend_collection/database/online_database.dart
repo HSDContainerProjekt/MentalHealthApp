@@ -1,13 +1,8 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:mental_health_app/friend_collection/database/account_init_DB.dart';
-import 'package:mental_health_app/friend_collection/database/database_friend_collection.dart';
-import 'package:mental_health_app/friend_collection/database/database_operation.dart';
-import 'package:mental_health_app/friend_collection/database/friend_db.dart';
-import 'package:mental_health_app/friend_collection/database/ownID_db.dart';
+import 'package:mental_health_app/friend_collection/database/own_id_db.dart';
 import 'package:mental_health_app/friend_collection/model/friend.dart';
 import 'package:mental_health_app/friend_collection/model/friendRequest.dart';
-import 'package:mental_health_app/friend_collection/model/own_id.dart';
 import 'package:mental_health_app/software_backbone/constants/database_connection_details.dart';
 import 'package:postgres/postgres.dart';
 
@@ -291,7 +286,6 @@ class OnlineDatabase {
           username: DatabaseDetails().username,
           password: DatabaseDetails().password);
       await dbConnection.open();
-      int ownId = await ownIdDB().getOwnIdAsInt();
       await dbConnection.query("DELETE FROM friendship");
       await dbConnection.query("DELETE FROM friends");
       dbConnection.close();

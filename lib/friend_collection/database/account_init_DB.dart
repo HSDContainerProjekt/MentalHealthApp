@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:mental_health_app/friend_collection/database/database_friend_collection.dart';
 import 'package:mental_health_app/friend_collection/model/account_init.dart';
 import 'package:sqflite/sqflite.dart';

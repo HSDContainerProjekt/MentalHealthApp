@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:mental_health_app/friend_collection/database/database_operation.dart';
-import 'dart:developer';
-
-import 'package:mental_health_app/friend_collection/database/friend_db.dart';
 
 class CustomColorWidget extends StatefulWidget {
   final IconData passedIcon;

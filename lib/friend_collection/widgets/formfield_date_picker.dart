@@ -32,7 +32,7 @@ class _FormfieldDatePickerState extends State<FormfieldDatePicker> {
           onChanged: (date) {
             changeDate(date);
             DatabaseOperation()
-                .saveAndTryToUpdateString("birthday", date.toString() ?? "");
+                .saveAndTryToUpdateString("birthday", date.toString());
           },
           decoration: InputDecoration(
             constraints: BoxConstraints(maxWidth: 200.0),

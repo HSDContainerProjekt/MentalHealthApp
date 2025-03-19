@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:mental_health_app/software_backbone/themes/theme_constraints.dart';
-
 class NavBar extends StatefulWidget {
   final int selectedPage;
   final void Function(int) onDestinationSelected;

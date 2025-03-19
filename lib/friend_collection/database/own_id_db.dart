@@ -1,7 +1,5 @@
-import 'dart:developer';
 import 'dart:math' as Math;
-
-import 'package:mental_health_app/friend_collection/database/account_init_DB.dart';
+import 'package:mental_health_app/friend_collection/database/account_init_db.dart';
 import 'package:mental_health_app/friend_collection/database/friend_db.dart';
 import 'package:mental_health_app/friend_collection/database/online_database.dart';
 import 'package:mysql_client/mysql_client.dart';
