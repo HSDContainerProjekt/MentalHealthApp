@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mental_health_app/routine_tracking/data/data_model/evaluation_criteria.dart';
 import 'package:mental_health_app/routine_tracking/domain/routine_repository.dart';
+import 'package:mental_health_app/software_backbone/Notification/Notifiaction.dart';
 
 import '../../data/data_model/routine.dart';
 import '../../data/data_model/routine_result.dart';
@@ -96,6 +97,7 @@ class EvaluationWidgetBloc
   ) {
     repository.saveResult(routine, evaluationResults);
     done = true;
+    NotificationService.cancelRoutineNotification(routine);
     emitState(emit);
   }
 }

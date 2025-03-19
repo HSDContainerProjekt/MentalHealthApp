@@ -17,8 +17,8 @@ final class RoutineNavEditExisting extends RoutineNavEdit {
   RoutineNavEditExisting({required this.routineID});
 }
 
-final class RoutineNavDetail extends RoutineNavState {
-  final int routineId;
+final class RoutineNavStatistics extends RoutineNavState {
+  final int routineID;
 
-  RoutineNavDetail(this.routineId);
+  RoutineNavStatistics({required this.routineID});
 }

@@ -34,6 +34,11 @@ abstract class RoutineDAO implements DatabaseDAO {
 
   Future<int> insertEvaluationResults(
       Routine routine, List<EvaluationResult> evaluationResults);
+
+  Future<void> generateMissedRoutineResults();
+
+  Future<List<RoutineResult>> getRoutineResultsLastXDays(
+      int routineID, int days);
 }
 
 class RoutineDAOSQFLiteImpl implements RoutineDAO {
@@ -163,7 +168,7 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
                 FROM timeIntervals t
                 WHERE NOT EXISTS (
                     SELECT 1 FROM routineResults rr
-                    WHERE rr.routineTime > $lookUpTime + ((t.timeInterval - $lookUpTime + t.firstDateTime) % t.timeInterval) - t.firstDateTime 
+                    WHERE rr.routineTime > $lookUpTime
                     AND rr.routineID = t.routineID
                 )
             ) t ON r.id = t.routineID
@@ -171,7 +176,6 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
             ORDER BY t.nextTime
             LIMIT $limit; 
             ''');
-    print("#### next $queryResult");
     List<RoutineWithExtraInfoTimeLeft> result = [];
     for (Map<String, Object?> x in queryResult) {
       RoutineWithExtraInfoTimeLeft newRoutine =
@@ -348,5 +352,62 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
     }
 
     return resultID;
+  }
+
+  @override
+  Future<void> generateMissedRoutineResults() async {
+    int currentTime = DateTime.now().millisecondsSinceEpoch;
+
+    final List<Map<String, Object?>> timeIntervals = await database.rawQuery('''
+    SELECT t.routineID, t.firstDateTime, t.timeInterval 
+    FROM timeIntervals t
+  ''');
+
+    for (var interval in timeIntervals) {
+      int routineID = interval['routineID'] as int;
+      int firstDateTime = interval['firstDateTime'] as int;
+      int timeInterval = interval['timeInterval'] as int;
+
+      final List<Map<String, Object?>> lastResult = await database.rawQuery('''
+      SELECT MAX(routineTime) as lastTime FROM routineResults WHERE routineID = ?
+    ''', [routineID]);
+
+      int lastTime = lastResult.first['lastTime'] as int? ?? firstDateTime;
+      int nextExpectedTime = lastTime + timeInterval;
+
+      while (nextExpectedTime < currentTime) {
+        await database.insert("routineResults", {
+          "routineID": routineID,
+          "result": "FAILED",
+          "routineTime": nextExpectedTime
+        });
+        nextExpectedTime += timeInterval;
+      }
+    }
+  }
+
+  @override
+  Future<List<RoutineResult>> getRoutineResultsLastXDays(
+      int routineID, int days) async {
+    int currentTime = DateTime.now().millisecondsSinceEpoch;
+    int pastTime = currentTime - (days * 24 * 60 * 60 * 1000);
+
+    final List<Map<String, Object?>> results = await database.rawQuery('''
+    SELECT * FROM routineResults
+    WHERE routineID = ? AND routineTime >= ?
+    ORDER BY routineTime DESC
+  ''', [routineID, pastTime]);
+
+    return results
+        .map((map) => RoutineResult(
+              id: map['id'] as int?,
+              routineID: map['routineID'] as int,
+              status: map['result'] as String == 'DONE'
+                  ? RoutineStatus.done
+                  : RoutineStatus.failed,
+              routineTime: DateTime.fromMillisecondsSinceEpoch(
+                  map['routineTime'] as int),
+            ))
+        .toList();
   }
 }

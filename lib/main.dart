@@ -39,6 +39,7 @@ void bootstrap({required RoutineDAO routineDAO, required ImageDAO imageDAO}) {
   final RoutineRepository routineRepository =
       RoutineRepository(routineDAO: routineDAO);
   routineRepository.scheduleNotifications();
+  routineRepository.routineDAO.generateMissedRoutineResults();
   final ImageRepository imageRepository = ImageRepository(imageDAO: imageDAO);
 
   //App Start

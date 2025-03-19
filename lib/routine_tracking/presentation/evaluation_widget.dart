@@ -27,7 +27,6 @@ class EvaluationWidget extends StatelessWidget {
           return ([], false);
         },
         builder: (context, state) {
-          print("####bauen");
           int index = 0;
           if (!state.$2) {
             return Column(
@@ -65,7 +64,13 @@ class EvaluationWidget extends StatelessWidget {
               ],
             );
           }
-          return Icon(Icons.check);
+          return Center(
+            child: Icon(
+              Icons.check,
+              color: Theme.of(context).colorScheme.primary,
+              size: 150,
+            ),
+          );
         },
       ),
     );

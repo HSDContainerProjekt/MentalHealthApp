@@ -13,6 +13,12 @@ class RoutineOverviewEditRoutine extends RoutineOverviewEvent {
   RoutineOverviewEditRoutine({required this.routineID});
 }
 
+class RoutineOverviewStatisticsRoutine extends RoutineOverviewEvent {
+  final int routineID;
+
+  RoutineOverviewStatisticsRoutine({required this.routineID});
+}
+
 class RoutineOverviewEditRoutineDelete extends RoutineOverviewEvent {
   final Routine routine;
   final Future<bool?> delete;

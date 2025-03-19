@@ -26,6 +26,7 @@ class RoutineOverviewBloc
     on<RoutineOverviewRefresh>(_refresh);
     on<RoutineOverviewEditRoutine>(_editRoutine);
     on<RoutineOverviewEditRoutineDelete>(_delete);
+    on<RoutineOverviewStatisticsRoutine>(_statistics);
   }
 
   Future<void> _createNew(
@@ -40,6 +41,13 @@ class RoutineOverviewBloc
     Emitter<RoutineOverviewState> emit,
   ) async {
     navBloc.add(RoutineNavToEdit(routineId: event.routineID));
+  }
+
+  Future<void> _statistics(
+    RoutineOverviewStatisticsRoutine event,
+    Emitter<RoutineOverviewState> emit,
+  ) async {
+    navBloc.add(RoutineNavToStatistics(routineId: event.routineID));
   }
 
   Future<void> _refresh(
