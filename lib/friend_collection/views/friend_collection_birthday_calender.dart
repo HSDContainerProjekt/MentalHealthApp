@@ -62,14 +62,14 @@ class FriendCollectionBirthdayCalender extends StatelessWidget {
             shrinkWrap: true,
             itemCount: months.length,
             itemBuilder: (context, index) {
-                FutureBuilder(
+                return FutureBuilder(
                 future: FriendDB().getFriendsForMonth(index),
                 builder: (context, snapshot) {
-                  if (snapshot.hasData || (snapshot.data!).isEmpty) {
+                  if (!snapshot.hasData) {
+                    return Text("waiting");
+                  } else {
                     friends = snapshot.data!;
                     return MonthView(months.elementAt(index), friends);
-                  } else {
-                    return Text("waiting");
                   }
                 },
               );

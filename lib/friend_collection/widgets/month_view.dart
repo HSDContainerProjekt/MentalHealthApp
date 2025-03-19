@@ -19,7 +19,6 @@ class MonthView extends StatefulWidget {
 class _MonthViewState extends State<MonthView> {
   @override
   Widget build(BuildContext context) {
-    log(widget.currentMonth + " " + widget.friends.toString());
     return DottedBorder(
       padding: EdgeInsets.all(10),
       child: Column(
@@ -34,8 +33,7 @@ class _MonthViewState extends State<MonthView> {
                 Text(AppLocalizations.of(context)!.date),
                 Text(AppLocalizations.of(context)!.name),          
               ],
-            ),
-          if(widget.friends.isNotEmpty)          
+            ),         
           ListView.builder(
             shrinkWrap: true,
             itemCount: widget.friends.length,
@@ -49,7 +47,7 @@ class _MonthViewState extends State<MonthView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(widget.friends.elementAt(index).birthday!.substring(0,2)),
+                    Text(widget.friends.elementAt(index).birthday!),
                     Text(widget.friends.elementAt(index).name!),                    
                   ],
                 )

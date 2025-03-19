@@ -26,6 +26,7 @@ class FriendPage extends StatelessWidget {
             body: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                Align(alignment: Alignment.topRight, child: BackButton()),
                 DottedBorder(
                     color: Colors.black,
                     child: Row(
@@ -36,7 +37,7 @@ class FriendPage extends StatelessWidget {
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.black)),
                             child: SizedBox(width: 100, height: 100, child:  FutureBuilder(
-                                future: AnimalBackbone().portrait(),
+                                future: AnimalBackbone().friendPortrait(friend.animal!),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
                                     return Image(

@@ -100,7 +100,7 @@ class FriendDB {
     for (var element in allFriends) {
       if (element.birthday != null) {
         if (element.birthday!.isNotEmpty) {
-          if (DateTime.parse(element.birthday!).month == month) {
+          if (DateTime.parse(element.birthday!).month == month+1) {
             returnFriends.add(element);
           }
         }
