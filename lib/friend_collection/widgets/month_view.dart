@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mental_health_app/friend_collection/model/friend.dart';
 
-
-
 class MonthView extends StatefulWidget {
   final String currentMonth;
   final List<Friend> friends;
@@ -22,34 +20,37 @@ class _MonthViewState extends State<MonthView> {
       child: Column(
         children: [
           Align(
-            alignment: Alignment.centerLeft,
-            child: Text(widget.currentMonth, style: Theme.of(context).textTheme.titleSmall,)
+              alignment: Alignment.centerLeft,
+              child: Text(
+                widget.currentMonth,
+                style: Theme.of(context).textTheme.titleSmall,
+              )),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(AppLocalizations.of(context)!.date),
+              Text(AppLocalizations.of(context)!.name),
+            ],
           ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(AppLocalizations.of(context)!.date),
-                Text(AppLocalizations.of(context)!.name),          
-              ],
-            ),         
           ListView.builder(
             shrinkWrap: true,
             itemCount: widget.friends.length,
             itemBuilder: (BuildContext context, int index) {
               return Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                  bottom: BorderSide(width: 1.0, color: Colors.black),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(width: 1.0, color: Colors.black),
+                    ),
                   ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(widget.friends.elementAt(index).birthday!),
-                    Text(widget.friends.elementAt(index).name!),                    
-                  ],
-                )
-              );
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(AppLocalizations.of(context)!.dateTime(
+                          DateTime.parse(
+                              widget.friends.elementAt(index).birthday!))),
+                      Text(widget.friends.elementAt(index).name!),
+                    ],
+                  ));
             },
           ),
         ],

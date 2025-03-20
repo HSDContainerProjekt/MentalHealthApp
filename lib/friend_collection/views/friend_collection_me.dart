@@ -35,7 +35,7 @@ class _FriendCollectionMeState extends State<FriendCollectionMe> {
     EdgeInsets paddingvalue = EdgeInsets.all(6);
 
     return FutureBuilder<Friend>(
-      future: DatabaseOperation().getOwnFriendDataAndTryToUpdate(), 
+      future: DatabaseOperation().getOwnFriendDataAndTryToUpdate(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return SafeArea(child: Text("waiting"));
@@ -43,306 +43,365 @@ class _FriendCollectionMeState extends State<FriendCollectionMe> {
         if (snapshot.hasData) {
           var ownData = snapshot.data;
           return SafeArea(
-              child: 
-              Padding(
-              padding: EdgeInsets.all(6),
-              child: Scaffold(
-                  backgroundColor: Colors.transparent,
-                  body: GestureDetector(
-                      onPanUpdate: (details) {
-                        if (details.delta.dx < -4) {
-                          Navigator.pushNamed(
-                              context, friendsCollectionBirthdayCalender);
-                        }
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          DottedBorder(
-                              color: Colors.black,
-                              child: Row(
+              child: Padding(
+                  padding: EdgeInsets.all(6),
+                  child: Scaffold(
+                      backgroundColor: Colors.transparent,
+                      body: GestureDetector(
+                          onPanUpdate: (details) {
+                            if (details.delta.dx < -4) {
+                              Navigator.pushNamed(
+                                  context, friendsCollectionBirthdayCalender);
+                            }
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Align(
+                                  alignment: Alignment.topRight,
+                                  child: IconButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(context,
+                                            friendsCollectionBirthdayCalender);
+                                      },
+                                      icon: Icon(Icons.calendar_month))),
+                              DottedBorder(
+                                  color: Colors.black,
+                                  child: Row(
+                                    children: [
+                                      Row(children: [
+                                        Padding(
+                                            padding: EdgeInsets.all(20),
+                                            child: Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: Colors.black)),
+                                                child: SizedBox(
+                                                  width: 100,
+                                                  height: 100,
+                                                  child: FutureBuilder(
+                                                      future: AnimalBackbone()
+                                                          .portrait(),
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        if (snapshot.hasData) {
+                                                          return Image(
+                                                              image: AssetImage(
+                                                                  snapshot
+                                                                      .data!));
+                                                        } else {
+                                                          return Image(
+                                                              image: AssetImage(
+                                                                  Froggo
+                                                                      .portrait));
+                                                        }
+                                                      }),
+                                                ))),
+                                        FormBuilder(
+                                          key:
+                                              myInformationformKey, // GlobalKey<FormState>
+                                          autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
+                                          child: Column(
+                                            children: <Widget>[
+                                              FormfieldPersonalinformationWidget(
+                                                  AppLocalizations.of(context)!
+                                                      .myName,
+                                                  ownData?.name ?? '',
+                                                  "name"),
+                                              FormfieldPersonalinformationWidget(
+                                                  AppLocalizations.of(context)!
+                                                      .myNickName,
+                                                  ownData?.nickname ?? '',
+                                                  "nickname"),
+                                              FormfieldDatePicker(
+                                                  AppLocalizations.of(context)!
+                                                      .myBirthday,
+                                                  ownData?.birthday ?? ''),
+                                              FormfieldPersonalinformationWidget(
+                                                  AppLocalizations.of(context)!
+                                                      .myZodiacSign,
+                                                  ownData?.zodiacSign ?? '',
+                                                  "zodiacSign"),
+                                            ],
+                                          ),
+                                        )
+                                      ]),
+                                    ],
+                                  )),
+                              IntrinsicHeight(
+                                  child: Row(
                                 children: [
-                                  Row(children: [
-                                    Padding(padding: EdgeInsets.all(20), child: 
-                          Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black)),
-                            child: SizedBox(width: 100, height: 100, child:  FutureBuilder(
-                                future: AnimalBackbone().portrait(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Image(
-                                        image: AssetImage(snapshot.data!));
-                                  } else {
-                                    return Image(
-                                        image: AssetImage(Froggo.portrait));
-                                  }
-                                }),
-                          ))),
-                                    FormBuilder(
-                                      key:
-                                          myInformationformKey, // GlobalKey<FormState>
-                                      autovalidateMode:
-                                          AutovalidateMode.onUserInteraction,
+                                  DottedBorder(
+                                      color: Colors.black,
+                                      padding: paddingvalue,
                                       child: Column(
-                                        children: <Widget>[
-                                          FormfieldPersonalinformationWidget(
-                                              "name",
-                                              ownData?.name ?? '',
-                                              "name"),
-                                          FormfieldPersonalinformationWidget(
-                                              "nickname",
-                                              ownData?.nickname ?? '',
-                                              "nickname"),
-                                          FormfieldDatePicker("birthday", ownData?.birthday ?? ''),
-                                          FormfieldPersonalinformationWidget(
-                                              "zodiacsign",
-                                              ownData?.zodiacSign ?? '',
-                                              "zodiacSign"),
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text(AppLocalizations.of(context)!
+                                                  .headlineFavoriteBox)
+                                            ],
+                                          ),
+                                          FormBuilder(
+                                            key:
+                                                myFavoriteformKey, // GlobalKey<FormState>
+                                            autovalidateMode: AutovalidateMode
+                                                .onUserInteraction,
+                                            child: Column(
+                                              children: <Widget>[
+                                                FormfieldFavoritWidget(
+                                                    AppLocalizations.of(
+                                                            context)!
+                                                        .favoriteSong,
+                                                    ownData?.favoriteSong ?? '',
+                                                    "textFieldHint",
+                                                    "favoriteSong"),
+                                                FormfieldFavoritWidget(
+                                                    AppLocalizations.of(
+                                                            context)!
+                                                        .favoriteFood,
+                                                    ownData?.favoriteFood ?? '',
+                                                    "textFieldHint",
+                                                    "favoriteFood"),
+                                                FormfieldFavoritWidget(
+                                                    AppLocalizations.of(
+                                                            context)!
+                                                        .favoriteBook,
+                                                    ownData?.favoriteBook ?? '',
+                                                    "textFieldHint",
+                                                    "favoriteBook"),
+                                                FormfieldFavoritWidget(
+                                                    AppLocalizations.of(
+                                                            context)!
+                                                        .favoriteMovie,
+                                                    ownData?.favoriteFilm ?? '',
+                                                    "textFieldHint",
+                                                    'favoriteFilm'),
+                                                FormfieldFavoritWidget(
+                                                    AppLocalizations.of(
+                                                            context)!
+                                                        .favoriteAnimal,
+                                                    ownData?.favoriteAnimal ??
+                                                        '',
+                                                    "textFieldHint",
+                                                    'favoriteAnimal'),
+                                                FormfieldFavoritWidget(
+                                                    AppLocalizations.of(
+                                                            context)!
+                                                        .favoriteNumber,
+                                                    ownData?.favoriteNumber
+                                                            .toString() ??
+                                                        '',
+                                                    "textFieldHint",
+                                                    'favoriteNumber'),
+                                              ],
+                                            ),
+                                          )
                                         ],
-                                      ),
-                                    )
-                                  ]),
+                                      )),
+                                  IntrinsicWidth(
+                                      child: Padding(
+                                          padding: paddingvalue,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.stretch,
+                                            children: [
+                                              CustomColorWidget(
+                                                  Icons.remove_red_eye_outlined,
+                                                  AppLocalizations.of(context)!
+                                                      .eyeColor,
+                                                  Color(ownData?.eyecolor ??
+                                                      0)), // Augenfarbe,
+                                              CustomColorWidget(
+                                                  Icons.favorite,
+                                                  AppLocalizations.of(context)!
+                                                      .hairColor,
+                                                  Color(
+                                                      ownData?.hairColor ?? 0)),
+                                              CustomColorWidget(
+                                                  Icons.color_lens,
+                                                  AppLocalizations.of(context)!
+                                                      .favoriteColor,
+                                                  Color(
+                                                      ownData?.favoriteColor ??
+                                                          0))
+                                            ],
+                                          ))),
                                 ],
-                              )),
-                          IntrinsicHeight(
-                              child: Row(
+                              ))
+                            ],
+                          )))));
+        } else {
+          return SafeArea(
+              child: Padding(
+                  padding: EdgeInsets.all(6),
+                  child: Scaffold(
+                      backgroundColor: Colors.transparent,
+                      body: GestureDetector(
+                          onPanUpdate: (details) {
+                            if (details.delta.dx < -4) {
+                              Navigator.pushNamed(
+                                  context, friendsCollectionBirthdayCalender);
+                            }
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               DottedBorder(
                                   color: Colors.black,
-                                  padding: paddingvalue,
-                                  child: Column(
+                                  child: Row(
                                     children: [
-                                      Row(
-                                        children: [
-                                          Text(AppLocalizations.of(context)!
-                                              .headlineFavoriteBox)
-                                        ],
-                                      ),
-                                      FormBuilder(
-                                        key:
-                                            myFavoriteformKey, // GlobalKey<FormState>
-                                        autovalidateMode:
-                                            AutovalidateMode.onUserInteraction,
-                                        child: Column(
-                                          children: <Widget>[
-                                            FormfieldFavoritWidget(
-                                                AppLocalizations.of(context)!
-                                                    .favoriteSong,
-                                                ownData?.favoriteSong ?? '',
-                                                "textFieldHint",
-                                                "favoriteSong"),
-                                            FormfieldFavoritWidget(
-                                                AppLocalizations.of(context)!
-                                                    .favoriteFood,
-                                                ownData?.favoriteFood ?? '',
-                                                "textFieldHint",
-                                                "favoriteFood"),
-                                            FormfieldFavoritWidget(
-                                                AppLocalizations.of(context)!
-                                                    .favoriteBook,
-                                                ownData?.favoriteBook ?? '',
-                                                "textFieldHint",
-                                                "favoriteBook"),
-                                            FormfieldFavoritWidget(
-                                                AppLocalizations.of(context)!
-                                                    .favoriteMovie,
-                                                ownData?.favoriteFilm ?? '',
-                                                "textFieldHint",
-                                                'favoriteFilm'),
-                                            FormfieldFavoritWidget(
-                                                AppLocalizations.of(context)!
-                                                    .favoriteAnimal,
-                                                ownData?.favoriteAnimal ?? '',
-                                                "textFieldHint",
-                                                'favoriteAnimal'),
-                                            FormfieldFavoritWidget(
-                                                AppLocalizations.of(context)!
-                                                    .favoriteNumber,
-                                                ownData?.favoriteNumber
-                                                        .toString() ??
-                                                    '',
-                                                "textFieldHint",
-                                                'favoriteNumber'),
-                                          ],
-                                        ),
-                                      )
+                                      Row(children: [
+                                        Padding(
+                                            padding: EdgeInsets.all(20),
+                                            child: Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: Colors.black)),
+                                                child: SizedBox(
+                                                  width: 100,
+                                                  height: 100,
+                                                  child: FutureBuilder(
+                                                      future: AnimalBackbone()
+                                                          .portrait(),
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        if (snapshot.hasData) {
+                                                          return Image(
+                                                              image: AssetImage(
+                                                                  snapshot
+                                                                      .data!));
+                                                        } else {
+                                                          return Image(
+                                                              image: AssetImage(
+                                                                  Froggo
+                                                                      .portrait));
+                                                        }
+                                                      }),
+                                                ))),
+                                        FormBuilder(
+                                          key:
+                                              myInformationformKey, // GlobalKey<FormState>
+                                          autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
+                                          child: Column(
+                                            children: <Widget>[
+                                              FormfieldPersonalinformationWidget(
+                                                  "name", '', "name"),
+                                              FormfieldPersonalinformationWidget(
+                                                  "nickname", '', "nickname"),
+                                              FormfieldDatePicker(
+                                                  "birthday", ''),
+                                              FormfieldPersonalinformationWidget(
+                                                  "zodiacsign",
+                                                  '',
+                                                  "zodiacSign"),
+                                            ],
+                                          ),
+                                        )
+                                      ]),
                                     ],
                                   )),
-                              IntrinsicWidth(
-                                  child: Padding(
+                              IntrinsicHeight(
+                                  child: Row(
+                                children: [
+                                  DottedBorder(
+                                      color: Colors.black,
                                       padding: paddingvalue,
                                       child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.stretch,
                                         children: [
-                                          CustomColorWidget(
-                                              Icons.remove_red_eye_outlined,
-                                              AppLocalizations.of(context)!
-                                                  .eyeColor, Color(ownData?.eyecolor ?? 0)), // Augenfarbe,
-                                          CustomColorWidget(
-                                              Icons.favorite,
-                                              AppLocalizations.of(context)!
-                                                  .hairColor, Color(ownData?.hairColor ?? 0)),
-                                          CustomColorWidget(
-                                              Icons.color_lens,
-                                              AppLocalizations.of(context)!
-                                                  .favoriteColor, Color(ownData?.favoriteColor ?? 0))
+                                          Row(
+                                            children: [
+                                              Text(AppLocalizations.of(context)!
+                                                  .headlineFavoriteBox)
+                                            ],
+                                          ),
+                                          FormBuilder(
+                                            key:
+                                                myFavoriteformKey, // GlobalKey<FormState>
+                                            autovalidateMode: AutovalidateMode
+                                                .onUserInteraction,
+                                            child: Column(
+                                              children: <Widget>[
+                                                FormfieldFavoritWidget(
+                                                    AppLocalizations.of(
+                                                            context)!
+                                                        .favoriteSong,
+                                                    '',
+                                                    "textFieldHint",
+                                                    "favoriteSong"),
+                                                FormfieldFavoritWidget(
+                                                    AppLocalizations.of(
+                                                            context)!
+                                                        .favoriteFood,
+                                                    '',
+                                                    "textFieldHint",
+                                                    "favoriteFood"),
+                                                FormfieldFavoritWidget(
+                                                    AppLocalizations.of(
+                                                            context)!
+                                                        .favoriteBook,
+                                                    '',
+                                                    "textFieldHint",
+                                                    "favoriteBook"),
+                                                FormfieldFavoritWidget(
+                                                    AppLocalizations.of(
+                                                            context)!
+                                                        .favoriteMovie,
+                                                    '',
+                                                    "textFieldHint",
+                                                    'favoriteFilm'),
+                                                FormfieldFavoritWidget(
+                                                    AppLocalizations.of(
+                                                            context)!
+                                                        .favoriteAnimal,
+                                                    '',
+                                                    "textFieldHint",
+                                                    'favoriteAnimal'),
+                                                FormfieldFavoritWidget(
+                                                    AppLocalizations.of(
+                                                            context)!
+                                                        .favoriteNumber,
+                                                    '',
+                                                    "textFieldHint",
+                                                    'favoriteNumber'),
+                                              ],
+                                            ),
+                                          )
                                         ],
-                                      ))),
+                                      )),
+                                  IntrinsicWidth(
+                                      child: Padding(
+                                          padding: paddingvalue,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.stretch,
+                                            children: [
+                                              CustomColorWidget(
+                                                  Icons.remove_red_eye_outlined,
+                                                  AppLocalizations.of(context)!
+                                                      .eyeColor,
+                                                  Color.fromARGB(255, 255, 255,
+                                                      255)), // Augenfarbe,
+                                              CustomColorWidget(
+                                                  Icons.favorite,
+                                                  AppLocalizations.of(context)!
+                                                      .hairColor,
+                                                  Color.fromARGB(
+                                                      255, 255, 255, 255)),
+                                              CustomColorWidget(
+                                                  Icons.color_lens,
+                                                  AppLocalizations.of(context)!
+                                                      .favoriteColor,
+                                                  Color.fromARGB(
+                                                      255, 255, 255, 255))
+                                            ],
+                                          ))),
+                                ],
+                              ))
                             ],
-                          ))
-                        ],
-                      )
-                    )
-                  )
-                )
-    );
-        } else {
-          return SafeArea(
-            child: 
-              Padding(
-              padding: EdgeInsets.all(6),
-              child: Scaffold(
-                backgroundColor: Colors.transparent,
-                body: GestureDetector(
-                    onPanUpdate: (details) {
-                      if (details.delta.dx < -4) {
-                        Navigator.pushNamed(
-                            context, friendsCollectionBirthdayCalender);
-                      }
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        DottedBorder(
-                            color: Colors.black,
-                            child: Row(
-                              children: [
-                                Row(children: [
-                                  Padding(padding: EdgeInsets.all(20), child: 
-                          Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black)),
-                            child: SizedBox(width: 100, height: 100, child:  FutureBuilder(
-                                future: AnimalBackbone().portrait(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Image(
-                                        image: AssetImage(snapshot.data!));
-                                  } else {
-                                    return Image(
-                                        image: AssetImage(Froggo.portrait));
-                                  }
-                                }),
-                          ))),
-                                  FormBuilder(
-                                    key:
-                                        myInformationformKey, // GlobalKey<FormState>
-                                    autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
-                                    child: Column(
-                                      children: <Widget>[
-                                        FormfieldPersonalinformationWidget(
-                                            "name", '', "name"),
-                                        FormfieldPersonalinformationWidget(
-                                            "nickname", '', "nickname"),
-                                        FormfieldDatePicker("birthday", ''),
-                                        FormfieldPersonalinformationWidget(
-                                            "zodiacsign", '', "zodiacSign"),
-                                      ],
-                                    ),
-                                  )
-                                ]),
-                              ],
-                            )),
-                        IntrinsicHeight(
-                            child: Row(
-                          children: [
-                            DottedBorder(
-                                color: Colors.black,
-                                padding: paddingvalue,
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(AppLocalizations.of(context)!
-                                            .headlineFavoriteBox)
-                                      ],
-                                    ),
-                                    FormBuilder(
-                                      key:
-                                          myFavoriteformKey, // GlobalKey<FormState>
-                                      autovalidateMode:
-                                          AutovalidateMode.onUserInteraction,
-                                      child: Column(
-                                        children: <Widget>[
-                                          FormfieldFavoritWidget(
-                                              AppLocalizations.of(context)!
-                                                  .favoriteSong,
-                                              '',
-                                              "textFieldHint",
-                                              "favoriteSong"),
-                                          FormfieldFavoritWidget(
-                                              AppLocalizations.of(context)!
-                                                  .favoriteFood,
-                                              '',
-                                              "textFieldHint",
-                                              "favoriteFood"),
-                                          FormfieldFavoritWidget(
-                                              AppLocalizations.of(context)!
-                                                  .favoriteBook,
-                                              '',
-                                              "textFieldHint",
-                                              "favoriteBook"),
-                                          FormfieldFavoritWidget(
-                                              AppLocalizations.of(context)!
-                                                  .favoriteMovie,
-                                              '',
-                                              "textFieldHint",
-                                              'favoriteFilm'),
-                                          FormfieldFavoritWidget(
-                                              AppLocalizations.of(context)!
-                                                  .favoriteAnimal,
-                                              '',
-                                              "textFieldHint",
-                                              'favoriteAnimal'),
-                                          FormfieldFavoritWidget(
-                                              AppLocalizations.of(context)!
-                                                  .favoriteNumber,
-                                              '',
-                                              "textFieldHint",
-                                              'favoriteNumber'),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                )),
-                            IntrinsicWidth(
-                                child: Padding(
-                                    padding: paddingvalue,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.stretch,
-                                      children: [
-                                        CustomColorWidget(
-                                            Icons.remove_red_eye_outlined,
-                                            AppLocalizations.of(context)!
-                                                .eyeColor, Color.fromARGB(255, 255, 255, 255)), // Augenfarbe,
-                                        CustomColorWidget(
-                                            Icons.favorite,
-                                            AppLocalizations.of(context)!
-                                                .hairColor,Color.fromARGB(255, 255, 255, 255)),
-                                        CustomColorWidget(
-                                            Icons.color_lens,
-                                            AppLocalizations.of(context)!
-                                                .favoriteColor, Color.fromARGB(255, 255, 255, 255))
-                                      ],
-                                    ))),
-                          ],
-                        ))
-                      ],
-                    )))));
+                          )))));
         }
       },
     );
