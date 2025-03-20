@@ -60,7 +60,7 @@ class FriendPage extends StatelessWidget {
 
 
                                 FriendPersonalinformationWidget(
-                                    AppLocalizations.of(context)!.myBirthday, friend.birthday ?? ''),
+                                    AppLocalizations.of(context)!.myBirthday,AppLocalizations.of(context)!.dateTime(DateTime.parse(friend.birthday ?? ''))),
 
 
                                 FriendPersonalinformationWidget(
