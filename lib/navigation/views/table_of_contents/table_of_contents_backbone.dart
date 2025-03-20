@@ -25,32 +25,28 @@ class TableOfContent extends StatelessWidget {
               child: DataTable(
                 showBottomBorder: false,
                 columns: [
-                  DataColumn(label: 
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage("lib/assets/images/bookmarks/table_of_contents.png"),
-                          )
-                        )
-                      )
-                    )
-                  ),
-                  DataColumn(label: Expanded(child: Text("Kapitel"))),
+                  DataColumn(
+                      label: Expanded(
+                          child: Container(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                    image: AssetImage(
+                        "lib/assets/images/bookmarks/table_of_contents.png"),
+                  ))))),
+                  DataColumn(
+                      label: Expanded(
+                          child: Text(AppLocalizations.of(context)!.chapter))),
                   DataColumn(label: Expanded(child: Text(""))),
                 ],
                 rows: [
                   DataRow(
                     cells: [
-                      DataCell(
-                        Container(
+                      DataCell(Container(
                           decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage("lib/assets/images/bookmarks/main_page.png"),
-                            )
-                          )
-                        )
-                      ),
+                              image: DecorationImage(
+                        image: AssetImage(
+                            "lib/assets/images/bookmarks/main_page.png"),
+                      )))),
                       DataCell(
                         TextButton(
                           onPressed: () {
@@ -66,15 +62,12 @@ class TableOfContent extends StatelessWidget {
                   ),
                   DataRow(
                     cells: [
-                      DataCell(
-                        Container(
+                      DataCell(Container(
                           decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage("lib/assets/images/bookmarks/routine.png"),
-                            )
-                          )
-                        )
-                      ),
+                              image: DecorationImage(
+                        image: AssetImage(
+                            "lib/assets/images/bookmarks/routine.png"),
+                      )))),
                       DataCell(
                         TextButton(
                           onPressed: () {
@@ -91,15 +84,12 @@ class TableOfContent extends StatelessWidget {
                   ),
                   DataRow(
                     cells: [
-                      DataCell(
-                        Container(
+                      DataCell(Container(
                           decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage("lib/assets/images/bookmarks/friends.png"),
-                            )
-                          )
-                        )
-                      ),
+                              image: DecorationImage(
+                        image: AssetImage(
+                            "lib/assets/images/bookmarks/friends.png"),
+                      )))),
                       DataCell(
                         TextButton(
                           onPressed: () {

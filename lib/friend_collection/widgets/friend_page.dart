@@ -52,19 +52,19 @@ class FriendPage extends StatelessWidget {
                             child: Column(
                               children: <Widget>[
                                 FriendPersonalinformationWidget(
-                                  "name",
+                                  AppLocalizations.of(context)!.myName,
                                   friend.name ?? '',
                                 ),
                                 FriendPersonalinformationWidget(
-                                    "nickname", friend.nickname ?? ''),
+                                    AppLocalizations.of(context)!.myNickName, friend.nickname ?? ''),
 
 
                                 FriendPersonalinformationWidget(
-                                    "birthday", friend.birthday ?? ''),
+                                    AppLocalizations.of(context)!.myBirthday,AppLocalizations.of(context)!.dateTime(DateTime.parse(friend.birthday ?? ''))),
 
 
                                 FriendPersonalinformationWidget(
-                                    "zodiacsign", friend.zodiacSign ?? ''),
+                                    AppLocalizations.of(context)!.myZodiacSign, friend.zodiacSign ?? ''),
                               ],
                             ),
                           )

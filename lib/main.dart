@@ -84,7 +84,7 @@ class App extends StatelessWidget {
         initialRoute: appFrameworkPage,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        locale: const Locale('de'),
+        //locale: const Locale('de'),
         theme: mainPageThemeData,
       ),
     );

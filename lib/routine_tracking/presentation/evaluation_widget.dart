@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mental_health_app/routine_tracking/data/data_model/evaluation_criteria.dart';
 import 'package:mental_health_app/routine_tracking/presentation/bloc/evaluation_widget_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../data/data_model/routine.dart';
 import '../data/data_model/routine_result.dart';
@@ -58,7 +59,7 @@ class EvaluationWidget extends StatelessWidget {
                               .read<EvaluationWidgetBloc>()
                               .add(EvaluationWidgetSubmit());
                         },
-                        child: Text("Geschafft"))
+                        child: Text(AppLocalizations.of(context)!.done))
                   ],
                 )
               ],

@@ -89,7 +89,6 @@ class FriendDB {
   }
 
   Future<List<Friend>> getFriendsForMonth(int month) async {
-    log("month: " + month.toString());
     List<Friend> allFriends = await getFriends();
     List<Friend> returnFriends = [];
     for (var element in allFriends) {
@@ -101,7 +100,6 @@ class FriendDB {
         }
       }
     }
-    log(month.toString() + returnFriends.toString());
     return returnFriends;
   }
 

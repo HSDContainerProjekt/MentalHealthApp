@@ -58,18 +58,4 @@ class TimeInterval extends Equatable {
         firstDateTime: firstDateTime ?? this.firstDateTime,
         timeInterval: timeInterval ?? this.timeInterval);
   }
-
-  String dateAsString() {
-    final f = DateFormat('dd.MM.yyyy');
-    return f.format(firstDateTime);
-  }
-
-  String timeAsString() {
-    final f = DateFormat('HH:mm');
-    return f.format(firstDateTime);
-  }
-
-  String intervalAsString() {
-    return "Alle ${timeInterval.inDays} Tage, ${timeInterval.inHours % 24} Stunden und ${timeInterval.inMinutes % 60} Minuten.";
-  }
 }

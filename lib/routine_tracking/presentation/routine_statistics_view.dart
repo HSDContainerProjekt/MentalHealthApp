@@ -106,7 +106,8 @@ class _stateDiagram extends StatelessWidget {
                                 DateTime date =
                                     DateTime.fromMillisecondsSinceEpoch(
                                         value.toInt());
-                                return Text("${date.day}.${date.month}");
+                                return Text(AppLocalizations.of(context)!
+                                    .dateFromDateTime(date));
                               },
                             ),
                           ),
