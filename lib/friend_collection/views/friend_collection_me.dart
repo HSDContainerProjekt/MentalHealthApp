@@ -47,6 +47,7 @@ class _FriendCollectionMeState extends State<FriendCollectionMe> {
               Padding(
               padding: EdgeInsets.all(6),
               child: Scaffold(
+                  resizeToAvoidBottomInset: false,
                   backgroundColor: Colors.transparent,
                   body: GestureDetector(
                       onPanUpdate: (details) {
@@ -204,6 +205,7 @@ class _FriendCollectionMeState extends State<FriendCollectionMe> {
               Padding(
               padding: EdgeInsets.all(6),
               child: Scaffold(
+                resizeToAvoidBottomInset: false,
                 backgroundColor: Colors.transparent,
                 body: GestureDetector(
                     onPanUpdate: (details) {
