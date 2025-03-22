@@ -233,7 +233,6 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
         WHERE routineID = r.id
         );
         ''');
-    print("#### all $queryResult");
     List<RoutineWithExtraInfoDoneStatus> result = [];
     for (Map<String, Object?> x in queryResult) {
       RoutineWithExtraInfoDoneStatus newRoutine =
@@ -272,7 +271,6 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
         ON evaluationcriteria.id = t1.evaluationCriteriaID
         WHERE routineID = $routineID;
         ''');
-    print("#### evalu $queryResult");
     List<EvaluationCriteria> result = [];
     for (Map<String, Object?> x in queryResult) {
       EvaluationCriteria newEvaluationCriteria;
@@ -372,7 +370,9 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
       SELECT MAX(routineTime) as lastTime FROM routineResults WHERE routineID = ?
     ''', [routineID]);
 
-      int lastTime = lastResult.first['lastTime'] as int? ?? firstDateTime;
+      int lastTime = lastResult.first['lastTime'] as int? ??
+          (firstDateTime - timeInterval);
+
       int nextExpectedTime = lastTime + timeInterval;
 
       while (nextExpectedTime < currentTime) {

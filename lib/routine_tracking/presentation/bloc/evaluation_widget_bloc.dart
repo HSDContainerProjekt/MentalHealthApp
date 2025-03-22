@@ -50,7 +50,6 @@ class EvaluationWidgetBloc
             routineResultID: event.routine.id,
             evaluationCriteriaID: x.id!));
       } else if (x is EvaluationCriteriaValueRange) {
-        print("####$x");
         results.add(EvaluationResultValue(
             result: x.minimumValue,
             routineResultID: event.routine.id,

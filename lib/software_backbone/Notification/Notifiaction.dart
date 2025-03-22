@@ -9,7 +9,6 @@ class NotificationService {
 
   static Future<void> onDidReceiveNotification(
       NotificationResponse notificationResponse) async {
-    print("Notification receive");
   }
 
   static Future<void> init() async {
@@ -64,7 +63,6 @@ class NotificationService {
 
   static Future<void> scheduleRoutineNotification(
       Routine routine, DateTime scheduledTime) async {
-    print(scheduledTime);
     await flutterLocalNotificationsPlugin.zonedSchedule(
       routine.id!,
       routine.title,
