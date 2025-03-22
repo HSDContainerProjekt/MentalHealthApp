@@ -101,7 +101,7 @@
     "description": "Message displayed when no Friends"
   },
   "resourcesTitle": "Where you can find help",
-   "@resourcesTitle": {
+  "@resourcesTitle": {
     "description": "Title of the application's resources page"
   },
   "selectCity": "Search for a city",
@@ -432,5 +432,13 @@
         "format": "dd.MM"
       }
     }
+  },
+  "froggo": "Froggo",
+  "@froggo": {
+    "description": "Name of the Froggo"
+  },
+  "frornchen": "Frörnchen",
+  "@frörnchen": {
+    "description": "Name of the Frörnchen"
   }
 }

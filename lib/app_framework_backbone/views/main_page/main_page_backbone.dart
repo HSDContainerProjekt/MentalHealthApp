@@ -57,7 +57,7 @@ class HomePage extends StatelessWidget {
 
   final List<_Offset> evaluationOffset = [
     _Offset(x: 90, y: -240),
-    _Offset(x: 427, y: 8),
+    _Offset(x: 430, y: -10),
     _Offset(x: -394, y: 40),
     _Offset(x: 493, y: 313),
   ];
@@ -74,6 +74,20 @@ class HomePage extends StatelessWidget {
     _Offset(x: 282, y: -261),
     _Offset(x: -399, y: 135),
     _Offset(x: 318, y: 95),
+  ];
+
+  final List<_Line> descriptionLines = [
+    _Line(x1: -134, y1: -252, x2: -113, y2: -300, x3: -113, y3: -354),
+    _Line(x1: 194, y1: -159, x2: 211, y2: -263, x3: 258, y3: -323),
+    _Line(x1: -170, y1: 104, x2: -140, y2: 250, x3: -439, y3: 220),
+    _Line(x1: 229, y1: 238, x2: 213, y2: 466, x3: 260, y3: 502),
+  ];
+
+  final List<_Offset> descriptionOffset = [
+    _Offset(x: -140, y: -360),
+    _Offset(x: 323, y: -328),
+    _Offset(x: -553, y: 257),
+    _Offset(x: 370, y: 529),
   ];
 
   HomePage({super.key});
@@ -101,6 +115,7 @@ class HomePage extends StatelessWidget {
                 routineRepository: context.read<RoutineRepository>(),
               )..add(MainPageEventRefresh()),
               child: InteractiveViewer(
+                onInteractionUpdate: (details) {},
                 transformationController: transformationController,
                 clipBehavior: Clip.none,
                 constrained: false,
@@ -133,12 +148,12 @@ class HomePage extends StatelessWidget {
                       height: areaHeight,
                       width: areaWidth,
                       child: BlocSelector<MainPageBloc, MainPageState,
-                          List<RoutineWithExtraInfoTimeLeft>>(
+                          (List<RoutineWithExtraInfoTimeLeft>, int?)>(
                         selector: (state) {
-                          return state.routines;
+                          return (state.routines, state.selected);
                         },
                         builder: (context, state) {
-                          List<_Line> lines = [
+                          List<_Line> blackLines = [
                             //Überschrift
                             _Line(
                                 x1: -10,
@@ -148,20 +163,43 @@ class HomePage extends StatelessWidget {
                                 x3: -40,
                                 y3: constraints.maxHeight / 2 - 110),
                           ];
-                          for (int i = 0; i < state.length; i++) {
-                            lines.add(routineLines[i]);
-                            lines.add(titleLines[i]);
-                            lines.add(evaluationLines[i]);
-                            lines.add(nextTimeLines[i]);
+                          List<_Line> selectedLines = [];
+                          for (int i = 0; i < state.$1.length; i++) {
+                            if (state.$2 == i) {
+                              selectedLines.add(routineLines[i]);
+                              selectedLines.add(titleLines[i]);
+                              selectedLines.add(evaluationLines[i]);
+                              selectedLines.add(nextTimeLines[i]);
+                              selectedLines.add(descriptionLines[i]);
+                            } else {
+                              blackLines.add(routineLines[i]);
+                              blackLines.add(titleLines[i]);
+                              blackLines.add(evaluationLines[i]);
+                              blackLines.add(nextTimeLines[i]);
+                              blackLines.add(descriptionLines[i]);
+                            }
                           }
                           return Stack(
                             children: [
+                              //Black Lines
                               CustomPaint(
                                 size: Size(areaWidth, areaHeight),
                                 painter: _LinePainter(
-                                  lines: lines,
+                                  strokeWidth: 2,
+                                  color: Colors.black,
+                                  lines: blackLines,
                                 ),
                               ),
+                              //Selected Lines
+                              CustomPaint(
+                                size: Size(areaWidth, areaHeight),
+                                painter: _LinePainter(
+                                  strokeWidth: 4,
+                                  color: Theme.of(context).colorScheme.primary,
+                                  lines: selectedLines,
+                                ),
+                              ),
+                              //Animal
                               Center(
                                 child: Transform.translate(
                                   offset: const Offset(0.0, 20),
@@ -187,7 +225,7 @@ class HomePage extends StatelessWidget {
                                               MainPageAnimal(
                                                   mainPageAnimalState: state),
                                               Text(
-                                                state.animalToString(context),
+                                                state.name(context),
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .labelMedium,
@@ -200,6 +238,7 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ),
                               ),
+
                               Center(
                                 child: Transform.translate(
                                   offset: Offset(
@@ -219,7 +258,7 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              if (state.length == 0)
+                              if (state.$1.length == 0)
                                 _LinkToRoutine(
                                   offset: _Offset(
                                       x: 10,
@@ -230,15 +269,24 @@ class HomePage extends StatelessWidget {
                                   children: [
                                     //Image
                                     Stack(
-                                      children: state
+                                      children: state.$1
                                           .asMap()
                                           .map((int i,
                                               RoutineWithExtraInfoTimeLeft x) {
                                             return MapEntry(
                                               i,
-                                              _ImageWidget(
-                                                imageID: x.routine.imageID,
-                                                offset: imageOffset[i],
+                                              GestureDetector(
+                                                onTap: () {
+                                                  context
+                                                      .read<MainPageBloc>()
+                                                      .add(MainPageEventSelect(
+                                                          selected: i));
+                                                },
+                                                child: _ImageWidget(
+                                                  selected: i == state.$2,
+                                                  imageID: x.routine.imageID,
+                                                  offset: imageOffset[i],
+                                                ),
                                               ),
                                             );
                                           })
@@ -247,81 +295,148 @@ class HomePage extends StatelessWidget {
                                     ),
                                     //Title
                                     Stack(
-                                      children: state
+                                      children: state.$1
                                           .asMap()
-                                          .map((int i,
-                                              RoutineWithExtraInfoTimeLeft x) {
-                                            return MapEntry(
-                                              i,
-                                              _TextOffsetWidget(
-                                                text: x.routine.title,
-                                                offset: titleOffset[i],
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleSmall,
-                                              ),
-                                            );
-                                          })
+                                          .map(
+                                            (int i,
+                                                RoutineWithExtraInfoTimeLeft
+                                                    x) {
+                                              return MapEntry(
+                                                i,
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    context
+                                                        .read<MainPageBloc>()
+                                                        .add(
+                                                            MainPageEventSelect(
+                                                                selected: i));
+                                                  },
+                                                  child: _TextOffsetWidget(
+                                                    text: x.routine.title,
+                                                    offset: titleOffset[i],
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .titleSmall,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          )
                                           .values
                                           .toList(),
                                     ),
                                     //Evaluation
                                     Stack(
-                                      children: state
+                                      children: state.$1
                                           .asMap()
-                                          .map((int i,
-                                              RoutineWithExtraInfoTimeLeft x) {
-                                            return MapEntry(
-                                              i,
-                                              _EvaluationWidget(
-                                                routine: x.routine,
-                                                offset: evaluationOffset[i],
-                                              ),
-                                            );
-                                          })
+                                          .map(
+                                            (int i,
+                                                RoutineWithExtraInfoTimeLeft
+                                                    x) {
+                                              return MapEntry(
+                                                i,
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    context
+                                                        .read<MainPageBloc>()
+                                                        .add(
+                                                            MainPageEventSelect(
+                                                                selected: i));
+                                                  },
+                                                  child: _EvaluationWidget(
+                                                    selected: i == state.$2,
+                                                    routine: x.routine,
+                                                    offset: evaluationOffset[i],
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          )
                                           .values
                                           .toList(),
                                     ),
                                     //Evaluation
                                     Stack(
-                                      children: state
+                                      children: state.$1
                                           .asMap()
-                                          .map((int i,
-                                              RoutineWithExtraInfoTimeLeft x) {
-                                            TextStyle? style = Theme.of(context)
-                                                .textTheme
-                                                .labelLarge
-                                                ?.copyWith(
-                                                    fontWeight:
-                                                        x.timeLeft.inMinutes <
-                                                                10
-                                                            ? FontWeight.bold
-                                                            : FontWeight.normal,
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .primary,
-                                                    fontSize: max(
-                                                        2000.0 /
-                                                            (40 +
-                                                                x.timeLeft
-                                                                    .inMinutes),
-                                                        18));
+                                          .map(
+                                            (int i,
+                                                RoutineWithExtraInfoTimeLeft
+                                                    x) {
+                                              TextStyle? style = Theme.of(
+                                                      context)
+                                                  .textTheme
+                                                  .labelLarge
+                                                  ?.copyWith(
+                                                      fontWeight: x.timeLeft
+                                                                  .inMinutes <
+                                                              10
+                                                          ? FontWeight.bold
+                                                          : FontWeight.normal,
+                                                      fontSize: max(
+                                                          2000.0 /
+                                                              (40 +
+                                                                  x.timeLeft
+                                                                      .inMinutes),
+                                                          18));
 
-                                            return MapEntry(
-                                              i,
-                                              _TextOffsetWidget(
-                                                offset: nextTimeOffset[i],
-                                                text: AppLocalizations.of(
-                                                        context)!
-                                                    .nextTime(
-                                                        x.timeLeft.inDays,
-                                                        x.timeLeft.inHours % 24,
-                                                        x.timeLeft.inMinutes %
-                                                            60),
-                                                style: style,
-                                              ),
-                                            );
-                                          })
+                                              return MapEntry(
+                                                i,
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    context
+                                                        .read<MainPageBloc>()
+                                                        .add(
+                                                            MainPageEventSelect(
+                                                                selected: i));
+                                                  },
+                                                  child: _TextOffsetWidget(
+                                                    offset: nextTimeOffset[i],
+                                                    text: AppLocalizations.of(
+                                                            context)!
+                                                        .nextTime(
+                                                            x.timeLeft.inDays,
+                                                            x.timeLeft.inHours %
+                                                                24,
+                                                            x.timeLeft
+                                                                    .inMinutes %
+                                                                60),
+                                                    style: style,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          )
+                                          .values
+                                          .toList(),
+                                    ),
+                                    Stack(
+                                      children: state.$1
+                                          .asMap()
+                                          .map(
+                                            (int i,
+                                                RoutineWithExtraInfoTimeLeft
+                                                    x) {
+                                              return MapEntry(
+                                                i,
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    context
+                                                        .read<MainPageBloc>()
+                                                        .add(
+                                                            MainPageEventSelect(
+                                                                selected: i));
+                                                  },
+                                                  child: _DescriptionWidget(
+                                                    routine: x.routine,
+                                                    offset:
+                                                        descriptionOffset[i],
+                                                    selected: i == state.$2,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          )
                                           .values
                                           .toList(),
                                     ),
@@ -356,8 +471,13 @@ class _Offset {
 class _ImageWidget extends StatelessWidget {
   final _Offset offset;
   final int imageID;
+  final bool selected;
 
-  const _ImageWidget({super.key, required this.offset, required this.imageID});
+  const _ImageWidget(
+      {super.key,
+      required this.offset,
+      required this.imageID,
+      required this.selected});
 
   @override
   Widget build(BuildContext context) {
@@ -366,10 +486,12 @@ class _ImageWidget extends StatelessWidget {
         offset: Offset(offset.x, -offset.y),
         child: DottedBorder(
           borderType: BorderType.RRect,
+          color:
+              selected ? Theme.of(context).colorScheme.primary : Colors.black,
           radius: Radius.circular(10),
-          borderPadding: EdgeInsets.all(2),
-          dashPattern: [5, 5],
-          strokeWidth: 4,
+          borderPadding: EdgeInsets.all(selected ? -1 : 1),
+          dashPattern: selected ? [10, 5] : [5, 5],
+          strokeWidth: selected ? 5 : 2,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: SizedBox(
@@ -428,8 +550,14 @@ class _Line {
 
 class _LinePainter extends CustomPainter {
   final List<_Line> lines;
+  final Color color;
+  final double strokeWidth;
 
-  _LinePainter({super.repaint, required this.lines});
+  _LinePainter(
+      {super.repaint,
+      required this.lines,
+      required this.color,
+      required this.strokeWidth});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -437,9 +565,9 @@ class _LinePainter extends CustomPainter {
     double yOffset = size.height / 2;
 
     final Paint paint = Paint()
-      ..color = Colors.black
+      ..color = color
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 2.0;
+      ..strokeWidth = strokeWidth;
 
     for (_Line x in lines) {
       Path path = Path();
@@ -456,9 +584,13 @@ class _LinePainter extends CustomPainter {
 class _EvaluationWidget extends StatelessWidget {
   final Routine routine;
   final _Offset offset;
+  final bool selected;
 
   const _EvaluationWidget(
-      {super.key, required this.offset, required this.routine});
+      {super.key,
+      required this.offset,
+      required this.routine,
+      required this.selected});
 
   @override
   Widget build(BuildContext context) {
@@ -469,17 +601,30 @@ class _EvaluationWidget extends StatelessWidget {
         child: DottedBorder(
           borderType: BorderType.RRect,
           radius: Radius.circular(10),
-          borderPadding: EdgeInsets.all(2),
-          dashPattern: [5, 5],
-          strokeWidth: 4,
+          color:
+              selected ? Theme.of(context).colorScheme.primary : Colors.black,
+          borderPadding: EdgeInsets.all(selected ? -1 : 1),
+          dashPattern: selected ? [10, 5] : [5, 5],
+          strokeWidth: selected ? 5 : 2,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: SizedBox(
-              height: 150,
-              width: 200,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minWidth: 200,
+                maxWidth: 200,
+                minHeight: 100,
+                maxHeight: selected ? 300 : 100,
+              ),
               child: SingleChildScrollView(
-                child: EvaluationWidget(
-                  routine: routine,
+                child: Column(
+                  children: [
+                    Text(
+                        style: Theme.of(context).textTheme.labelLarge,
+                        "Bewertung"),
+                    EvaluationWidget(
+                      routine: routine,
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -487,6 +632,69 @@ class _EvaluationWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _DescriptionWidget extends StatelessWidget {
+  final Routine routine;
+  final _Offset offset;
+  final bool selected;
+
+  const _DescriptionWidget(
+      {super.key,
+      required this.offset,
+      required this.routine,
+      required this.selected});
+
+  @override
+  Widget build(BuildContext context) {
+    return Transform.translate(
+        offset: Offset(offset.x, -offset.y + areaHeight / 2),
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: DottedBorder(
+            borderType: BorderType.RRect,
+            radius: Radius.circular(10),
+            color:
+                selected ? Theme.of(context).colorScheme.primary : Colors.black,
+            borderPadding: EdgeInsets.all(selected ? -1 : 1),
+            dashPattern: selected ? [10, 5] : [5, 5],
+            strokeWidth: selected ? 5 : 2,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minWidth: 200,
+                  maxWidth: 200,
+                  minHeight: 50,
+                  maxHeight: 200,
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Text(
+                          style: selected
+                              ? Theme.of(context).textTheme.labelLarge
+                              : Theme.of(context).textTheme.labelMedium,
+                          "Beschreibung"),
+                      selected
+                          ? Text(
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                              routine.description.trim().isEmpty
+                                  ? routine.shortDescription
+                                  : routine.description)
+                          : Text(
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                              routine.shortDescription)
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ));
   }
 }
 
