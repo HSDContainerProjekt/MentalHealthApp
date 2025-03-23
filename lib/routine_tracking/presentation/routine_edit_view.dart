@@ -332,8 +332,9 @@ class _EvaluationEditor extends StatelessWidget {
     return Column(children: [
       BlocSelector<RoutineEditBloc, RoutineEditState, int>(
         selector: (state) {
-          if (state is RoutineEditEditing)
+          if (state is RoutineEditEditing) {
             return state.evaluationCriteria.length;
+          }
           return 0;
         },
         builder: (context, state) {

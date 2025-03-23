@@ -2,11 +2,9 @@ import 'package:mental_health_app/routine_tracking/data/data_model/evaluation_cr
 import 'package:mental_health_app/routine_tracking/data/data_model/routine_result.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../../software_backbone/Notification/Notifiaction.dart';
 import 'data_model/routine.dart';
 import 'data_model/time_interval.dart';
 import 'dart:async';
-import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../app_framework_backbone/database_dao.dart';
@@ -37,8 +35,16 @@ abstract class RoutineDAO implements DatabaseDAO {
 
   Future<void> generateMissedRoutineResults();
 
+  Future<void> generateMissedRoutineResultsForRoutine(int routineID, int days);
+
   Future<List<RoutineResult>> getRoutineResultsLastXDays(
       int routineID, int days);
+
+  Future<EvaluationResultText> getTextEvaluationResult(
+      int routineResultID, int evaluationCriteriaID);
+
+  Future<EvaluationResultValue> getValueEvaluationResult(
+      int routineResultID, int evaluationCriteriaID);
 }
 
 class RoutineDAOSQFLiteImpl implements RoutineDAO {
@@ -386,6 +392,54 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
     }
   }
 
+  Future<void> generateMissedRoutineResultsForRoutine(
+      int routineID, int days) async {
+    int currentTime = DateTime.now().millisecondsSinceEpoch;
+    int startTime = currentTime - (days * 24 * 60 * 60 * 1000);
+
+    final List<Map<String, Object?>> timeIntervals = await database.rawQuery('''
+    SELECT firstDateTime, timeInterval 
+    FROM timeIntervals 
+    WHERE routineID = ?
+  ''', [routineID]);
+
+    if (timeIntervals.isEmpty) {
+      print("Keine Daten für RoutineID $routineID gefunden.");
+      return;
+    }
+
+    for (Map<String, Object?> x in timeIntervals) {
+      int firstDateTime = x['firstDateTime'] as int;
+      int timeInterval = x['timeInterval'] as int;
+
+      if (startTime > firstDateTime) {
+        firstDateTime = firstDateTime +
+            ((startTime - firstDateTime) ~/ timeInterval) * timeInterval;
+      }
+
+      final List<Map<String, Object?>> existingResults =
+          await database.rawQuery('''
+      SELECT routineTime FROM routineResults WHERE routineID = ? AND routineTime > ?
+      ''', [routineID, startTime]);
+
+      Set<int> existingTimes =
+          existingResults.map((row) => row['routineTime'] as int).toSet();
+
+      int nextExpectedTime = firstDateTime;
+
+      while (nextExpectedTime < currentTime) {
+        if (!existingTimes.contains(nextExpectedTime)) {
+          await database.insert("routineResults", {
+            "routineID": routineID,
+            "result": "FAILED",
+            "routineTime": nextExpectedTime
+          });
+        }
+        nextExpectedTime += timeInterval;
+      }
+    }
+  }
+
   @override
   Future<List<RoutineResult>> getRoutineResultsLastXDays(
       int routineID, int days) async {
@@ -409,5 +463,37 @@ class RoutineDAOSQFLiteImpl implements RoutineDAO {
                   map['routineTime'] as int),
             ))
         .toList();
+  }
+
+  @override
+  Future<EvaluationResultText> getTextEvaluationResult(
+      int routineResultID, int evaluationCriteriaID) async {
+    final List<Map<String, Object?>> results = await database.rawQuery('''
+    SELECT textValue
+        FROM evaluationResultText
+    WHERE routineResultID = ?
+    AND evaluationCriteriaID = ?
+  ''', [routineResultID, evaluationCriteriaID]);
+
+    return EvaluationResultText(
+        text: results.first["textValue"] as String,
+        routineResultID: routineResultID,
+        evaluationCriteriaID: evaluationCriteriaID);
+  }
+
+  @override
+  Future<EvaluationResultValue> getValueEvaluationResult(
+      int routineResultID, int evaluationCriteriaID) async {
+    final List<Map<String, Object?>> results = await database.rawQuery('''
+    SELECT doubleValue
+        FROM evaluationResultValueRange
+    WHERE routineResultID = ?
+    AND evaluationCriteriaID = ?
+  ''', [routineResultID, evaluationCriteriaID]);
+
+    return EvaluationResultValue(
+        result: results.first["doubleValue"] as double,
+        routineResultID: routineResultID,
+        evaluationCriteriaID: evaluationCriteriaID);
   }
 }

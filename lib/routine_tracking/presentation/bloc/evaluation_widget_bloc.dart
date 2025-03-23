@@ -40,7 +40,8 @@ class EvaluationWidgetBloc
     EvaluationWidgetLoad event,
     Emitter<EvaluationWidgetState> emit,
   ) async {
-    evaluationCriteria = await repository.evaluationCriteriaBy(event.routine);
+    evaluationCriteria =
+        await repository.evaluationCriteriaBy(event.routine.id!);
     routine = event.routine;
     List<EvaluationResult> results = [];
     for (EvaluationCriteria x in evaluationCriteria) {

@@ -620,7 +620,7 @@ class _EvaluationWidget extends StatelessWidget {
                   children: [
                     Text(
                         style: Theme.of(context).textTheme.labelLarge,
-                        "Bewertung"),
+                        AppLocalizations.of(context)!.evaluation),
                     EvaluationWidget(
                       routine: routine,
                     ),
@@ -676,7 +676,7 @@ class _DescriptionWidget extends StatelessWidget {
                           style: selected
                               ? Theme.of(context).textTheme.labelLarge
                               : Theme.of(context).textTheme.labelMedium,
-                          "Beschreibung"),
+                          AppLocalizations.of(context)!.description),
                       selected
                           ? Text(
                               textAlign: TextAlign.center,
