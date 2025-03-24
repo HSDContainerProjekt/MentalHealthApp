@@ -66,11 +66,14 @@ class _FriendCollectionMeState extends State<FriendCollectionMe> {
                                             friendsCollectionBirthdayCalender);
                                       },
                                       icon: Icon(Icons.calendar_month))),
-                              DottedBorder(
+                              Expanded(
+                                child: Container(
+                                  margin: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                                  child: DottedBorder(
                                   color: Colors.black,
                                   child: Row(
                                     children: [
-                                      Row(children: [
+                                      Row( children: [
                                         Padding(
                                             padding: EdgeInsets.all(20),
                                             child: Container(
@@ -129,16 +132,22 @@ class _FriendCollectionMeState extends State<FriendCollectionMe> {
                                         )
                                       ]),
                                     ],
-                                  )),
-                              IntrinsicHeight(
-                                  child: Row(
+                                  )))),
+                              Expanded(
+                                  child: Container(
+                                margin: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),    
+                                child: IntrinsicHeight(child: 
+                                Row(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
-                                  DottedBorder(
+                                  Expanded(child: 
+                                    DottedBorder(
                                       color: Colors.black,
                                       padding: paddingvalue,
-                                      child: Column(
+                                      child: (SingleChildScrollView(child: Column(
                                         children: [
                                           Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Text(AppLocalizations.of(context)!
                                                   .headlineFavoriteBox)
@@ -200,13 +209,13 @@ class _FriendCollectionMeState extends State<FriendCollectionMe> {
                                             ),
                                           )
                                         ],
-                                      )),
+                                      ))))),
                                   IntrinsicWidth(
                                       child: Padding(
                                           padding: paddingvalue,
                                           child: Column(
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.stretch,
+                                              CrossAxisAlignment.stretch,
                                             children: [
                                               CustomColorWidget(
                                                   Icons.remove_red_eye_outlined,
@@ -228,11 +237,18 @@ class _FriendCollectionMeState extends State<FriendCollectionMe> {
                                                       ownData?.favoriteColor ??
                                                           0))
                                             ],
-                                          ))),
+                                          )
+                                        )
+                                      ),
                                 ],
-                              ))
+                              )))
+                            )
                             ],
-                          )))));
+                          )
+                        )
+                      )
+                    )
+                  );
         } else {
           return SafeArea(
               child: Padding(
