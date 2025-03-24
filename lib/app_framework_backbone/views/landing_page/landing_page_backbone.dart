@@ -23,96 +23,100 @@ class LandingPage extends StatelessWidget {
     return FutureBuilder(
         future: AccountInitDb().isEmpty(),
         builder: (context, snapshot) {
+          Widget widget;
+
           if (snapshot.hasData && snapshot.data == false) {
-            return Scaffold(
-                body: GestureDetector(
+            widget = Container(
+              width: 200,
+              height: 350,
+              decoration: BoxDecoration(
+                color: Color(0xFFFFEAC5),
+                border: Border.all(color: Color(0xFFFFC45B), width: 3),
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(50),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xFFFFF6E5),
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                    ),
+                  ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: SizedBox(
+                      child: FutureBuilder(
+                        future: AnimalBackbone().animation(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return ModelViewer(
+                              src: snapshot.data!,
+                            );
+                          } else {
+                            return Image(image: AssetImage(Froggo.bodyshot));
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          } else {
+            widget = animalSelection();
+          }
+          return Scaffold(
+            body: GestureDetector(
               onTap: () {
                 Navigator.pushReplacementNamed(context, mainPage);
               },
-              child: Stack(children: <Widget>[
-                Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primary),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Container(
+              child: Stack(
+                children: <Widget>[
+                  Container(
                     width: double.infinity,
                     height: double.infinity,
-                    color: Colors.transparent,
                     decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xFFFFC45B), width: 5),
-                    ),
+                        color: Theme.of(context).colorScheme.primary),
                   ),
-                ),
-                Center(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      AppLocalizations.of(context)!.appTitle,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            decoration: TextDecoration.none,
-                          ),
-                    ),
-                    Container(
-                      color: Color(0xFFFFEED6),
+                  Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Container(
+                      width: double.infinity,
+                      height: double.infinity,
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black, width: 3),
-                        borderRadius: BorderRadius.circular(100),
+                        color: Colors.blue.withOpacity(0.3),
+                        border: Border.all(color: Color(0xFFFFC45B), width: 5),
                       ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: SizedBox(
-                          width: 200,
-                          height: 400,
-                          child: FutureBuilder(
-                            future: AnimalBackbone().animation(),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                return ModelViewer(
-                                  src: snapshot.data!,
-                                );
-                              } else {
-                                return Image(
-                                    image: AssetImage(Froggo.bodyshot));
-                              }
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ))
-              ]),
-            ));
-          } else {
-            return Scaffold(
-              body: Stack(children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("lib/assets/images/bookcover.jpg"),
-                      fit: BoxFit.cover,
                     ),
                   ),
-                ),
-                Center(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(AppLocalizations.of(context)!.appTitle),
-                    animalSelection(),
-                    //Bild des Charakters der Person, default = Appmaskottchen
-                    Text("Name der Person")
-                    //Name der Person aus Datenbank ziehen, default = leer
-                  ],
-                ))
-              ]),
-            );
-          }
+                  Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(20),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            AppLocalizations.of(context)!.bookTitle,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(
+                                    decoration: TextDecoration.none,
+                                    fontSize: 50),
+                          ),
+                          widget
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
         });
   }
 }

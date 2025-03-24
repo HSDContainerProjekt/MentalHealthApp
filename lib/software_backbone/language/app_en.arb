@@ -8,10 +8,11 @@
   "@helloWorld": {
     "description": "The conventional newborn programmer greeting"
   },
-  "appTitle": "Pen Pal",
+  "appTitle": "Frörnchen: Pocket Pen Pal",
   "@appTitle": {
     "description": "The title of the application"
   },
+  "bookTitle": "Frörnchen:\nPocket Pen Pal",
   "homepageTitle": "Home Page",
   "@homepageTitle": {
     "description": "Title of the application's mainpage"
