@@ -2,29 +2,30 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../animal_backbone/animal_backbone.dart';
-import '../../../software_backbone/constants/animal.dart';
-
-enum Animal { froernchen, froggo }
 
 enum Animation { idle, happy }
 
 class MainPageAnimalState extends Equatable {
-  final Animal animal;
+  final String animalType;
   final Animation animation;
 
-  MainPageAnimalState({required this.animal, required this.animation});
+  const MainPageAnimalState(
+      {required this.animalType, required this.animation});
 
   @override
-  List<Object?> get props => [animal, animation];
+  List<Object?> get props => [animation, animalType];
 
-  String animalToString(BuildContext context) {
-    switch (animal) {
-      case Animal.froernchen:
-        return "Frörnchen";
-      case Animal.froggo:
-        return "Froggo";
+  String name(BuildContext context) {
+    switch (animalType) {
+      case "froggo":
+        return AppLocalizations.of(context)!.froggo;
+      case "maxie":
+        return AppLocalizations.of(context)!.frornchen;
+      default:
+        return "";
     }
   }
 }

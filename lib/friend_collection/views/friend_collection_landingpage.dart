@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mental_health_app/friend_collection/database/own_id_db.dart';
@@ -12,38 +11,27 @@ class FriendCollectionLandingPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: FutureBuilder<int>(
-        future: ownIdDB().getOrCreateOwnID(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Center(
-              child: Text("loading..."),
-            );
-          }
-          if (snapshot.hasError || snapshot.data == -1) {
-            return Center(
-              child: Text(
+          future: ownIdDB().getOrCreateOwnID(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: Text("loading..."),
+              );
+            }
+            if (snapshot.hasError || snapshot.data == -1) {
+              return Center(
+                  child: Text(
                 AppLocalizations.of(context)!.friendCollectionmissingOwnId,
                 style: Theme.of(context).textTheme.displayLarge,
                 textAlign: TextAlign.center,
-              )
-            );
-          } else {
-            return GestureDetector(
-              child: Center(
-                child: Text(
-                  AppLocalizations.of(context)!.friendCollectionTitle,
-                  style: Theme.of(context).textTheme.displayLarge,
-                  textAlign: TextAlign.center,
-                )
-              ),
-              onTap: () {
+              ));
+            } else {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
                 Navigator.pushNamed(context, friendsCollectionMe);
-              }
-            );
-          }
-        }
-      ),
+              });
+              return Text('Data: ${snapshot.data}');
+            }
+          }),
     );
   }
 }
-

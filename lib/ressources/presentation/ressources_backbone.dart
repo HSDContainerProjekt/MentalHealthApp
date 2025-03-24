@@ -58,7 +58,7 @@ class ResourcesState extends State<Resources> {
       setState(() => isLoading = true);
       try {
         final loadedUniversities =
-            await _db.getUniversities(city: selectedCity);
+        await _db.getUniversities(city: selectedCity);
         setState(() {
           universities = loadedUniversities;
           isLoading = false;
@@ -91,6 +91,14 @@ class ResourcesState extends State<Resources> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final titleStyle = Theme.of(context).textTheme.titleLarge?.copyWith(
+      fontSize: screenWidth < 600 ? 40 : 64,
+    );
+    final subtitleStyle = Theme.of(context).textTheme.titleSmall?.copyWith(
+      fontSize: screenWidth < 600 ? 18 : 23,
+    );
+
     return Theme(
       data: resourcesPageThemeData,
       child: Container(
@@ -109,133 +117,156 @@ class ResourcesState extends State<Resources> {
             centerTitle: true,
             backgroundColor: Colors.transparent,
             elevation: 0,
-            title: Text(
-              AppLocalizations.of(context)!.resourcesTitle,
-              style: Theme.of(context).textTheme.titleLarge,
+            toolbarHeight: screenWidth < 600 ? 70 : 100,
+            title: Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  AppLocalizations.of(context)!.resourcesTitle,
+                  style: titleStyle,
+                ),
+              ),
             ),
           ),
-          body: isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Autocomplete<String>(
-                        optionsBuilder: (TextEditingValue textEditingValue) {
-                          if (textEditingValue.text == '') {
-                            return const Iterable<String>.empty();
-                          }
-                          return cities.where((String city) {
-                            return city.toLowerCase().startsWith(
-                                textEditingValue.text.toLowerCase());
-                          });
-                        },
-                        onSelected: (String city) {
-                          setState(() {
-                            selectedCity = city;
-                          });
-                          _updateUniversities();
-                        },
-                        fieldViewBuilder: (context, textEditingController,
-                            focusNode, onFieldSubmitted) {
-                          if (selectedCity != null &&
-                              textEditingController.text.isEmpty) {
-                            textEditingController.text = selectedCity!;
-                          }
+          body: SafeArea(
+            child: isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : Padding(
+              padding: EdgeInsets.all(screenWidth < 600 ? 12.0 : 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  LayoutBuilder(
+                      builder: (context, constraints) {
+                        return SizedBox(
+                          width: constraints.maxWidth,
+                          child: Autocomplete<String>(
+                            optionsBuilder: (TextEditingValue textEditingValue) {
+                              if (textEditingValue.text == '') {
+                                return const Iterable<String>.empty();
+                              }
+                              return cities.where((String city) {
+                                return city.toLowerCase().startsWith(
+                                    textEditingValue.text.toLowerCase());
+                              });
+                            },
+                            onSelected: (String city) {
+                              setState(() {
+                                selectedCity = city;
+                              });
+                              _updateUniversities();
+                            },
+                            fieldViewBuilder: (context, textEditingController,
+                                focusNode, onFieldSubmitted) {
+                              if (selectedCity != null &&
+                                  textEditingController.text.isEmpty) {
+                                textEditingController.text = selectedCity!;
+                              }
 
-                          return TextField(
-                            controller: textEditingController,
-                            focusNode: focusNode,
-                            decoration: InputDecoration(
-                              hintText:
+                              return TextField(
+                                controller: textEditingController,
+                                focusNode: focusNode,
+                                decoration: InputDecoration(
+                                  hintText:
                                   AppLocalizations.of(context)!.selectCity,
-                              prefixIcon: const Icon(Icons.search),
-                              border: const OutlineInputBorder(),
-                              filled: true,
-                              fillColor: Theme.of(context).colorScheme.surface,
-                              suffixIcon: textEditingController.text.isNotEmpty
-                                  ? IconButton(
-                                      icon: const Icon(Icons.clear),
-                                      onPressed: () {
-                                        textEditingController.clear();
-                                        setState(() {
-                                          selectedCity = null;
-                                          universities.clear();
-                                        });
-                                      },
-                                    )
-                                  : null,
-                            ),
-                          );
-                        },
-                        optionsViewBuilder: (context, onSelected, options) {
-                          return Align(
-                            alignment: Alignment.topLeft,
-                            child: Material(
-                              elevation: 4.0,
-                              child: ConstrainedBox(
-                                constraints: const BoxConstraints(
-                                    maxHeight: 200, maxWidth: 300),
-                                child: ListView.builder(
-                                  padding: EdgeInsets.zero,
-                                  shrinkWrap: true,
-                                  itemCount: options.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    final String option =
-                                        options.elementAt(index);
-                                    return InkWell(
-                                      onTap: () {
-                                        onSelected(option);
-                                      },
-                                      child: Container(
-                                        padding: const EdgeInsets.all(16.0),
-                                        child: Text(
-                                          option,
-                                        ),
-                                      ),
-                                    );
-                                  },
+                                  prefixIcon: const Icon(Icons.search),
+                                  border: const OutlineInputBorder(),
+                                  filled: true,
+                                  fillColor: Theme.of(context).colorScheme.surface,
+                                  suffixIcon: textEditingController.text.isNotEmpty
+                                      ? IconButton(
+                                    icon: const Icon(Icons.clear),
+                                    onPressed: () {
+                                      textEditingController.clear();
+                                      setState(() {
+                                        selectedCity = null;
+                                        universities.clear();
+                                      });
+                                    },
+                                  )
+                                      : null,
                                 ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                      if (selectedCity != null && universities.isNotEmpty) ...[
-                        const SizedBox(height: 20),
-                        Text(
-                          AppLocalizations.of(context)!.universities,
-                          style: Theme.of(context).textTheme.titleSmall,
-                        ),
-                        const SizedBox(height: 10),
-                        Expanded(
-                          child: ListView.builder(
-                            itemCount: universities.length,
-                            itemBuilder: (context, index) {
-                              final university = universities[index];
-                              return Card(
-                                margin: const EdgeInsets.only(bottom: 8.0),
-                                child: ListTile(
-                                  title: Text(
-                                    university.name,
-                                  ),
-                                  trailing: IconButton(
-                                    icon: const Icon(Icons.launch),
-                                    onPressed: () =>
-                                        _launchUrl(university.counselingLink),
-                                    tooltip: 'Zur psychologischen Beratung',
+                              );
+                            },
+                            optionsViewBuilder: (context, onSelected, options) {
+                              return Align(
+                                alignment: Alignment.topLeft,
+                                child: Material(
+                                  elevation: 4.0,
+                                  child: ConstrainedBox(
+                                    constraints: BoxConstraints(
+                                        maxHeight: 200,
+                                        maxWidth: constraints.maxWidth * 0.9),
+                                    child: ListView.builder(
+                                      padding: EdgeInsets.zero,
+                                      shrinkWrap: true,
+                                      itemCount: options.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        final String option =
+                                        options.elementAt(index);
+                                        return InkWell(
+                                          onTap: () {
+                                            onSelected(option);
+                                          },
+                                          child: Container(
+                                            padding: const EdgeInsets.all(16.0),
+                                            child: Text(
+                                              option,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
                                   ),
                                 ),
                               );
                             },
                           ),
-                        ),
-                      ],
-                    ],
+                        );
+                      }
                   ),
-                ),
+                  if (selectedCity != null && universities.isNotEmpty) ...[
+                    const SizedBox(height: 20),
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        AppLocalizations.of(context)!.universities,
+                        style: subtitleStyle,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: universities.length,
+                        itemBuilder: (context, index) {
+                          final university = universities[index];
+                          return Card(
+                            margin: const EdgeInsets.only(bottom: 8.0),
+                            child: ListTile(
+                              title: Text(
+                                university.name,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                              ),
+                              trailing: IconButton(
+                                icon: const Icon(Icons.launch),
+                                onPressed: () =>
+                                    _launchUrl(university.counselingLink),
+                                tooltip: 'Zur psychologischen Beratung',
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );

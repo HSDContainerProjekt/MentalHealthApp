@@ -117,7 +117,8 @@ class RoutineEditBloc extends Bloc<RoutineEditEvent, RoutineEditState> {
   ) async {
     routine = await routineRepository.routineBy(event.routineID);
     timeIntervals = await routineRepository.timeIntervalBy(routine);
-    evaluationCriteria = await routineRepository.evaluationCriteriaBy(routine);
+    evaluationCriteria =
+        await routineRepository.evaluationCriteriaBy(routine.id!);
     emitEditState(emit);
   }
 

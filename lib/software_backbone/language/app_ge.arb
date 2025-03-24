@@ -92,5 +92,11 @@
   "dateTime": "{Date}",
   "timeFromDateTime": "{time}",
   "nextTime": "{days, plural, =0{{hours, plural, =0{{minutes, plural, =0{Sofort} =1{1 Minute} other{{minutes} Minuten}}} =1{1 Stunde} other{{hours} Stunden}}} =1{1 Tag} other{{days} Tage}}",
-  "dateFromDateTime": "{time}"
+  "dateFromDateTime": "{time}",
+  "froggo": "Froggo",
+  "frornchen": "Frörnchen",
+  "imageSelector": "Bildauswahl",
+  "back": "Zurück",
+  "result": "Ergebnis",
+  "resultsFrom": "Ergebnisse vom:\n{date} um {time} Uhr"
 }

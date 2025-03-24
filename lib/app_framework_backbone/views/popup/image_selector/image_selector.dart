@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mental_health_app/app_framework_backbone/views/popup/image_selector/bloc/image_bloc.dart';
 import 'package:mental_health_app/app_framework_backbone/views/popup/postit.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'bloc/image_selector_bloc.dart';
 import '../../custom_image/image_repository.dart';
@@ -20,11 +21,11 @@ class ImageSelector extends StatelessWidget {
       child: BlocBuilder<ImageSelectorBloc, ImageSelectorState>(
         builder: (context, state) {
           return PostIt(
-            headline: "ImageSelector",
+            headline: AppLocalizations.of(context)!.imageSelector,
             mainBuilder: (context) {
               if (state is ImageSelectorLoading) {
                 return CircularProgressIndicator();
-              }
+               }
               if (state is ImageSelectorLoaded) {
                 return Scaffold(
                     backgroundColor: Colors.transparent,

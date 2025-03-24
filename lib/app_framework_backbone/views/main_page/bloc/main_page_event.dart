@@ -5,3 +5,9 @@ sealed class MainPageEvent {
 }
 
 class MainPageEventRefresh extends MainPageEvent {}
+
+class MainPageEventSelect extends MainPageEvent {
+  final int selected;
+
+  MainPageEventSelect({required this.selected});
+}

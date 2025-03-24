@@ -107,7 +107,7 @@ TextTheme textThemeBase = const TextTheme(
 
   /// Text, which is the main content of the page
   bodyLarge: TextStyle(
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: 'PatrickHand',
   ),
 

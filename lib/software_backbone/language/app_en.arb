@@ -424,5 +424,41 @@
         "format": "dd.MM"
       }
     }
+  },
+  "froggo": "Froggo",
+  "@froggo": {
+    "description": "Name of the Froggo"
+  },
+  "frornchen": "Frörnchen",
+  "@frörnchen": {
+    "description": "Name of the Frörnchen"
+  },
+  "imageSelector": "Image selector",
+  "@imageSelector": {
+    "description": "Image selector title"
+  },
+  "back": "Back",
+  "@back": {
+    "description": "NavigateBack"
+  },
+  "result": "Result",
+  "@result": {
+    "description": "Result"
+  },
+  "resultsFrom": "Ergebnisse vom:\n{date} at {time} o'Clock",
+  "@resultsFrom": {
+    "description": "resultsFrom",
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "isCustomDateFormat": "true",
+        "format": "dd.MM.yy"
+      },
+      "time": {
+        "type": "DateTime",
+        "isCustomDateFormat": "true",
+        "format": "HH:mm"
+      }
+    }
   }
 }

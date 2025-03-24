@@ -30,6 +30,7 @@ class _FriendCollectionFriendlistState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,
       body: Column(
         children: [

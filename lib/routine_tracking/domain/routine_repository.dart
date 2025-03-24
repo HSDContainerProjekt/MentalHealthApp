@@ -43,8 +43,8 @@ class RoutineRepository {
     return routineDAO.timeIntervalsBy(routine.id!);
   }
 
-  Future<List<EvaluationCriteria>> evaluationCriteriaBy(Routine routine) {
-    return routineDAO.evaluationCriteriaBy(routine.id!);
+  Future<List<EvaluationCriteria>> evaluationCriteriaBy(int routineId) {
+    return routineDAO.evaluationCriteriaBy(routineId);
   }
 
   Future<void> deleteRoutine(Routine routine) {
@@ -77,6 +77,21 @@ class RoutineRepository {
 
   Future<List<RoutineResult>> getRoutineResultsLastXDays(
       int routineID, int days) async {
+    await routineDAO.generateMissedRoutineResultsForRoutine(routineID, days);
+
     return routineDAO.getRoutineResultsLastXDays(routineID, days);
+  }
+
+  Future<EvaluationResult> evaluationResult(
+      RoutineResult routineResult, EvaluationCriteria evaluationCriteria) {
+    if (evaluationCriteria is EvaluationCriteriaText) {
+      return routineDAO.getTextEvaluationResult(
+          routineResult.id!, evaluationCriteria.id!);
+    }
+    if (evaluationCriteria is EvaluationCriteriaValueRange) {
+      return routineDAO.getValueEvaluationResult(
+          routineResult.id!, evaluationCriteria.id!);
+    }
+    throw Exception();
   }
 }
