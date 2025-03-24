@@ -31,10 +31,19 @@ class LandingPage extends StatelessWidget {
               },
               child: Stack(children: <Widget>[
                 Container(
+                  width: double.infinity,
+                  height: double.infinity,
                   decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("lib/assets/images/bookcover.jpg"),
-                      fit: BoxFit.cover,
+                      color: Theme.of(context).colorScheme.primary),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    color: Colors.transparent,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Color(0xFFFFC45B), width: 5),
                     ),
                   ),
                 ),
@@ -42,25 +51,39 @@ class LandingPage extends StatelessWidget {
                     child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(AppLocalizations.of(context)!.appTitle),
-                    SizedBox(
-                      width: 200,
-                      height: 400,
-                      child: FutureBuilder(
-                        future: AnimalBackbone().animation(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return ModelViewer(
-                              src: snapshot.data!,
-                            );
-                          } else {
-                            return Image(image: AssetImage(Froggo.bodyshot));
-                          }
-                        },
+                    Text(
+                      AppLocalizations.of(context)!.appTitle,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            decoration: TextDecoration.none,
+                          ),
+                    ),
+                    Container(
+                      color: Color(0xFFFFEED6),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black, width: 3),
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: SizedBox(
+                          width: 200,
+                          height: 400,
+                          child: FutureBuilder(
+                            future: AnimalBackbone().animation(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return ModelViewer(
+                                  src: snapshot.data!,
+                                );
+                              } else {
+                                return Image(
+                                    image: AssetImage(Froggo.bodyshot));
+                              }
+                            },
+                          ),
+                        ),
                       ),
                     ),
-                    Text("Name der Person")
-                    //Name der Person aus Datenbank ziehen, default = leer
                   ],
                 ))
               ]),
