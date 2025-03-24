@@ -20,10 +20,6 @@
   "@routineTitle": {
     "description": "Title of the routine"
   },
-  "description": "Description",
-  "@description": {
-    "description": "Description"
-  },
   "currentRoutines": "Current routines",
   "@currentRoutines": {
     "description": "Headline for the Current routines"
@@ -101,7 +97,7 @@
     "description": "Message displayed when no Friends"
   },
   "resourcesTitle": "Where you can find help",
-   "@resourcesTitle": {
+  "@resourcesTitle": {
     "description": "Title of the application's resources page"
   },
   "selectCity": "Search for a city",
@@ -123,10 +119,6 @@
   "shortDescription": "Short description",
   "@shortDescription": {
     "description": "Short description"
-  },
-  "title": "Title",
-  "@title": {
-    "description": "Title"
   },
   "headlineFavoriteBox": "Thats my favorite...",
   "@headlineFavoriteBox": {
@@ -301,7 +293,7 @@
     "description": "Routine Editor. Description"
   },
   "exit": "Exit",
-  "@cancel": {
+  "@exit": {
     "description": "Routine Editor. Exit"
   },
   "evText": "Text",

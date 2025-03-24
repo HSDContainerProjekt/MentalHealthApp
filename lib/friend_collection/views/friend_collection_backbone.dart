@@ -15,9 +15,16 @@ class FriendCollectionScaffoldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
       data: friendsPageThemeData,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Navigator(
+      child: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            repeat: ImageRepeat.repeatY,
+            fit: BoxFit.fitWidth,
+            image: AssetImage(
+                "lib/assets/images/background_paper/paper_shadow/dotted_paper_white-yellow_shadow.jpg"),
+          ),
+        ),
+        child: Navigator(
           onGenerateRoute: (RouteSettings settings) {
             WidgetBuilder builder;
             switch (settings.name) {

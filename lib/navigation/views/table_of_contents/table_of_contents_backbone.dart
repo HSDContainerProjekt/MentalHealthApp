@@ -11,8 +11,16 @@ class TableOfContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
       data: ableOfContentsPageThemeData,
-      child: Scaffold(
-        body: GestureDetector(
+      child: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            repeat: ImageRepeat.repeatY,
+            fit: BoxFit.fitWidth,
+            image: AssetImage(
+                "lib/assets/images/background_paper/paper_shadow/dotted_paper_white-purple_shadow.jpg"),
+          ),
+        ),
+        child: GestureDetector(
           onPanUpdate: (details) {
             if (details.delta.dx < 0) {
               Navigator.pop(context);
