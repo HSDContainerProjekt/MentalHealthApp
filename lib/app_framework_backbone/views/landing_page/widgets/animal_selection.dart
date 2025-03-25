@@ -8,27 +8,33 @@ class animalSelection extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Container(
-        color: Colors.grey,
         child: Padding(
-          padding: EdgeInsets.all(8),
-          child: Column(children: [
-            Text(AppLocalizations.of(context)!.animalSelection),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SelectableAvatar(
-                  url: "lib/assets/images/frog_images/frog_default_closeup.png",
-                  animal: "froggo",
-                ),
-                SelectableAvatar(
-                  url:
-                      "lib/assets/images/squirrel_images/squirrel_default_closeup.png",
-                  animal: "maxie",
-                )
-              ],
+      padding: EdgeInsets.all(8),
+      child: Column(children: [
+        Padding(
+          padding: EdgeInsets.all(10),
+          child: Text(
+            textAlign: TextAlign.center,
+            AppLocalizations.of(context)!.animalSelection,
+            style: Theme.of(context).textTheme.labelMedium,
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            SelectableAvatar(
+              url: "lib/assets/images/frog_images/frog_default_closeup.png",
+              animal: "froggo",
+            ),
+            SelectableAvatar(
+              url:
+                  "lib/assets/images/squirrel_images/squirrel_default_closeup.png",
+              animal: "maxie",
             )
-          ]),
-        ));
+          ],
+        )
+      ]),
+    ));
   }
 }
 
@@ -69,8 +75,8 @@ class _SelectableAvatarState extends State<SelectableAvatar> {
   Widget _renderAvatar(bool hasFocus, String image) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 100),
-      width: hasFocus ? 120 : 100,
-      height: hasFocus ? 120 : 100,
+      width: hasFocus ? 150 : 120,
+      height: hasFocus ? 150 : 120,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(

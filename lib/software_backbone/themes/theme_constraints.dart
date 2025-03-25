@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 ColorScheme baseColorScheme = const ColorScheme.light(
   surface: Color(0xFFFFFFFF),
   error: Color(0xFFC80000),
+  primary: Color(0xFFA0C4E8),
 );
 
 /// Page specific colors
