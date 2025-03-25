@@ -3,7 +3,6 @@ import 'package:path_provider/path_provider.dart';
 import '../../database_dao.dart';
 import 'picture.dart';
 import 'dart:async';
-import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 abstract class ImageDAO implements DatabaseDAO {

@@ -22,12 +22,16 @@ class FriendPage extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(6),
           child: Scaffold(
+            resizeToAvoidBottomInset: false,
             backgroundColor: Colors.transparent,
             body: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Align(alignment: Alignment.topRight, child: BackButton()),
-                DottedBorder(
+                Expanded(
+                child: Container(
+                  margin: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                  child:DottedBorder(
                     color: Colors.black,
                     child: Row(
                       children: [
@@ -57,12 +61,8 @@ class FriendPage extends StatelessWidget {
                                 ),
                                 FriendPersonalinformationWidget(
                                     AppLocalizations.of(context)!.myNickName, friend.nickname ?? ''),
-
-
                                 FriendPersonalinformationWidget(
                                     AppLocalizations.of(context)!.myBirthday,AppLocalizations.of(context)!.dateTime(DateTime.parse(friend.birthday ?? ''))),
-
-
                                 FriendPersonalinformationWidget(
                                     AppLocalizations.of(context)!.myZodiacSign, friend.zodiacSign ?? ''),
                               ],
@@ -70,9 +70,13 @@ class FriendPage extends StatelessWidget {
                           )
                         ])
                       ],
-                    )),
-                IntrinsicHeight(
+                    )))),
+                Expanded(
+                  child: Container(
+                  margin: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),    
+                  child: IntrinsicHeight(
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     DottedBorder(
                         color: Colors.black,
@@ -80,6 +84,7 @@ class FriendPage extends StatelessWidget {
                         child: Column(
                           children: [
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(AppLocalizations.of(context)!
                                     .headlineFavoriteBox)
@@ -141,7 +146,7 @@ class FriendPage extends StatelessWidget {
                               ],
                             )))
                   ],
-                ))
+                ))))
               ],
             ))));
   }

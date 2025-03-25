@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 
 class FriendPersonalinformationWidget extends StatelessWidget {
   final String textFieldTitle;
@@ -12,16 +13,19 @@ class FriendPersonalinformationWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
+            margin: EdgeInsets.only(top: 9, bottom: 9),
             width: 200,
             decoration: BoxDecoration(
                 border: Border(
                     bottom: BorderSide(color: Colors.black, width: 1.0))),
-            child: Text(textFieldValue)),
+            child: Padding(
+              padding: EdgeInsets.only(bottom: 10),
+              child: Text(textFieldValue, style: TextStyle(fontSize: 20),))),
         Align(
             alignment: Alignment.topLeft,
-            child: Text(
+            child: (Text(
               textFieldTitle,
-            ))
+            )))
       ],
     );
   }

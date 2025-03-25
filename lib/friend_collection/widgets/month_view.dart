@@ -15,46 +15,49 @@ class MonthView extends StatefulWidget {
 class _MonthViewState extends State<MonthView> {
   @override
   Widget build(BuildContext context) {
-    return DottedBorder(
-      padding: EdgeInsets.all(10),
-      child: Column(
-        children: [
-          Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                widget.currentMonth,
-                style: Theme.of(context).textTheme.titleSmall,
-              )),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(AppLocalizations.of(context)!.date),
-              Text(AppLocalizations.of(context)!.name),
-            ],
-          ),
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: widget.friends.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(width: 1.0, color: Colors.black),
+    return Container(
+      margin: EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
+      child: DottedBorder(
+        padding: EdgeInsets.all(10),
+        child: Column(
+          children: [
+            Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  widget.currentMonth,
+                  style: Theme.of(context).textTheme.titleSmall,
+                )),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(AppLocalizations.of(context)!.date),
+                Text(AppLocalizations.of(context)!.name),
+              ],
+            ),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: widget.friends.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(width: 1.0, color: Colors.black),
+                      ),
                     ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(AppLocalizations.of(context)!.dateTime(
-                          DateTime.parse(
-                              widget.friends.elementAt(index).birthday!))),
-                      Text(widget.friends.elementAt(index).name!),
-                    ],
-                  ));
-            },
-          ),
-        ],
-      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(AppLocalizations.of(context)!.dateTime(
+                            DateTime.parse(
+                                widget.friends.elementAt(index).birthday!))),
+                        Text(widget.friends.elementAt(index).name!),
+                      ],
+                    ));
+              },
+            ),
+          ],
+        ),
+      )
     );
   }
 }

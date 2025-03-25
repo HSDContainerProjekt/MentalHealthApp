@@ -2,9 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mental_health_app/animal_backbone/animal_backbone.dart';
 import 'package:mental_health_app/app_framework_backbone/views/main_page/main_page_animal.dart';
-import 'package:mental_health_app/app_framework_backbone/views/main_page/main_page_backbone.dart';
 import 'package:mental_health_app/routine_tracking/data/data_model/routine.dart';
-import 'package:path/path.dart';
 
 import '../../../../routine_tracking/domain/routine_repository.dart';
 

@@ -16,7 +16,9 @@ class FriendFavoritWidget extends StatelessWidget {
           decoration: BoxDecoration(
               border:
                   Border(bottom: BorderSide(color: Colors.black, width: 1.0))),
-          child: Text(textFieldValue),
+          child: Padding(
+            padding: EdgeInsets.all(15),
+            child: Text(textFieldValue, style: TextStyle(fontSize: 20))),
         )
       ],
     );

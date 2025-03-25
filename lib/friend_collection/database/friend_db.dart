@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:mental_health_app/friend_collection/database/online_database.dart';
 import 'package:mental_health_app/friend_collection/database/own_id_db.dart';

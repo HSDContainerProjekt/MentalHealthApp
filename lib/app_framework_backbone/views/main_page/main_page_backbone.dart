@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:arrow_path/arrow_path.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';

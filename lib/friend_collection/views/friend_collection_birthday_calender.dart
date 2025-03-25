@@ -11,9 +11,6 @@ class FriendCollectionBirthdayCalender extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Friend> friends = [
-      /*["1","a"],
-      ["2","b"],
-      ["3", "c"]*/
     ];
     List<String> months = [
       AppLocalizations.of(context)!.january,
@@ -31,6 +28,7 @@ class FriendCollectionBirthdayCalender extends StatelessWidget {
     ];
     return SafeArea(
         child: Scaffold(
+            backgroundColor: Colors.transparent,
             body: GestureDetector(
       onPanUpdate: (details) {
         if (details.delta.dx < -4) {
@@ -55,7 +53,7 @@ class FriendCollectionBirthdayCalender extends StatelessWidget {
             ],
           ),
           Flexible(
-              child: ListView.builder(
+            child: ListView.builder(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             itemCount: months.length,
