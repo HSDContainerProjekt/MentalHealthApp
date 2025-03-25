@@ -15,7 +15,7 @@ class TableOfContent extends StatelessWidget {
         decoration: BoxDecoration(
           image: DecorationImage(
             repeat: ImageRepeat.repeatY,
-            fit: BoxFit.fitWidth,
+            fit: BoxFit.cover,
             image: AssetImage(
                 "lib/assets/images/background_paper/paper_shadow/dotted_paper_white-purple_shadow.jpg"),
           ),
@@ -33,14 +33,7 @@ class TableOfContent extends StatelessWidget {
               child: DataTable(
                 showBottomBorder: false,
                 columns: [
-                  DataColumn(
-                      label: Expanded(
-                          child: Container(
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                    image: AssetImage(
-                        "lib/assets/images/bookmarks/table_of_contents.png"),
-                  ))))),
+                  DataColumn(label: Text("")),
                   DataColumn(
                       label: Expanded(
                           child: Text(AppLocalizations.of(context)!.chapter))),
@@ -49,12 +42,7 @@ class TableOfContent extends StatelessWidget {
                 rows: [
                   DataRow(
                     cells: [
-                      DataCell(Container(
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                        image: AssetImage(
-                            "lib/assets/images/bookmarks/main_page.png"),
-                      )))),
+                      DataCell(Icon(Icons.circle, color: mainPageColorScheme.primary)),
                       DataCell(
                         TextButton(
                           onPressed: () {
@@ -70,12 +58,7 @@ class TableOfContent extends StatelessWidget {
                   ),
                   DataRow(
                     cells: [
-                      DataCell(Container(
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                        image: AssetImage(
-                            "lib/assets/images/bookmarks/routine.png"),
-                      )))),
+                      DataCell(Icon(Icons.circle, color: routinePageColorScheme.primary)),
                       DataCell(
                         TextButton(
                           onPressed: () {
@@ -92,12 +75,7 @@ class TableOfContent extends StatelessWidget {
                   ),
                   DataRow(
                     cells: [
-                      DataCell(Container(
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                        image: AssetImage(
-                            "lib/assets/images/bookmarks/friends.png"),
-                      )))),
+                      DataCell(Icon(Icons.circle, color: friendsPageColorScheme.primary)),
                       DataCell(
                         TextButton(
                           onPressed: () {
@@ -114,7 +92,7 @@ class TableOfContent extends StatelessWidget {
                   ),
                   DataRow(
                     cells: [
-                      DataCell(Text("4")),
+                      DataCell(Icon(Icons.circle, color: resourcesPageColorScheme.primary)),
                       DataCell(
                         TextButton(
                           onPressed: () {
